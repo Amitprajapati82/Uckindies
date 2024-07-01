@@ -1,0 +1,8 @@
+[27-Mar-2022 09:50:38 America/Boise] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core32_Curve25519' not found in /home1/wtwvirmy/public_html/uckindiesindia/wp-includes/sodium_compat/src/Core32/Ed25519.php:10
+Stack trace:
+#0 {main}
+  thrown in /home1/wtwvirmy/public_html/uckindiesindia/wp-includes/sodium_compat/src/Core32/Ed25519.php on line 10
+[27-Mar-2022 09:50:39 America/Boise] PHP Fatal error:  Uncaught Error: Class 'ParagonIE_Sodium_Core32_Curve25519' not found in /home1/wtwvirmy/public_html/uckindiesindia/wp-includes/sodium_compat/src/Core32/Ed25519.php:10
+Stack trace:
+#0 {main}
+  thrown in /home1/wtwvirmy/public_html/uckindiesindia/wp-includes/sodium_compat/src/Core32/Ed25519.php on line 10
