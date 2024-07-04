@@ -346,7 +346,7 @@
 
                 // Add it to data transfer
                 dataTransfer.items.add(file);
-
+                // console.log(file);
                 // Set preview
                 $uploadedContainer.append(createImg(URL.createObjectURL(file), dataTransfer.items.length - 1), false);
 

@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\BannerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home_Controller;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\FranchisesController;
+use App\Http\Controllers\Admin_State;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,7 +90,8 @@ Route::get('admin/get_state/{id}', 'App\Http\Controllers\Admin_State@get')->name
 // status
 Route::get('admin/status_state/{id}', 'App\Http\Controllers\Admin_State@status')->name('state.status');
 // delete
-Route::get('admin/delete_state/{id}', 'App\Http\Controllers\Admin_State@delete_state')->name('state.delete');
+// Route::delete('admin/delete_states', [Admin_State::class,'delete_state'])->name('state.delete');
+Route::delete('admin/delete', [Admin_State::class,'delete_state'])->name('state.delete');
 
 // ADD validation
 Route::get('admin/checkAddStateName/{name}','App\Http\Controllers\Admin_State@checkadd');
@@ -119,4 +122,23 @@ Route::get('admin/delete_address/{id}', 'App\Http\Controllers\Admin_Address@dele
 // routes/web.php
 Route::get('/getBranche', [Home_Controller::class, 'getBranches'])->name('getbranches');
 
+// Banners
 
+Route::get('admin/banner',[BannerController::class,'index'])->name('admin.index');
+Route::post('admin/add_Banner',[BannerController::class,'addBanner'])->name('admin.add');
+Route::get('admin/checkAddBannerName/{name}', [BannerController::class,'checkAddBannerName'])->name('addBannerName');
+Route::get('admin/checkEditBannerName/{id}/{name}', [BannerController::class,'checkEditBannerName'])->name('editBannerName');
+Route::get('admin/checkAddBannerPosition/{name}', [BannerController::class,'checkAddBannerPosition'])->name('checkBannerPosition');
+Route::get('admin/checkEditBannerPosition/{id}/{name}', [BannerController::class,'checkEditBannerPosition'])->name('editBannerName');
+
+
+    // Update 
+Route::get('admin/editBannerData',[BannerController::class,'editBannerData']);
+Route::post('admin/bannerEdit',[BannerController::class,'bannerUpdate'])->name('BannerUpdate');
+// Delete
+Route::get('admin/bannerDelete/{id}','App\Http\Controllers\Admin_Banner_Controller@bannerDelete');
+// status
+Route::get('admin/bannerstatus/{id}', 'App\Http\Controllers\Admin_Banner_Controller@Status');
+Route::get('admin/bannerDelete/{id}', 'App\Http\Controllers\BannerController@bannerDelete');
+
+// Banner Validation START

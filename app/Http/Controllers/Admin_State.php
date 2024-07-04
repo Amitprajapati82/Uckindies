@@ -97,19 +97,22 @@ class Admin_State extends Controller
       
       
     // delete
-    public function delete_state($id)
+    public function delete_state(Request $request)
     {
+        // return 'fhdfbfd';
+        $id = $request->input('id');
+        // return $id;
         $status = '0';
         
-        $result = State::where('ID',$id)->update(['delete_status'=>$status]);
+        $result = Address::where('ID',$id)->update(['delete_status'=>$status]);
         
         if($result)
         {
-            return Redirect()->back()->with('success','State deleted successfully');
+            return response()->json([$result,'success'=>'State deleted successfully']);
         }
         else
         {
-            return Redirect()->back()->with('error','Something Went Wrong');
+            return response()->json(['error'=>'Something went to wrong']);
         }
     }
     

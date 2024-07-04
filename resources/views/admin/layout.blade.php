@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<title>UCKindies - International Kindergarten</title>
 	<link rel="icon" href="{{asset('favicon.ico')}}" type="image/x-icon"/>
@@ -22,7 +23,9 @@
 	<link type="text/css" rel="stylesheet" href="{{ asset('admin/assets/css/jquery.fileuploader.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('admin/assets/css/multi-select.css') }}">
 	<link rel="stylesheet" href="{{ asset('/admin/assets/css/tagify.css') }}" />
-	
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css"> -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script> -->
+
 	
 	
 	
@@ -138,7 +141,7 @@
 
 				  <form id="logout-form" class="" action="{{ route('logout') }}" method="POST" style="display: none;">
 						 @csrf
-					 </form>
+					</form>
 					 <button type="button" class="btn btn-danger pt-2" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 						 Logout
 					 </button>
@@ -368,9 +371,9 @@
 												<span class="sub-item">States</span>
 											</a>
 											
-											<!-- <a href="{{ asset('admin/address') }}">
-												<span class="sub-item">Addresses</span>
-											</a> -->
+											<a href="{{ asset('admin/banner') }}">
+												<span class="sub-item">Banner</span>
+											</a>
 											
 										</li>
 
@@ -539,7 +542,11 @@
 	<script src="{{ asset('admin/assets/js/plugin/jqvmap/maps/jquery.vmap.world.js') }}"></script>
 
 	<!-- Google Maps Plugin -->
+	 
 	<script src="{{ asset('admin/assets/js/plugin/gmaps/gmaps.js') }}"></script>
+	<!-- jQuery CDN -->
+	
+		
 
 	<!-- Sweet Alert -->
 	
@@ -554,6 +561,8 @@
 	<!-- Azzara JS -->
 	<script src="{{ asset('admin/assets/js/main.js') }}"></script>
 	<script src="{{ asset('admin/assets/js/jquery.multi-select.js') }}"></script>
+
+	
 	
     <script>
     $('#pre-selected-options').multiSelect();
@@ -573,6 +582,7 @@
 			}
 		});
 	</script>
+	
 	
 </body>
 </html>
