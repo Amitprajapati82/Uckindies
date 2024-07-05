@@ -380,7 +380,7 @@
 									</ul>
 								</div>
 
-								<a href="javascript:void(0);" >
+							<a href="{{asset('admin/about')}}" >
 								<i class="fas fa-user-cog"></i>
 								<p>Franchise About Us</p>
 							</a>

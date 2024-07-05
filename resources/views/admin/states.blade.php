@@ -146,7 +146,7 @@
 
 													
 													<td>
-													<a id="editModal{{ $item->ID }}"  class="text-warning mr-2 editModal" data-href="{{asset('admin/get_state/'.$item->ID)}}" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a> 
+													<a id="editModal{{ $item->ID }}"   class="text-warning mr-2 editModal" data-href="{{asset('admin/get_state/'.$item->ID)}}" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a> 
                                                     <a href="javascript:void(0);" class="text-danger delete-link" data-id="{{$item->ID}}" data-delete="{{asset('admin/delete_states')}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i></a>
 
 													</td>

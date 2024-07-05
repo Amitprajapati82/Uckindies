@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutControlller;
 use App\Http\Controllers\BannerController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home_Controller;
@@ -142,3 +143,10 @@ Route::get('admin/bannerstatus/{id}', 'App\Http\Controllers\Admin_Banner_Control
 Route::get('admin/bannerDelete/{id}', 'App\Http\Controllers\BannerController@bannerDelete');
 
 // Banner Validation START
+
+// About_us
+
+Route::get('admin/about', [AboutControlller::class,'index'])->name('about.index');
+Route::post('admin/about/store', [AboutControlller::class,'store'])->name('about.store');
+Route::get('admin/get_about_data', [AboutControlller::class,'getAboutData'])->name('about.AboutData');
+Route::post('admin/about/update', [AboutControlller::class,'update'])->name('about.update');
