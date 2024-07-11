@@ -385,31 +385,34 @@
 								<p>Franchise About Us</p>
 							</a>
 
-							<a href="javascript:void(0);" >
+							<a href="{{ asset('admin/gallery' )}}" >
 							<i class="fas fa-image"></i>
-								<p>Gallery</p>
+								<p>Gallery</p> 
 							</a>
 
-							<a href="javascript:void(0);" >
+							<!-- <a href="javascript:void(0);" >
 							<i class="fas fa-envelope"></i>
 								<p>Form to mail</p>
-							</a>
+							</a> -->
 
-							<a href="javascript:void(0);" >
+							<a href="{{asset('admin/address')}}?role_id={{$role_id}}" >
 								<i class="fas fa-user-cog"></i>
 								<p>Unit franchise list</p>
 							</a>
 
-							<a href="javascript:void(0);" >
-							<i class="fas fa-phone-volume"></i>								<p>Contact details</p>
-							</a>
+							<!-- <a href="javascript:void(0);" >
+							<i class="fas fa-phone-volume"></i>
+							<p>Contact details</p>
+							</a> -->
 
-							<a href="javascript:void(0);" >
-							<i class="fas fa-map-pin"></i>								<p>Google Map</p>
-							</a>
+							<!-- <a href="javascript:void(0);" >
+							<i class="fas fa-map-pin"></i>
+							<p>Google Map</p>
+							</a> -->
 
-							<a href="javascript:void(0);" >
-							<i class="fas fa-comment"></i>								<p>Testimonials</p>
+							<a href="{{asset('admin/testimonial')}}" >
+							<i class="fas fa-comment"></i>
+							<p>Testimonials</p>
 							</a>
 
 							<a href="javascript:void(0);" >
@@ -422,8 +425,9 @@
 								<p>Social media icons</p>
 							</a>
 
-							<a href="javascript:void(0);" >
-							<i class="fas fa-calendar"></i>								<p>Events & News</p>
+							<a href="{{asset('admin/events')}}" >
+							<i class="fas fa-calendar"></i>
+							<p>Events & News</p>
 							</a>
 							</li>
 							<!--<li class="nav-item">-->

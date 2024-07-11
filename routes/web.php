@@ -7,6 +7,10 @@ use App\Http\Controllers\Home_Controller;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\FranchisesController;
 use App\Http\Controllers\Admin_State;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\TestimonialController;
+use App\Models\Testimonial;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,6 +126,7 @@ Route::get('admin/delete_address/{id}', 'App\Http\Controllers\Admin_Address@dele
 // Route::get('admin/checkEditAddressName/{id}/{name}','App\Http\Controllers\Admin_Address@checkedit');
 // routes/web.php
 Route::get('/getBranche', [Home_Controller::class, 'getBranches'])->name('getbranches');
+Route::get('admin/units', [Home_Controller::class, 'getUnitsData'])->name('getUnits');
 
 // Banners
 
@@ -150,3 +155,28 @@ Route::get('admin/about', [AboutControlller::class,'index'])->name('about.index'
 Route::post('admin/about/store', [AboutControlller::class,'store'])->name('about.store');
 Route::get('admin/get_about_data', [AboutControlller::class,'getAboutData'])->name('about.AboutData');
 Route::post('admin/about/update', [AboutControlller::class,'update'])->name('about.update');
+Route::delete('admin/about/delete', [AboutControlller::class,'delete'])->name('about.delete');
+
+// Gallery
+
+Route::get('admin/gallery',[GalleryController::class,'index'])->name('admin.gallery');
+Route::post('admin/gallery/store',[GalleryController::class,'store'])->name('admin.galleryStore');
+Route::put('admin/gallery/update',[GalleryController::class,'update'])->name('admin.galleryUpdate');
+Route::delete('admin/gallery/delete',[GalleryController::class,'delete'])->name('admin.galleryUpdate');
+Route::get('admin/galleryData',[GalleryController::class,'getGalleryData'])->name('admin.galleryData');
+
+// Testimonial
+Route::get('admin/testimonial',[TestimonialController::class,'index'])->name('admin.testimonials');
+Route::post('admin/testimonial/store',[TestimonialController::class,'store'])->name('admin.testimonialStore');
+Route::put('admin/testimonial/update',[TestimonialController::class,'update'])->name('admin.testimonialUpdate');
+Route::delete('admin/testimonial/delete',[TestimonialController::class,'delete'])->name('admin.testimonialDelete');
+Route::get('admin/testimonial_id',[TestimonialController::class,'getDataTestimonial'])->name('admin.getTestimonialData');
+
+// Events
+Route::get('admin/events',[EventController::class,'index'])->name('admin.events');
+Route::post('admin/events/store',[EventController::class,'store'])->name('admin.eventStore');
+Route::put('admin/events/update',[EventController::class,'update'])->name('admin.eventUpdate');
+Route::delete('admin/events/delete',[EventController::class,'delete'])->name('admin.eventDelete');
+Route::get('admin/eventEdit',[EventController::class,'getEventData'])->name('admin.eventData');
+
+

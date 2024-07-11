@@ -14,12 +14,40 @@ class Admin_Address extends Controller
 {
     //View
 
-    public function view()
+    public function view(Request $request)
     {  
+        $id = $request->input('role_id');
+
+        if(!empty($id)){
+            $data = DB::table('addresses as a')
+                ->leftJoin('states as s', 'a.state_id', '=', 's.ID')
+                ->select('a.*', 's.state_name')
+                ->where('a.status', 1)
+                ->where('state_id',$id)
+                ->where('a.delete_status', 1)
+                ->orderBy('a.ID', 'DESC')
+                ->get();
+                // return $data;
+        }else{
+
+            $data = DB::table('addresses as a')
+                    ->leftJoin('states as s', 'a.state_id', '=', 's.ID')
+                    ->select('a.*', 's.state_name')
+                    ->where('a.status', 1)
+                    ->where('a.delete_status', 1)
+                    ->orderBy('a.ID', 'DESC')
+                    ->get();
+        }
         
-        $data = DB::select("SELECT a.*, s.state_name  FROM `addresses` AS a LEFT JOIN states AS s ON a.state_id = s.ID WHERE a.status = 1 AND a.delete_status=1 ORDER BY a.ID DESC");
         $State = State::where('delete_status', '1')->where('status', '1')->orderBy('ID', 'ASC')->get();
-        return view('admin/address', ['data'=>$data,'State'=>$State]);
+
+        // if(!empty($State)){
+            // return 'fdf';
+            return view('admin/address', ['data'=>$data,'State'=>$State]);
+        // }else{
+            // return view('admin/address', ['data'=>$data]);
+
+        // }
 
     }
 

@@ -79,6 +79,7 @@ class Home_Controller extends Controller
     {
         $data = DB::select("SELECT a.*, s.state_name  FROM `addresses` AS a LEFT JOIN states AS s ON a.state_id = s.ID WHERE a.status = 1 AND a.delete_status=1 ");
         $State = State::where('delete_status', '1')->where('status', '1')->orderBy('ID', 'ASC')->get();
+        // return 'hdfs';
         
         return view('centers', ['data'=>$data,'State'=>$State]);
     }
@@ -137,6 +138,14 @@ class Home_Controller extends Controller
         return response()->json($state);
     }
 
+    public function getUnitsData(Request $request)
+    {
+        $id = $request->input('role_id');
+        // $stateId = $request->id;
+        $data = Address::where('state_id',$id)->where('delete_status',1)->get();
+        // return $units;
+        return view('admin.address',compact('data'));
+    }
 }
 
 ?>  

@@ -53,17 +53,17 @@
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);">About Us Management</a>
+                                                <a href="javascript:void(0);">Testimonial Management</a>
                                             </li>
                                             <li class="separator">
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);" id="test">About Us</a>
+                                                <a href="javascript:void(0);" id="test">Testimonial</a>
                                             </li>
                                         </ul>
                                         
-										<button class="btn btn-primary btn-round btn-sm ml-auto" data-toggle="modal" data-target="#add-about_us">
+										<button class="btn btn-primary btn-round btn-sm ml-auto" data-toggle="modal" data-target="#add-event">
 											<i class="fa fa-plus"></i>
 										</button>
 									</div>
@@ -75,31 +75,42 @@
 												<tr>
 													<th>Sr. No.</th>
 													<th>Title</th>
-													<th>Image</th>
 													<th>Description</th>
+													<th>Location</th>
+													<!-- <th>Message</th> -->
+                                                    <th>Start Time</th>													
+                                                    <th>End Time</th>													
+                                                    <th>Organizer</th>													
+                                                    <th>Image</th>													
+                                                    <th>Published</th>
 													<th>Status</th>
-                                                    <!-- <th>Description</th>													 -->
-													
-													<!--<th>Created At</th>-->
-													<!--<th>Updated At</th>-->
-													<!-- <th>Status</th> -->
 													<th>Action</th>
 													
 												</tr>
 											</thead>
 											<tbody>
 											    
-											    @foreach($about as $key=>$item)
-												<tr>
+											    @foreach($data as $key=>$item)
+												<tr id="item_{{$item->id}}">
 													<td>{{ $key + 1 }}</td>
-													<!-- <td>{{ $item->id}}</td> -->
-													<td>{{  $item->title  }}</td>
-													<td class="catname"><img src="{{ asset('storage/' . $item->image) }}" style="width: 90px; height: auto;" alt="Banner Image" /></td>
-													<!-- <td class="catname">{{ $item->banner_position }}</td> -->
-                                                    <td class="catname">{{ $item->description }}</td>
-													
+													<td>{{ $item->title}}</td>
+													<td>{{  $item->description  }}</td>
+													<td>{{  $item->location  }}</td>
+													<td>{{  $item->start_time  }}</td>
+													<td>{{  $item->end_time  }}</td>
+													<td>{{  $item->organizer  }}</td>
+													<!-- <td>{{  $item->image  }}</td> -->
+													<td class="catname"><img src="{{ asset('storage/' . $item->image_path) }}" style="width: 90px; height: auto;" alt="Event Image" /></td>
+                                                    <!-- <td class="profile-image">
+                                                        <img src="{{ asset('storage/images/' . $item->image_path) }}" style="width: 80px; height: 80px; border-radius: 50%;" alt="Profile Image" />
+                                                    </td> -->
+
+													<td class="catname">{{ $item->is_published }}</td>
+                                                    <!-- <td class="catname">{{ $item->description }}</td>
+													<td class="catname">{{ $item->ratings }}</td> -->
 													<?php
 													    if($item->status == '0')
+													    
 													    {
 													        $status = "Inactive";
 													    }
@@ -120,14 +131,13 @@
     												        </a>
     												    @endif
 													</td>
-													<!--<td class="catname">{{ $item->created_at }}</td>-->
-													<!--<td class="catname">{{ $item->updated_at }}</td>-->
+													
 													
 													<td>
-                                                        <a href="" data-toggle="modal" class="text-warning mr-2 editModal" id="About_Us" data-target="#edit-about_us" data-id="{{$item->id}}"><i class="fas fa-edit"></i></a>
+                                                        <a href="" data-toggle="modal" class="text-warning mr-2 editModal" id="About_Us" data-target="#update-event" data-id="{{$item->id}}"><i class="fas fa-edit"></i></a>
 														<!-- <a id="editModal{{ $item->id }}"  class="text-warning mr-2 editModal" data-href="{{asset('admin/editBannerData')}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>  -->
 														<!--<a href="{{ asset('admin/bannerDelete/'.$item->ID) }}" class="text-danger" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i></a>-->
-													<a href="javascript:void(0);" class="text-danger DeleteLink" data-bandel="{{asset('admin/aboutDelete/'.$item->id)}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash" ></i></a>
+													<a href="javascript:void(0);" class="text-danger DeleteLink" data-bandel="{{asset('admin/events/Delete/'.$item->id)}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash" ></i></a>
 														
 	                                                
                                                         
@@ -147,101 +157,106 @@
 </div>
 
   <!-- Modal -->
-  <div class="modal fade add-modal" id="add-about_us" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade add-modal" id="add-event" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          Add Testimonial
+          Add Event
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ asset('admin/about/store') }}" enctype="multipart/form-data" id="addBannerForm">
+        <form method="post" action="{{ asset('admin/events/store') }}" enctype="multipart/form-data" id="addEventForm">
             @csrf
 
             <div class="row m-2">
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
                     <div class="form-group p-0 mt-3">
-                        <label for="Title">Title</label>
+                        <label for="title">Title</label>
                         <span class="text-danger"> *</span>
-                        <input type="text"  class="form-control input-full input-pill" id="TitleName" name="TitleName">
-                        @error('TitleName')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Email">Email</label>
-                        <span class="text-danger"> *</span>
-                        <input type="text" class="form-control input-full input-pill" id="Email" name="Email">
-                        @error('Email')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div> -->
-
-                <!-- <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Message">Message</label>
-                        <span class="text-danger"> *</span>
-                        <textarea class="form-control input-full input-pill" id="Message" name="Message" rows="5"></textarea>
-                        @error('Message')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div> -->
-
-                <!-- <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Ratings">Ratings</label>
-                        <span class="text-danger"> *</span>
-                        <input type="number" class="form-control input-full input-pill" id="Ratings" name="Ratings" min="1" max="5" step="1">
-                        @error('Ratings')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div> -->
-
-                <!-- <div class="col-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Published" name="Published" value="1">
-                            <label class="custom-control-label" for="Published">Published</label>
-                        </div>
-                        @error('Published')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div> -->
-
-                <div class="col-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Image">About Image</label>
-                        <span class="text-danger"> *</span>
-                        <input type="file" class="form-control input-full input-pill" id="Image" name="Image">
-                        @error('Image')
+                        <input type="text" class="form-control input-full input-pill" id="title" name="title">
+                        @error('title')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
 
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0">
-                        <label for="Description">Description</label>
-                        <span class="text-danger">*</span>
-                        <textarea class="form-control input-full input-pill" id="Description" name="Description" placeholder="Enter Description" rows="4" style="width:100%" maxlength="50" onkeypress="return addOnlyDescriptionKey(event)"></textarea>
-                        @error('Description')
+                    <div class="form-group p-0 mt-3">
+                        <label for="description">Description</label>
+                        <textarea class="form-control input-full input-pill" id="description" name="description" rows="5"></textarea>
+                        @error('description')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
 
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="location">Location</label>
+                        <input type="text" class="form-control input-full input-pill" id="location" name="location">
+                        @error('location')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
 
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="start_time">Start Time</label>
+                        <span class="text-danger"> *</span>
+                        <input type="datetime-local" class="form-control input-full input-pill" id="start_time" name="start_time">
+                        @error('start_time')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="end_time">End Time</label>
+                        <input type="datetime-local" class="form-control input-full input-pill" id="end_time" name="end_time">
+                        @error('end_time')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="organizer">Organizer</label>
+                        <input type="text" class="form-control input-full input-pill" id="organizer" name="organizer">
+                        @error('organizer')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="image">Image</label>
+                        <span class="text-danger"> *</span>
+                        <input type="file" class="form-control input-full input-pill" id="image" name="image">
+                        @error('image')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="is_published" name="is_published" value="1">
+                            <label class="custom-control-label" for="is_published">Published</label>
+                        </div>
+                        @error('is_published')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
             <div class="row">
@@ -250,78 +265,131 @@
                 </div>
             </div>
         </form>
-
-
       </div>
     </div>
   </div>
 </div>
 
+
 <!--edit-->
-<div class="modal fade edit-modal" id="edit-about_us" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade add-modal" id="update-event" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          Edit About Us
+          Update Event
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ asset('admin/about/update') }}" enctype="multipart/form-data" id="addBannerForm">
+        <form method="post" action="{{ url('admin/events/update') }}" enctype="multipart/form-data" id="updateEventForm">
             @csrf
-            <input type="hidden" id="about_id" name="about_id" value="">
-            <div class="row">
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0">
-                        <label for="editTitleName">Title</label>
-                        <span class="text-danger">*</span>
-                        <input type="text" class="form-control input-full input-pill" id="editTitleName" name="editTitleName" placeholder="Enter Title" >
-                        <!-- <span id="TitleNameAddError" class="text-danger textNotVisible">Banner name already exists</span> -->
-                        @error('editTitleName')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                <!-- </div> -->
+            @method('PUT') <!-- Add this for PUT request -->
 
-                <!-- <div class="col-12 col-md-6 col-lg-6 mb-3"> -->
+            <!-- Hidden input for the event ID -->
+            <input type="hidden" id="event_id"  name="event_id" value="">
+
+            <div class="row m-2">
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
                     <div class="form-group p-0 mt-3">
-                        <label for="editAboutImage">About Image</label>
+                        <label for="title">Title</label>
                         <span class="text-danger"> *</span>
-                        <input type="file" class="form-control input-full input-pill" id="editAboutImage" name="editAboutImage">
-                        @error('editAboutImage')
+                        <input type="text" class="form-control input-full input-pill" id="eventTitle" name="eventTitle" value="">
+                        @error('eventTitle')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
 
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0">
-                        <label for="editDescription">Description</label>
-                        <span class="text-danger">*</span>
-                        <textarea class="form-control input-full input-pill" id="editDescription" name="editDescription" placeholder="Enter Description" rows="4" style="width:100%" maxlength="50" onkeypress="return addOnlyDescriptionKey(event)"></textarea>
-                        @error('editDescription')
+                    <div class="form-group p-0 mt-3">
+                        <label for="description">Description</label>
+                        <textarea class="form-control input-full input-pill" id="eventDescription" name="eventDescription" rows="5"></textarea>
+                        @error('eventDescription')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
 
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="location">Location</label>
+                        <input type="text" class="form-control input-full input-pill" id="eventLocation" name="eventLocation" value="">
+                        @error('eventLocation')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="start_time">Start Time</label>
+                        <span class="text-danger"> *</span>
+                        <input type="datetime-local" class="form-control input-full input-pill" id="eventStartTime" name="eventStartTime" value="">
+                        @error('eventStartTime')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="end_time">End Time</label>
+                        <input type="datetime-local" class="form-control input-full input-pill" id="eventEndtime" name="eventEndtime" value="">
+                        @error('eventEndtime')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="organizer">Organizer</label>
+                        <input type="text" class="form-control input-full input-pill" id="eventOrganizer" name="eventOrganizer" value="">
+                        @error('eventOrganizer')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="image">Image</label>
+                        <span class="text-danger"> *</span>
+                        <input type="file" class="form-control input-full input-pill" id="eventImage" name="eventImage">
+                        @error('eventImage')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="eventPublished" name="eventPublished" value="1">
+                            <label class="custom-control-label" for="eventPublished">Published</label>
+                        </div>
+                        @error('is_published')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <button id="addBtn" class="btn btn-secondary btn-sm float-right" type="submit">Update</button>
+                    <button id="updateBtn" class="btn btn-secondary btn-sm float-right" type="submit">update</button>
                 </div>
             </div>
-
         </form>
-
       </div>
     </div>
   </div>
 </div>
+
+
 
 <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -331,7 +399,7 @@
             </div>
             <div class="modal-footer mx-auto border-top-0">
                 <button type="button" class="btn btn-outline-primary btn-danger" data-dismiss="modal">Cancel</button>
-                <a href="" id="deleteLink" class="btn btn-success">Confirm</a>
+                <a href="" id="deleteLink"  class="btn btn-success">Confirm</a>
             </div>
         </div>
     </div>
@@ -344,27 +412,39 @@
 <!-- <script src="{{ asset('assets/js/jquery.min.js') }}"></script> -->
  <script>
     $(document).ready(function () {
+            
         $('.editModal').on('click', function (e) {
+
             e.preventDefault();
+
             var recordId = $(this).data('id');
-            $('#about_id').val(recordId);
-            console.log(recordId);
+            $('#event_id').val(recordId);
+            // console.log(recordId);
             $.ajax({
-                url: '/admin/get_about_data', // Replace with your route to fetch record details
+                url: '/admin/eventEdit',
                 type: 'GET',
                 data:{
                     id:recordId
                 },
                 success: function (data) {
+
                     console.log(data);
-                    $('#editTitleName').val(data.title);
-                    // $('#editAboutImage').val(data.image);
-                    $('#editDescription').val(data.description) // Populate edit field with fetched data
-                    $.each(data, function name(key,value) {
-                        console.log(data.title);
-                        $('#editForm').attr('action', '/update/data/' + recordId); // Update form action URL
-                        $('#editModal').modal('show'); // Show modal
-                    });
+
+                    $('#eventTitle').val(data[0].title);
+                    $('#eventDescription').val(data[0].description) 
+                    $('#eventLocation').val(data[0].location) 
+                    $('#eventStartTime').val(data[0].start_time) 
+                    $('#eventEndtime').val(data[0].end_time) 
+                    $('#eventOrganizer').val(data[0].organizer) 
+                    // $('#eventImage').val(data[0].imag) 
+
+                    if (data[0].is_published) {
+                        $('#eventPublished').prop('checked', true);
+                    } else {
+                        $('#eventPublished').prop('checked', false);
+                    } 
+                    // $('#editEmail').val(data[0].email) 
+                    
                 },
                 error: function (error) {
                     console.log(error);
@@ -571,27 +651,28 @@
     //  DeleteModal  start
     
     $( ".DeleteLink" ).click(function() {
+        
         var id = $(this).data('id');
         console.log(id);
-        // $("#deleteLink").attr("href", href);
+      
       $("#DeleteModal").modal("show");
-
-
-            $('#deleteLink').on('click',function () {
-           
-            $.ajax({
-                url: '/admin/about/delete',
-                type: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      
+      $('#deleteLink').on('click',function () {
+        var deleteID = $(this).val();
+            
+          $.ajax({
+              url: '/admin/events/delete',
+              type: 'DELETE',
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data:{
                     id:id
                 },
                 success: function(response) {
-                    
+                    // console.log(response);
                     $('#item_' + deleteId).remove();
-                   
+                    
                 },
                 error: function(xhr) {
                     
@@ -599,8 +680,7 @@
                 }
             });
         });
-
-    });
+   });
 
 
     

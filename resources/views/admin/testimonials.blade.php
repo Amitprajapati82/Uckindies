@@ -53,13 +53,13 @@
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);">About Us Management</a>
+                                                <a href="javascript:void(0);">Testimonial Management</a>
                                             </li>
                                             <li class="separator">
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);" id="test">About Us</a>
+                                                <a href="javascript:void(0);" id="test">Testimonial</a>
                                             </li>
                                         </ul>
                                         
@@ -74,13 +74,13 @@
 											<thead>
 												<tr>
 													<th>Sr. No.</th>
-													<th>Title</th>
-													<th>Image</th>
-													<th>Description</th>
-													<th>Status</th>
-                                                    <!-- <th>Description</th>													 -->
+													<th>Name</th>
+													<th>Username</th>
+													<th>Profile Image</th>
+													<th>Message</th>
+                                                    <th>Ratings</th>													
 													
-													<!--<th>Created At</th>-->
+													<th>Status</th>
 													<!--<th>Updated At</th>-->
 													<!-- <th>Status</th> -->
 													<th>Action</th>
@@ -89,15 +89,19 @@
 											</thead>
 											<tbody>
 											    
-											    @foreach($about as $key=>$item)
-												<tr>
+											    @foreach($data as $key=>$item)
+												<tr id="item_{{$item->id}}">
 													<td>{{ $key + 1 }}</td>
-													<!-- <td>{{ $item->id}}</td> -->
-													<td>{{  $item->title  }}</td>
-													<td class="catname"><img src="{{ asset('storage/' . $item->image) }}" style="width: 90px; height: auto;" alt="Banner Image" /></td>
-													<!-- <td class="catname">{{ $item->banner_position }}</td> -->
-                                                    <td class="catname">{{ $item->description }}</td>
-													
+													<td>{{ $item->name}}</td>
+													<td>{{  $item->email  }}</td>
+													<!-- <td class="catname"><img src="{{ asset('storage/' . $item->image) }}" style="width: 90px; height: auto;" alt="Banner Image" /></td> -->
+                                                    <td class="profile-image">
+                                                        <img src="{{ asset('storage/images/' . $item->image_path) }}" style="width: 80px; height: 80px; border-radius: 50%;" alt="Profile Image" />
+                                                    </td>
+
+													<td class="catname">{{ $item->message }}</td>
+                                                    <!-- <td class="catname">{{ $item->description }}</td> -->
+													<td class="catname">{{ $item->ratings }}</td>
 													<?php
 													    if($item->status == '0')
 													    {
@@ -120,14 +124,13 @@
     												        </a>
     												    @endif
 													</td>
-													<!--<td class="catname">{{ $item->created_at }}</td>-->
-													<!--<td class="catname">{{ $item->updated_at }}</td>-->
+													
 													
 													<td>
-                                                        <a href="" data-toggle="modal" class="text-warning mr-2 editModal" id="About_Us" data-target="#edit-about_us" data-id="{{$item->id}}"><i class="fas fa-edit"></i></a>
+                                                        <a href="" data-toggle="modal" class="text-warning mr-2 editModal" id="About_Us" data-target="#edit-testimonial" data-id="{{$item->id}}"><i class="fas fa-edit"></i></a>
 														<!-- <a id="editModal{{ $item->id }}"  class="text-warning mr-2 editModal" data-href="{{asset('admin/editBannerData')}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>  -->
 														<!--<a href="{{ asset('admin/bannerDelete/'.$item->ID) }}" class="text-danger" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i></a>-->
-													<a href="javascript:void(0);" class="text-danger DeleteLink" data-bandel="{{asset('admin/aboutDelete/'.$item->id)}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash" ></i></a>
+													<a href="javascript:void(0);" class="text-danger DeleteLink" data-bandel="{{asset('admin/testimonial/Delete/'.$item->id)}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash" ></i></a>
 														
 	                                                
                                                         
@@ -159,22 +162,22 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ asset('admin/about/store') }}" enctype="multipart/form-data" id="addBannerForm">
+      <form method="post" action="{{ asset('admin/testimonial/store') }}" enctype="multipart/form-data" id="addBannerForm">
             @csrf
 
             <div class="row m-2">
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
                     <div class="form-group p-0 mt-3">
-                        <label for="Title">Title</label>
+                        <label for="Name">Name</label>
                         <span class="text-danger"> *</span>
-                        <input type="text"  class="form-control input-full input-pill" id="TitleName" name="TitleName">
-                        @error('TitleName')
+                        <input type="text"  class="form-control input-full input-pill" id="name" name="name">
+                        @error('name')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
 
-                <!-- <div class="col-12 col-md-12 col-lg-12 mb-3">
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
                     <div class="form-group p-0 mt-3">
                         <label for="Email">Email</label>
                         <span class="text-danger"> *</span>
@@ -183,9 +186,9 @@
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-                </div> -->
+                </div>
 
-                <!-- <div class="col-12 col-md-12 col-lg-12 mb-3">
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
                     <div class="form-group p-0 mt-3">
                         <label for="Message">Message</label>
                         <span class="text-danger"> *</span>
@@ -194,9 +197,9 @@
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-                </div> -->
+                </div>
 
-                <!-- <div class="col-12 col-md-12 col-lg-12 mb-3">
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
                     <div class="form-group p-0 mt-3">
                         <label for="Ratings">Ratings</label>
                         <span class="text-danger"> *</span>
@@ -205,9 +208,9 @@
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-                </div> -->
+                </div>
 
-                <!-- <div class="col-12 mb-3">
+                <div class="col-12 mb-3">
                     <div class="form-group p-0 mt-3">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="Published" name="Published" value="1">
@@ -217,25 +220,14 @@
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-                </div> -->
+                </div>
 
                 <div class="col-12 mb-3">
                     <div class="form-group p-0 mt-3">
-                        <label for="Image">About Image</label>
+                        <label for="PublishedImage">Published Image</label>
                         <span class="text-danger"> *</span>
-                        <input type="file" class="form-control input-full input-pill" id="Image" name="Image">
-                        @error('Image')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0">
-                        <label for="Description">Description</label>
-                        <span class="text-danger">*</span>
-                        <textarea class="form-control input-full input-pill" id="Description" name="Description" placeholder="Enter Description" rows="4" style="width:100%" maxlength="50" onkeypress="return addOnlyDescriptionKey(event)"></textarea>
-                        @error('Description')
+                        <input type="file" class="form-control input-full input-pill" id="PublishedImage" name="PublishedImage">
+                        @error('PublishedImage')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -258,70 +250,103 @@
 </div>
 
 <!--edit-->
-<div class="modal fade edit-modal" id="edit-about_us" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade edit-modal" id="edit-testimonial" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          Edit About Us
+          Edit Testimonial
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ asset('admin/about/update') }}" enctype="multipart/form-data" id="addBannerForm">
+        <form method="post" action="{{ asset('admin/testimonial/update') }}" enctype="multipart/form-data" id="editTestimonialForm">
             @csrf
-            <input type="hidden" id="about_id" name="about_id" value="">
-            <div class="row">
+            @method('PUT')
+            <input type="hidden" id="testimonial_id" name="testimonial_id">
+            <div class="row m-2">
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0">
-                        <label for="editTitleName">Title</label>
-                        <span class="text-danger">*</span>
-                        <input type="text" class="form-control input-full input-pill" id="editTitleName" name="editTitleName" placeholder="Enter Title" >
-                        <!-- <span id="TitleNameAddError" class="text-danger textNotVisible">Banner name already exists</span> -->
-                        @error('editTitleName')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                <!-- </div> -->
-
-                <!-- <div class="col-12 col-md-6 col-lg-6 mb-3"> -->
                     <div class="form-group p-0 mt-3">
-                        <label for="editAboutImage">About Image</label>
+                        <label for="editName">Name</label>
                         <span class="text-danger"> *</span>
-                        <input type="file" class="form-control input-full input-pill" id="editAboutImage" name="editAboutImage">
-                        @error('editAboutImage')
+                        <input type="text" class="form-control input-full input-pill" id="editName" name="editName" value="">
+                        @error('name')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
 
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0">
-                        <label for="editDescription">Description</label>
-                        <span class="text-danger">*</span>
-                        <textarea class="form-control input-full input-pill" id="editDescription" name="editDescription" placeholder="Enter Description" rows="4" style="width:100%" maxlength="50" onkeypress="return addOnlyDescriptionKey(event)"></textarea>
-                        @error('editDescription')
+                    <div class="form-group p-0 mt-3">
+                        <label for="editEmail">Email</label>
+                        <span class="text-danger"> *</span>
+                        <input type="email" class="form-control input-full input-pill" id="editEmail" name="editEmail" value="">
+                        @error('email')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
 
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="editMessage">Message</label>
+                        <span class="text-danger"> *</span>
+                        <textarea class="form-control input-full input-pill" id="editMessage" name="editMessage" rows="5"></textarea>
+                        @error('message')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="editRatings">Ratings</label>
+                        <span class="text-danger"> *</span>
+                        <input type="number" class="form-control input-full input-pill" id="editRatings" name="editRatings" min="1" max="5" step="1" value="">
+                        @error('ratings')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="editPublished" name="editPublished" value="1" >
+                            <label class="custom-control-label" for="editPublished">Published</label>
+                        </div>
+                        @error('published')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="editPublishedImage">Published Image</label>
+                        <span class="text-danger"> *</span>
+                        <input type="file" class="form-control input-full input-pill" id="editPublishedImage" name="editPublishedImage">
+                        @error('published_image')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                        <!-- <img src="" alt="Current Image" style="width: 90px; height: auto; margin-top: 10px;"> -->
+                    </div>
+                </div>
             </div>
 
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <button id="addBtn" class="btn btn-secondary btn-sm float-right" type="submit">Update</button>
+                    <button id="editBtn" class="btn btn-secondary btn-sm float-right" type="submit">Update</button>
                 </div>
             </div>
-
         </form>
-
       </div>
     </div>
   </div>
 </div>
+
 
 <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -331,7 +356,7 @@
             </div>
             <div class="modal-footer mx-auto border-top-0">
                 <button type="button" class="btn btn-outline-primary btn-danger" data-dismiss="modal">Cancel</button>
-                <a href="" id="deleteLink" class="btn btn-success">Confirm</a>
+                <a href="" id="deleteLink" data-id="{{$item->id}}" class="btn btn-success">Confirm</a>
             </div>
         </div>
     </div>
@@ -344,27 +369,36 @@
 <!-- <script src="{{ asset('assets/js/jquery.min.js') }}"></script> -->
  <script>
     $(document).ready(function () {
+            
         $('.editModal').on('click', function (e) {
+
             e.preventDefault();
+
             var recordId = $(this).data('id');
-            $('#about_id').val(recordId);
-            console.log(recordId);
+            $('#testimonial_id').val(recordId);
+            // console.log(recordId);
             $.ajax({
-                url: '/admin/get_about_data', // Replace with your route to fetch record details
+                url: '/admin/testimonial_id',
                 type: 'GET',
                 data:{
                     id:recordId
                 },
                 success: function (data) {
-                    console.log(data);
-                    $('#editTitleName').val(data.title);
-                    // $('#editAboutImage').val(data.image);
-                    $('#editDescription').val(data.description) // Populate edit field with fetched data
-                    $.each(data, function name(key,value) {
-                        console.log(data.title);
-                        $('#editForm').attr('action', '/update/data/' + recordId); // Update form action URL
-                        $('#editModal').modal('show'); // Show modal
-                    });
+
+                    console.log(data[0].id);
+
+                    $('#editName').val(data[0].name);
+                    $('#editEmail').val(data[0].email) 
+                    $('#editMessage').val(data[0].message) 
+                    $('#editRatings').val(data[0].ratings) 
+
+                    if (data[0].published) {
+                        $('#editPublished').prop('checked', true);
+                    } else {
+                        $('#editPublished').prop('checked', false);
+                    } 
+                    // $('#editEmail').val(data[0].email) 
+                    
                 },
                 error: function (error) {
                     console.log(error);
@@ -571,19 +605,20 @@
     //  DeleteModal  start
     
     $( ".DeleteLink" ).click(function() {
+        
         var id = $(this).data('id');
         console.log(id);
-        // $("#deleteLink").attr("href", href);
+      
       $("#DeleteModal").modal("show");
-
-
-            $('#deleteLink').on('click',function () {
-           
-            $.ajax({
-                url: '/admin/about/delete',
-                type: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      
+      $('#deleteLink').on('click',function () {
+        var deleteID = $(this).val();
+            
+          $.ajax({
+              url: '/admin/testimonial/delete',
+              type: 'DELETE',
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data:{
                     id:id
@@ -591,7 +626,7 @@
                 success: function(response) {
                     
                     $('#item_' + deleteId).remove();
-                   
+                    
                 },
                 error: function(xhr) {
                     
@@ -599,8 +634,7 @@
                 }
             });
         });
-
-    });
+   });
 
 
     

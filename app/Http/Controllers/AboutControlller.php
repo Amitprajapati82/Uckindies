@@ -4,25 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\About;
-
+use Illuminate\Support\Facades\Storage;
 class AboutControlller extends Controller
 {
     //
     public function index()
     {
         $about = About::where('status',1)->get();
+
         return view('admin.about_us',compact('about'));
     }
 
     public function store(Request $request)
     {
-       $title  = $request->input('TitleName');
-       $description = $request->input('Description');
-       
+        // return 'gkvkv';
+        
+        
+        // return $request->file('Image');
+        if($request->hasFile('Image')){
 
-       if($request->hasFile('AboutImage')){
-        //    return $title;
-        $file = $request->file('AboutImage');
+        $title  = $request->input('TitleName');
+        $description = $request->input('Description');
+        $file = $request->file('Image');
         
         // Get the original file name or you can define your own file name
         $filename = time() . '_' . $file->getClientOriginalName();
@@ -58,11 +61,38 @@ class AboutControlller extends Controller
     public function update(Request $request)
     {
         $id = $request->input('about_id');
-        // return $id;
+        // return $request->file('editAboutImage');
         $title =  $request->input('editTitleName');
         $description =  $request->input('editDescription');
 
-        $data = About::where('id',$id)->update(['title' => $title,'description'=> $description]);
+        $data = About::findOrFail( $id );
+        // return $data;
+        $data->title = $title;
+        $data->description = $description;
+
+        if ($request->hasFile('editAboutImage')) {
+            
+            $img = $request->file('editAboutImage');
+           
+            if ($data->image) {
+                Storage::disk('public')->delete($data->editAboutImage);
+                
+                $imagePath = $img->store('images', 'public');
+                // return $imagePath;
+                $data->image = $imagePath;
+            }
+
+        }
+        $data->save();
         return redirect('admin/about');
+    }
+
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+       
+        $data = About::where('id',$id)->update(['status' => 0]);
+
+        return response()->json([$data,'Successfully Deleted.']);
     }
 }
