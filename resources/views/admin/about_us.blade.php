@@ -152,7 +152,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          Add Testimonial
+          Add About Us
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -161,6 +161,21 @@
       <div class="modal-body">
       <form method="post" action="{{ asset('admin/about/store') }}" enctype="multipart/form-data" id="addBannerForm">
             @csrf
+            
+            @if (Session::has('State'))
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label">Select Unit</label>
+                        <select class="form-control input-pill" id="Unit_id" name="Unit_id">
+                            <option value="">Select Unit</option>
+                            @foreach($data as $askey=>$asitem)
+                                <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
+                            @endforeach   
+                        </select>
+                    </div>
+                </div>
+            @endif
+            
 
             <div class="row m-2">
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
@@ -207,17 +222,7 @@
                     </div>
                 </div> -->
 
-                <!-- <div class="col-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Published" name="Published" value="1">
-                            <label class="custom-control-label" for="Published">Published</label>
-                        </div>
-                        @error('Published')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div> -->
+               
 
                 <div class="col-12 mb-3">
                     <div class="form-group p-0 mt-3">
@@ -274,6 +279,19 @@
             @csrf
             <input type="hidden" id="about_id" name="about_id" value="">
             <div class="row">
+            
+            @if (Session::has('State'))
+            
+            <div class="col-sm-12 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <label class="form-label">Select Unit</label>
+                    <select class="form-control input-pill" id="editUnit_id" name="editUnit_id">
+                        
+                        
+                    </select>
+                </div>
+            </div>
+            @endif
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
                     <div class="form-group p-0">
                         <label for="editTitleName">Title</label>
@@ -356,15 +374,17 @@
                     id:recordId
                 },
                 success: function (data) {
-                    console.log(data);
-                    $('#editTitleName').val(data.title);
-                    // $('#editAboutImage').val(data.image);
-                    $('#editDescription').val(data.description) // Populate edit field with fetched data
-                    $.each(data, function name(key,value) {
-                        console.log(data.title);
-                        $('#editForm').attr('action', '/update/data/' + recordId); // Update form action URL
-                        $('#editModal').modal('show'); // Show modal
-                    });
+                    $('#editTitleName').val(data[0].title);
+                   
+                        console.log(data);
+                        $('#editUnit_id').append('<option value="' + data[0].address_id + '">' + data[0].center + '</option>');
+                    
+                    $('#editDescription').val(data[0].description) // Populate edit field with fetched data
+                    // $.each(data, function name(key,value) {
+                    //     console.log(data.title);
+                    //     $('#editForm').attr('action', '/update/data/' + recordId); // Update form action URL
+                    //     $('#editModal').modal('show'); // Show modal
+                    // });
                 },
                 error: function (error) {
                     console.log(error);

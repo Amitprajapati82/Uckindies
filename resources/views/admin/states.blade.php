@@ -98,8 +98,7 @@
 											<thead>
 												<tr>
 													<th>Sr. No.</th>
-													<th>Status</th>
-													<th>Action</th>
+													
 													<th>State</th>
                                                     @php
                                                         if(Session::has('State')) {
@@ -110,10 +109,10 @@
                                                     @php
                                                         }
                                                     @endphp
-
-													<!-- <th>center</th> -->
 													<th>Created On</th>
 													<th>Last Modified On</th>
+                                                    <th>Status</th>
+													<th>Action</th>
 													
 													
 												</tr>
@@ -132,24 +131,10 @@
 												<tr  id="item_{{$item->ID}}">
 													<td>{{ $key + 1 }}</td>
 													
-													<td class="catname text-center">
-    												    @if($item->status == '0')
-    												        <a href="{{asset('admin/status_state/'.$item->ID)}}" class="redColor" data-toggle="tooltip" title="Inactive">
-    												            <i class="fas fa-check-circle fa-2x " aria-hidden="true"></i>
-    												        </a>
-    												    @else
-    												        <a href="{{asset('admin/status_state/'.$item->ID)}}" class="greenColor" data-toggle="tooltip" title="Active">
-    												            <i class="fas fa-check-circle fa-2x" aria-hidden="true"></i>
-    												        </a>
-    												    @endif
-													</td>
+													
 
 													
-													<td>
-													<a id="editModal{{ $item->ID }}"   class="text-warning mr-2 editModal" data-href="{{asset('admin/get_state/'.$item->ID)}}" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a> 
-                                                    <a href="javascript:void(0);" class="text-danger delete-link" data-id="{{$item->ID}}" data-delete="{{asset('admin/delete_states')}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i></a>
-
-													</td>
+													
 													
 													<td>{{ $item->state_name }}</td>
                                                     @php
@@ -164,6 +149,22 @@
                                                     <!-- <td>{{ $item->center }}</td> -->
                                                     <td>{{ $created_at }}</td>
                                                     <td>{{ $updated_at }}</td>
+                                                    <td class="catname text-center">
+    												    @if($item->status == '0')
+    												        <a href="{{asset('admin/status_state/'.$item->ID)}}" class="redColor" data-toggle="tooltip" title="Inactive">
+    												            <i class="fas fa-check-circle fa-2x " aria-hidden="true"></i>
+    												        </a>
+    												    @else
+    												        <a href="{{asset('admin/status_state/'.$item->ID)}}" class="greenColor" data-toggle="tooltip" title="Active">
+    												            <i class="fas fa-check-circle fa-2x" aria-hidden="true"></i>
+    												        </a>
+    												    @endif
+													</td>
+                                                    <td>
+													<a id="editModal{{ $item->ID }}"   class="text-warning mr-2 editModal" data-href="{{asset('admin/get_state/'.$item->ID)}}" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a> 
+                                                    <a href="javascript:void(0);" class="text-danger delete-link" data-id="{{$item->ID}}" data-delete="{{asset('admin/delete_states')}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i></a>
+
+													</td>
 													
 												</tr>
 												@endforeach

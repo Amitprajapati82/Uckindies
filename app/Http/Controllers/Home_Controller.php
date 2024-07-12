@@ -115,8 +115,10 @@ class Home_Controller extends Controller
     
     public function AdminDashboard()
     {
-        // return 'gvsdgigdgdi';
-        return view('admin.index');
+        $State = State::where('delete_status',1)->count();
+        $Units = Address::where('delete_status',1)->count();
+        // return $State;
+        return view('admin.index',compact('State','Units'));
     } 
     public function StateDashboard()
     {

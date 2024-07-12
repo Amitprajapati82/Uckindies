@@ -4,15 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Testimonial;
+use App\Models\Address;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 
 class TestimonialController extends Controller
 {
     //
     public function index()
     {
-        $data = Testimonial::where('status',1)->get();
-        return view('admin.testimonials',compact('data'));
+        if(Session::has("State"))
+        {
+            $SessionData =  Session::get('State');
+
+            $role_id = $SessionData->role_id;
+
+            $data = Testimonial::where('status',1)->get();
+            $address = Address::where('state_id',$role_id)->where('delete_status',1)->get();
+            
+            return view('admin.testimonials',compact('data','address'));
+        }
+        else
+        {
+            $SessionData =  Session::get('Admin');
+
+            $role_id = $SessionData[0]->role_id;
+
+
+            $data = Testimonial::where('status',1)->where('address_id',$role_id)->get();
+            return view('admin.testimonials',compact('data'));
+        }
+        
     }
 
     public function store(Request $request)
@@ -38,6 +60,7 @@ class TestimonialController extends Controller
             // $image->move(public_path('images'), $imageName);
         }
         $testimonial = new Testimonial();
+        $testimonial->address_id = $request->input('Unit_id');
         $testimonial->name = $request->input('name');
         $testimonial->email = $request->input('Email');
         $testimonial->message = $request->input('Message');
@@ -55,7 +78,11 @@ class TestimonialController extends Controller
     {
         $id = $request->input('id');
 
-        $data = Testimonial::where('id',$id)->where('status',1)->first();
+        $data = Testimonial::leftJoin('addresses', 'testimonials.address_id', '=', 'addresses.id')
+             ->where('testimonials.id', $id)
+             ->select('testimonials.*', 'addresses.center')
+             ->first();
+        // $data = Testimonial::where('id',$id)->where('status',1)->first();
 
         return response()->json([$data,'success' => 'Data get  successfully.']);
     }
@@ -66,6 +93,7 @@ class TestimonialController extends Controller
         $testimonial = Testimonial::findOrFail($request->testimonial_id);
         
         $testimonial->name = $request->editName;
+        $testimonial->address_id = $request->editUnit_id;
         $testimonial->email = $request->editEmail;
         $testimonial->message = $request->editMessage;
         $testimonial->ratings = $request->editRatings;

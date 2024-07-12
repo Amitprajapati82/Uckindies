@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Approval;
 use App\Models\Gallery;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -12,16 +14,44 @@ class GalleryController extends Controller
     //
     public function index()
     {
-        $data = Gallery::where('status',1)->get();
-        // return $data;
-        return view('admin.gallery',compact('data'));
+        if(Session::has("State"))
+        {
+            $SessionData =  Session::get('State');
+
+            $role_id = $SessionData->role_id;
+
+            $address = Address::where('state_id',$role_id)->where('delete_status',1)->get();
+            $data = Gallery::where('status',1)->get();
+
+            return view('admin.gallery',compact('data','address'));
+        }
+        else
+        {
+            $SessionData =  Session::get('Admin');
+
+            $role_id = $SessionData[0]->role_id;
+            
+            $data = Gallery::where('status',1)->where('address_id',$role_id)->get();
+
+            // return $about;
+            return view('admin.gallery',compact('data'));
+        }
+        
+        
     }
     public function store(Request $request)
     {
+        $admin_id = '';
+        if(Session::has('State')) {
+            # code...
+            $data = Session::get('State');
+            $admin_id = $data->ID;
+        }
         // return 'vbkjvbx';
         // dd(Session::get('State')); 
-        $sessionData = Session::get('State');
-        $address_id = $sessionData->role_id;
+        // $sessionData = Session::get('State');
+        $address_id = $request->Unit_id;
+        // return $address_id;
 
         // Initialize file paths
         $imagePath = null;
@@ -52,11 +82,21 @@ class GalleryController extends Controller
         $gallery->video_extension = $videoExtension;
         $gallery->save();
 
+        
+        $approval = new Approval();
+        $approval->admin_id = $admin_id;
+        $approval->description = "Request to add gallery";
+        $approval->status = 0;
+        $approval->approvable_id = $gallery->id;
+        $approval->approvable_type = Gallery::class;
+        $approval->save();
+
         return redirect()->route('admin.gallery')->with('success', 'About us added successfully!');
     }
 
     public function update(Request $request)
     {
+        $address_id = $request->editUnit_id;
         $gallery = Gallery::findOrFail($request->gallery_id);
 
 
@@ -94,6 +134,7 @@ class GalleryController extends Controller
         
             
         }
+        $gallery->address_id = $address_id;
         $gallery->save();
 
         return redirect()->back()->with('success', 'Gallery Updated Successfully');
@@ -102,8 +143,12 @@ class GalleryController extends Controller
     public function getGalleryData(Request $request)
     {
         $id = $request->id;
+        $data = Gallery::leftJoin('addresses', 'galleries.address_id', '=', 'addresses.id')
+             ->where('galleries.id', $id)
+             ->select('galleries.*', 'addresses.center')
+             ->first();
 
-        $data = Gallery::where('id',$id)->where('status',1)->first();
+        // $data = Gallery::where('id',$id)->where('status',1)->first();
 
         return response()->json([$data,'success' => 'Data get  successfully.']);
     }

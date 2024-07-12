@@ -173,6 +173,19 @@
             @csrf
 
             <div class="row m-2">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <label class="form-label">Select Unit</label>
+                        <select class="form-control input-pill" id="Unit_id" name="Unit_id">
+                            <option value="">Select Unit</option>
+                            @foreach($address as $askey=>$asitem)
+                            
+                            <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
+                            @endforeach   
+                        </select>
+                    </div>
+                </div>
+
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
                     <div class="form-group p-0 mt-3">
                         <label for="title">Title</label>
@@ -292,6 +305,16 @@
             <input type="hidden" id="event_id"  name="event_id" value="">
 
             <div class="row m-2">
+
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <label class="form-label">Select Unit</label>
+                        <select class="form-control input-pill" id="editUnit_id" name="editUnit_id">
+                            
+                        </select>
+                    </div>
+                </div>
+
                 <div class="col-12 col-md-12 col-lg-12 mb-3">
                     <div class="form-group p-0 mt-3">
                         <label for="title">Title</label>
@@ -429,7 +452,7 @@
                 success: function (data) {
 
                     console.log(data);
-
+                    $('#editUnit_id').append('<option value="' + data[0].address_id + '">' + data[0].center + '</option>');
                     $('#eventTitle').val(data[0].title);
                     $('#eventDescription').val(data[0].description) 
                     $('#eventLocation').val(data[0].location) 

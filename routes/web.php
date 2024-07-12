@@ -9,6 +9,8 @@ use App\Http\Controllers\FranchisesController;
 use App\Http\Controllers\Admin_State;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\RequestController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TestimonialController;
 use App\Models\Testimonial;
 
@@ -180,3 +182,14 @@ Route::delete('admin/events/delete',[EventController::class,'delete'])->name('ad
 Route::get('admin/eventEdit',[EventController::class,'getEventData'])->name('admin.eventData');
 
 
+// Our Team
+
+Route::get('admin/our_team',[TeamController::class,'index'])->name('admin.team');
+Route::post('admin/our_team/store',[TeamController::class,'store'])->name('admin.teamStore');
+Route::get('admin/our_team_id',[TeamController::class,'getTeamData'])->name('admin.teamData');
+Route::put('admin/our_team/update',[TeamController::class,'update'])->name('admin.teamUpdate');
+Route::delete('admin/our_team/delete',[TeamController::class,'delete'])->name('admin.teamDelete');
+
+// Request
+
+Route::get('admin/request',[RequestController::class,'index'])->name('admin.request');

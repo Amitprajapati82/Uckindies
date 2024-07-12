@@ -53,13 +53,13 @@
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);">Testimonial Management</a>
+                                                <a href="javascript:void(0);">Requestor</a>
                                             </li>
                                             <li class="separator">
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);" id="test">Testimonial</a>
+                                                <a href="javascript:void(0);" id="test">About Us</a>
                                             </li>
                                         </ul>
                                         
@@ -74,13 +74,13 @@
 											<thead>
 												<tr>
 													<th>Sr. No.</th>
-													<th>Name</th>
-													<th>Username</th>
-													<th>Profile Image</th>
-													<th>Message</th>
-                                                    <th>Ratings</th>													
-													
+													<!-- <th></th> -->
+													<th>Requestor</th>
+													<th>Video</th>
 													<th>Status</th>
+                                                    <!-- <th>Description</th>													 -->
+													
+													<!--<th>Created At</th>-->
 													<!--<th>Updated At</th>-->
 													<!-- <th>Status</th> -->
 													<th>Action</th>
@@ -92,16 +92,12 @@
 											    @foreach($data as $key=>$item)
 												<tr id="item_{{$item->id}}">
 													<td>{{ $key + 1 }}</td>
-													<td>{{ $item->name}}</td>
-													<td>{{  $item->email  }}</td>
-													<!-- <td class="catname"><img src="{{ asset('storage/' . $item->image) }}" style="width: 90px; height: auto;" alt="Banner Image" /></td> -->
-                                                    <td class="profile-image">
-                                                        <img src="{{ asset('storage/images/' . $item->image_path) }}" style="width: 80px; height: 80px; border-radius: 50%;" alt="Profile Image" />
-                                                    </td>
-
-													<td class="catname">{{ $item->message }}</td>
-                                                    <!-- <td class="catname">{{ $item->description }}</td> -->
-													<td class="catname">{{ $item->ratings }}</td>
+													<!-- <td>{{ $item->id}}</td> -->
+													<!-- <td>{{  $item->image_path  }}</td> -->
+													<td class="catname"><img src="{{ asset('storage/' . $item->image_path) }}" style="width: 90px; height: auto;" alt="Banner Image" /></td>
+													<!-- <td class="catname">{{ $item->banner_position }}</td> -->
+                                                    <td class="catname">{{ $item->video_path }}</td>
+													
 													<?php
 													    if($item->status == '0')
 													    {
@@ -124,13 +120,14 @@
     												        </a>
     												    @endif
 													</td>
-													
+													<!--<td class="catname">{{ $item->created_at }}</td>-->
+													<!--<td class="catname">{{ $item->updated_at }}</td>-->
 													
 													<td>
-                                                        <a href="" data-toggle="modal" class="text-warning mr-2 editModal" id="About_Us" data-target="#edit-testimonial" data-id="{{$item->id}}"><i class="fas fa-edit"></i></a>
+                                                        <a href="" data-toggle="modal" class="text-warning mr-2 editModal" id="About_Us" data-target="#edit-about_us" data-id="{{$item->id}}"><i class="fas fa-edit"></i></a>
 														<!-- <a id="editModal{{ $item->id }}"  class="text-warning mr-2 editModal" data-href="{{asset('admin/editBannerData')}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>  -->
 														<!--<a href="{{ asset('admin/bannerDelete/'.$item->ID) }}" class="text-danger" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i></a>-->
-													<a href="javascript:void(0);" class="text-danger DeleteLink" data-bandel="{{asset('admin/testimonial/Delete/'.$item->id)}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash" ></i></a>
+													<a href="javascript:void(0);" class="text-danger DeleteLink" data-bandel="{{asset('admin/aboutDelete/'.$item->id)}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash" ></i></a>
 														
 	                                                
                                                         
@@ -155,109 +152,62 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          Add Testimonial
+          Add Gallery
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ asset('admin/testimonial/store') }}" enctype="multipart/form-data" id="addBannerForm">
-            @csrf
+      <form method="post" action="{{ asset('admin/gallery/store') }}" enctype="multipart/form-data" id="addBannerForm">
+    @csrf
 
-            <div class="row m-2">
-                @if (Session::has('State'))
-                
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <div class="form-group">
-                        <label class="form-label">Select Unit</label>
-                        <select class="form-control input-pill" id="Unit_id" name="Unit_id">
-                            <option value="">Select Unit</option>
-                            @foreach($address as $askey=>$asitem)
-                            
-                            <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
-                            @endforeach   
-                        </select>
-                    </div>
-                </div>
-                @endif
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Name">Name</label>
-                        <span class="text-danger"> *</span>
-                        <input type="text"  class="form-control input-full input-pill" id="name" name="name">
-                        @error('name')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Email">Email</label>
-                        <span class="text-danger"> *</span>
-                        <input type="text" class="form-control input-full input-pill" id="Email" name="Email">
-                        @error('Email')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Message">Message</label>
-                        <span class="text-danger"> *</span>
-                        <textarea class="form-control input-full input-pill" id="Message" name="Message" rows="5"></textarea>
-                        @error('Message')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Ratings">Ratings</label>
-                        <span class="text-danger"> *</span>
-                        <input type="number" class="form-control input-full input-pill" id="Ratings" name="Ratings" min="1" max="5" step="1">
-                        @error('Ratings')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Published" name="Published" value="1">
-                            <label class="custom-control-label" for="Published">Published</label>
-                        </div>
-                        @error('Published')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="PublishedImage">Published Image</label>
-                        <span class="text-danger"> *</span>
-                        <input type="file" class="form-control input-full input-pill" id="PublishedImage" name="PublishedImage">
-                        @error('PublishedImage')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-
+    <div class="row">
+        @if (Session::has('State'))
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="form-group">
+                <label class="form-label">Select Unit</label>
+                <select class="form-control input-pill" id="Unit_id" name="Unit_id">
+                    <option value="">Select Unit</option>
+                    @foreach($address as $askey=>$asitem)
+                    
+                        <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
+                    @endforeach   
+                </select>
             </div>
+        </div>
+        @endif
+        
 
-            <div class="row">
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <button id="addBtn" class="btn btn-secondary btn-sm float-right" type="submit">Submit</button>
-                </div>
+        <div class="col-12 col-md-12 col-lg-12 mb-3">
+            <div class="form-group p-0 mt-3">
+                <label for="Image">Photo</label>
+                <span class="text-danger"> *</span>
+                <input type="file" class="form-control input-full input-pill" id="Image_url" name="Image_url">
+                @error('Image')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
             </div>
-        </form>
+        </div>
+
+        <div class="col-12 col-md-12 col-lg-12 mb-3">
+            <div class="form-group p-0 mt-3">
+                <label for="Video">Video</label>
+                <span class="text-danger"> *</span>
+                <input type="file" class="form-control input-full input-pill" id="Video_url" name="Video_url">
+                @error('Video')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 mb-3">
+            <button id="addBtn" class="btn btn-secondary btn-sm float-right" type="submit">Submit</button>
+        </div>
+    </div>
+</form>
 
 
       </div>
@@ -266,113 +216,69 @@
 </div>
 
 <!--edit-->
-<div class="modal fade edit-modal" id="edit-testimonial" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">
-          Edit Testimonial
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="post" action="{{ asset('admin/testimonial/update') }}" enctype="multipart/form-data" id="editTestimonialForm">
-            @csrf
-            @method('PUT')
-            <input type="hidden" id="testimonial_id" name="testimonial_id">
-            <div class="row m-2">
-                @if (Session::has('State'))
-                
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="form-group">
-                        <label class="form-label">Select Unit</label>
-                        <select class="form-control input-pill" id="editUnit_id" name="editUnit_id">
-                             
-                        </select>
-                    </div>
-                </div>
-                @endif
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="editName">Name</label>
-                        <span class="text-danger"> *</span>
-                        <input type="text" class="form-control input-full input-pill" id="editName" name="editName" value="">
-                        @error('name')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="editEmail">Email</label>
-                        <span class="text-danger"> *</span>
-                        <input type="email" class="form-control input-full input-pill" id="editEmail" name="editEmail" value="">
-                        @error('email')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="editMessage">Message</label>
-                        <span class="text-danger"> *</span>
-                        <textarea class="form-control input-full input-pill" id="editMessage" name="editMessage" rows="5"></textarea>
-                        @error('message')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="editRatings">Ratings</label>
-                        <span class="text-danger"> *</span>
-                        <input type="number" class="form-control input-full input-pill" id="editRatings" name="editRatings" min="1" max="5" step="1" value="">
-                        @error('ratings')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="editPublished" name="editPublished" value="1" >
-                            <label class="custom-control-label" for="editPublished">Published</label>
+<div class="modal fade edit-modal" id="edit-about_us" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Edit Gallery
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{ asset('admin/gallery/update') }}" enctype="multipart/form-data" id="editGalleryForm">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="gallery_id" id="gallery_id" value="">
+                    <div class="row">
+                        @if (Session::has('State'))
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label class="form-label">Select Unit</label>
+                            <select class="form-control input-pill" id="editUnit_id" name="editUnit_id">
+                               
+                                
+                            </select>
                         </div>
-                        @error('published')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
-                </div>
+                        @endif
+                    
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <div class="form-group p-0 mt-3">
+                                <label for="Image_url">Photo</label>
+                                <span class="text-danger"> *</span>
+                                <input type="file" class="form-control input-full input-pill" id="editImageUrl" name="editImageUrl">
+                                @error('editImageUrl')
+                                    <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                                
+                            </div>
+                        </div>
 
-                <div class="col-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="editPublishedImage">Published Image</label>
-                        <span class="text-danger"> *</span>
-                        <input type="file" class="form-control input-full input-pill" id="editPublishedImage" name="editPublishedImage">
-                        @error('published_image')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                        <!-- <img src="" alt="Current Image" style="width: 90px; height: auto; margin-top: 10px;"> -->
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <div class="form-group p-0 mt-3">
+                                <label for="Video_url">Video</label>
+                                <span class="text-danger"> *</span>
+                                <input type="file" class="form-control input-full input-pill" id="editVideoUrl" name="editVideoUrl">
+                                @error('editVideoUrl')
+                                    <small class="form-text text-danger">{{ $message }}</small>
+                                @enderror
+                               
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <button id="editBtn" class="btn btn-secondary btn-sm float-right" type="submit">Update</button>
-                </div>
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 mb-3">
+                            <button id="editBtn" class="btn btn-secondary btn-sm float-right" type="submit">Update</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
 </div>
 
 
@@ -384,7 +290,7 @@
             </div>
             <div class="modal-footer mx-auto border-top-0">
                 <button type="button" class="btn btn-outline-primary btn-danger" data-dismiss="modal">Cancel</button>
-                <a href="" id="deleteLink"  class="btn btn-success">Confirm</a>
+                <a href="" id="deleteLink" data-id="{{$item->id}}" class="btn btn-success">Confirm</a>
             </div>
         </div>
     </div>
@@ -397,35 +303,20 @@
 <!-- <script src="{{ asset('assets/js/jquery.min.js') }}"></script> -->
  <script>
     $(document).ready(function () {
-            
         $('.editModal').on('click', function (e) {
-
             e.preventDefault();
-
             var recordId = $(this).data('id');
-            $('#testimonial_id').val(recordId);
-            // console.log(recordId);
+            $('#gallery_id').val(recordId);
+            console.log(recordId);
             $.ajax({
-                url: '/admin/testimonial_id',
+                url: '/admin/galleryData', // Replace with your route to fetch record details
                 type: 'GET',
                 data:{
                     id:recordId
                 },
                 success: function (data) {
-
-                    console.log(data[0].id);
+                    console.log(data);
                     $('#editUnit_id').append('<option value="' + data[0].address_id + '">' + data[0].center + '</option>');
-                    $('#editName').val(data[0].name);
-                    $('#editEmail').val(data[0].email) 
-                    $('#editMessage').val(data[0].message) 
-                    $('#editRatings').val(data[0].ratings) 
-
-                    if (data[0].published) {
-                        $('#editPublished').prop('checked', true);
-                    } else {
-                        $('#editPublished').prop('checked', false);
-                    } 
-                    // $('#editEmail').val(data[0].email) 
                     
                 },
                 error: function (error) {
@@ -633,36 +524,38 @@
     //  DeleteModal  start
     
     $( ".DeleteLink" ).click(function() {
-        
+
         var id = $(this).data('id');
         console.log(id);
-      
+       
       $("#DeleteModal").modal("show");
-      
-      $('#deleteLink').on('click',function () {
-        var deleteID = $(this).val();
+
+            $('#deleteLink').on('click',function () {
             
-          $.ajax({
-              url: '/admin/testimonial/delete',
-              type: 'DELETE',
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            var deleteId = $(this).data('id');
+
+            $.ajax({
+                url: '/admin/gallery/delete',
+                type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data:{
                     id:id
                 },
                 success: function(response) {
-                    
-                    $('#item_' + deleteId).remove();
-                    
+
+                       $('#item_' + deleteId).remove();
+
                 },
                 error: function(xhr) {
-                    
+
                     alert('An error occurred while deleting the state.');
+
                 }
             });
         });
-   });
+    });
 
 
     

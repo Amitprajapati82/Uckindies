@@ -4,16 +4,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\Address;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 
 class EventController extends Controller
 {
     //
     public function index()
     {
+        if(Session::has("State"))
+        {
+            $SessionData =  Session::get('State');
+
+            $role_id = $SessionData->role_id;
+
+            $address = Address::where('state_id',$role_id)->where('delete_status',1)->get();
+            
+        }
+        else
+        {
+           
+        }
         $data = Event::where('status',1)->get();
         
-        return view('admin.events', compact('data'));
+        return view('admin.events', compact('data','address'));
     }
     public function store(Request $request)
     {
@@ -32,6 +47,7 @@ class EventController extends Controller
     
         $event = new Event();
         $event->title = $request->input('title');
+        $event->address_id = $request->input('Unit_id');
         $event->description = $request->input('description');
         $event->location = $request->input('location');
         $event->start_time = $request->input('start_time');
@@ -48,7 +64,11 @@ class EventController extends Controller
     {
         $id =  $request->id;
 
-        $data = Event::where('id', $id)->where('status',1)->first();
+        $data = Event::leftJoin('addresses', 'events.address_id', '=', 'addresses.id')
+             ->where('events.id', $id)
+             ->select('events.*', 'addresses.center')
+             ->first();
+        // $data = Event::where('id', $id)->where('status',1)->first();
 
         return response()->json([$data,'success' => 'Successfully Get Data']);
     }
@@ -59,6 +79,7 @@ class EventController extends Controller
         // return $request->hasFile('eventImage');
         
         $event->title = $request->eventTitle;
+        $event->address_id = $request->editUnit_id;
         $event->description = $request->eventDescription;
         $event->location = $request->eventLocation;
         $event->start_time = $request->eventStartTime;

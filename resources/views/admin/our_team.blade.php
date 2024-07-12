@@ -53,13 +53,13 @@
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);">Testimonial Management</a>
+                                                <a href="javascript:void(0);">Our Team Management</a>
                                             </li>
                                             <li class="separator">
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);" id="test">Testimonial</a>
+                                                <a href="javascript:void(0);" id="test">Our Team</a>
                                             </li>
                                         </ul>
                                         
@@ -74,15 +74,15 @@
 											<thead>
 												<tr>
 													<th>Sr. No.</th>
-													<th>Name</th>
-													<th>Username</th>
-													<th>Profile Image</th>
+													<th>Image</th>
+													<th>Description</th>
+													<!-- <th>Profile Image</th>
 													<th>Message</th>
                                                     <th>Ratings</th>													
 													
-													<th>Status</th>
+													<th>Status</th> -->
 													<!--<th>Updated At</th>-->
-													<!-- <th>Status</th> -->
+													<th>Status</th>
 													<th>Action</th>
 													
 												</tr>
@@ -92,16 +92,16 @@
 											    @foreach($data as $key=>$item)
 												<tr id="item_{{$item->id}}">
 													<td>{{ $key + 1 }}</td>
-													<td>{{ $item->name}}</td>
-													<td>{{  $item->email  }}</td>
-													<!-- <td class="catname"><img src="{{ asset('storage/' . $item->image) }}" style="width: 90px; height: auto;" alt="Banner Image" /></td> -->
-                                                    <td class="profile-image">
+													<!-- <td>{{ $item->image_path}}</td> -->
+													<td class="catname"><img src="{{ asset('storage/' . $item->image_path) }}" style="width: 90px; height: auto;" alt="Banner Image" /></td>
+													<td>{{  $item->description  }}</td>
+                                                    <!-- <td class="profile-image">
                                                         <img src="{{ asset('storage/images/' . $item->image_path) }}" style="width: 80px; height: 80px; border-radius: 50%;" alt="Profile Image" />
-                                                    </td>
+                                                    </td> -->
 
-													<td class="catname">{{ $item->message }}</td>
+													<!-- <td class="catname">{{ $item->message }}</td> -->
                                                     <!-- <td class="catname">{{ $item->description }}</td> -->
-													<td class="catname">{{ $item->ratings }}</td>
+													<!-- <td class="catname">{{ $item->ratings }}</td> -->
 													<?php
 													    if($item->status == '0')
 													    {
@@ -127,7 +127,7 @@
 													
 													
 													<td>
-                                                        <a href="" data-toggle="modal" class="text-warning mr-2 editModal" id="About_Us" data-target="#edit-testimonial" data-id="{{$item->id}}"><i class="fas fa-edit"></i></a>
+                                                        <a href="" data-toggle="modal" class="text-warning mr-2 editModal" id="About_Us" data-target="#edit-our_team" data-id="{{$item->id}}"><i class="fas fa-edit"></i></a>
 														<!-- <a id="editModal{{ $item->id }}"  class="text-warning mr-2 editModal" data-href="{{asset('admin/editBannerData')}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>  -->
 														<!--<a href="{{ asset('admin/bannerDelete/'.$item->ID) }}" class="text-danger" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i></a>-->
 													<a href="javascript:void(0);" class="text-danger DeleteLink" data-bandel="{{asset('admin/testimonial/Delete/'.$item->id)}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash" ></i></a>
@@ -155,101 +155,53 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          Add Testimonial
+          Add Our Team
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ asset('admin/testimonial/store') }}" enctype="multipart/form-data" id="addBannerForm">
+      <form method="post" action="{{ asset('admin/our_team/store') }}" enctype="multipart/form-data" id="addBannerForm">
             @csrf
 
             <div class="row m-2">
                 @if (Session::has('State'))
                 
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                    <div class="form-group">
-                        <label class="form-label">Select Unit</label>
-                        <select class="form-control input-pill" id="Unit_id" name="Unit_id">
-                            <option value="">Select Unit</option>
-                            @foreach($address as $askey=>$asitem)
-                            
-                            <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
-                            @endforeach   
-                        </select>
-                    </div>
-                </div>
-                @endif
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Name">Name</label>
-                        <span class="text-danger"> *</span>
-                        <input type="text"  class="form-control input-full input-pill" id="name" name="name">
-                        @error('name')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Email">Email</label>
-                        <span class="text-danger"> *</span>
-                        <input type="text" class="form-control input-full input-pill" id="Email" name="Email">
-                        @error('Email')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Message">Message</label>
-                        <span class="text-danger"> *</span>
-                        <textarea class="form-control input-full input-pill" id="Message" name="Message" rows="5"></textarea>
-                        @error('Message')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Ratings">Ratings</label>
-                        <span class="text-danger"> *</span>
-                        <input type="number" class="form-control input-full input-pill" id="Ratings" name="Ratings" min="1" max="5" step="1">
-                        @error('Ratings')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="Published" name="Published" value="1">
-                            <label class="custom-control-label" for="Published">Published</label>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label class="form-label">Select Unit</label>
+                            <select class="form-control input-pill" id="Unit_id" name="Unit_id">
+                                <option value="">Select Unit</option>
+                                @foreach($address as $askey=>$asitem)
+                                
+                                <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
+                                @endforeach   
+                            </select>
                         </div>
-                        @error('Published')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
-                </div>
-
+                @endif
                 <div class="col-12 mb-3">
                     <div class="form-group p-0 mt-3">
-                        <label for="PublishedImage">Published Image</label>
+                        <label for="Image">Image</label>
                         <span class="text-danger"> *</span>
-                        <input type="file" class="form-control input-full input-pill" id="PublishedImage" name="PublishedImage">
-                        @error('PublishedImage')
+                        <input type="file" class="form-control input-full input-pill" id="Image" name="Image">
+                        @error('Image')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
 
-
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="Description">Description</label>
+                        <span class="text-danger">*</span>
+                        <textarea class="form-control input-full input-pill" id="Description" name="Description" rows="5"></textarea>
+                        @error('Description')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
             <div class="row">
@@ -266,22 +218,23 @@
 </div>
 
 <!--edit-->
-<div class="modal fade edit-modal" id="edit-testimonial" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- Update Our Team Modal -->
+<div class="modal fade edit-modal" id="edit-our_team" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
-          Edit Testimonial
+          Edit Our Team
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form method="post" action="{{ asset('admin/testimonial/update') }}" enctype="multipart/form-data" id="editTestimonialForm">
+        <form method="post" action="{{ asset('admin/our_team/update') }}" enctype="multipart/form-data" id="editBannerForm">
             @csrf
             @method('PUT')
-            <input type="hidden" id="testimonial_id" name="testimonial_id">
+            <input type="hidden" id="team_id" name="team_id" value="">
             <div class="row m-2">
                 @if (Session::has('State'))
                 
@@ -289,76 +242,31 @@
                     <div class="form-group">
                         <label class="form-label">Select Unit</label>
                         <select class="form-control input-pill" id="editUnit_id" name="editUnit_id">
-                             
+                            
                         </select>
                     </div>
                 </div>
                 @endif
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="editName">Name</label>
-                        <span class="text-danger"> *</span>
-                        <input type="text" class="form-control input-full input-pill" id="editName" name="editName" value="">
-                        @error('name')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="editEmail">Email</label>
-                        <span class="text-danger"> *</span>
-                        <input type="email" class="form-control input-full input-pill" id="editEmail" name="editEmail" value="">
-                        @error('email')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="editMessage">Message</label>
-                        <span class="text-danger"> *</span>
-                        <textarea class="form-control input-full input-pill" id="editMessage" name="editMessage" rows="5"></textarea>
-                        @error('message')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="editRatings">Ratings</label>
-                        <span class="text-danger"> *</span>
-                        <input type="number" class="form-control input-full input-pill" id="editRatings" name="editRatings" min="1" max="5" step="1" value="">
-                        @error('ratings')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
                 <div class="col-12 mb-3">
                     <div class="form-group p-0 mt-3">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="editPublished" name="editPublished" value="1" >
-                            <label class="custom-control-label" for="editPublished">Published</label>
-                        </div>
-                        @error('published')
+                        <label for="editImage">Image</label>
+                        <span class="text-danger"> *</span>
+                        <input type="file" class="form-control input-full input-pill" id="editImage" name="editImage">
+                        @error('editImage')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
+                        
                     </div>
                 </div>
 
-                <div class="col-12 mb-3">
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
                     <div class="form-group p-0 mt-3">
-                        <label for="editPublishedImage">Published Image</label>
-                        <span class="text-danger"> *</span>
-                        <input type="file" class="form-control input-full input-pill" id="editPublishedImage" name="editPublishedImage">
-                        @error('published_image')
+                        <label for="editDescription">Description</label>
+                        <span class="text-danger">*</span>
+                        <textarea class="form-control input-full input-pill" id="editDescription" name="editDescription" rows="5"></textarea>
+                        @error('editDescription')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
-                        <!-- <img src="" alt="Current Image" style="width: 90px; height: auto; margin-top: 10px;"> -->
                     </div>
                 </div>
             </div>
@@ -368,12 +276,12 @@
                     <button id="editBtn" class="btn btn-secondary btn-sm float-right" type="submit">Update</button>
                 </div>
             </div>
-
         </form>
       </div>
     </div>
   </div>
 </div>
+
 
 
 <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -384,7 +292,7 @@
             </div>
             <div class="modal-footer mx-auto border-top-0">
                 <button type="button" class="btn btn-outline-primary btn-danger" data-dismiss="modal">Cancel</button>
-                <a href="" id="deleteLink"  class="btn btn-success">Confirm</a>
+                <a href="" id="deleteLink" data-id="" class="btn btn-success">Confirm</a>
             </div>
         </div>
     </div>
@@ -403,28 +311,29 @@
             e.preventDefault();
 
             var recordId = $(this).data('id');
-            $('#testimonial_id').val(recordId);
-            // console.log(recordId);
+            $('#team_id').val(recordId);
+            console.log(recordId);
             $.ajax({
-                url: '/admin/testimonial_id',
+                url: '/admin/our_team_id',
                 type: 'GET',
                 data:{
                     id:recordId
                 },
                 success: function (data) {
 
-                    console.log(data[0].id);
-                    $('#editUnit_id').append('<option value="' + data[0].address_id + '">' + data[0].center + '</option>');
-                    $('#editName').val(data[0].name);
-                    $('#editEmail').val(data[0].email) 
-                    $('#editMessage').val(data[0].message) 
-                    $('#editRatings').val(data[0].ratings) 
+                    // console.log(data);
 
-                    if (data[0].published) {
-                        $('#editPublished').prop('checked', true);
-                    } else {
-                        $('#editPublished').prop('checked', false);
-                    } 
+                    $('#editDescription').val(data[0].description);
+                    $('#editUnit_id').append('<option value="' + data[0].address_id + '">' + data[0].center + '</option>');
+                    // $('#editEmail').val(data[0].email) 
+                    // $('#editMessage').val(data[0].message) 
+                    // $('#editRatings').val(data[0].ratings) 
+
+                    // if (data[0].published) {
+                    //     $('#editPublished').prop('checked', true);
+                    // } else {
+                    //     $('#editPublished').prop('checked', false);
+                    // } 
                     // $('#editEmail').val(data[0].email) 
                     
                 },
@@ -643,7 +552,7 @@
         var deleteID = $(this).val();
             
           $.ajax({
-              url: '/admin/testimonial/delete',
+              url: '/admin/our_team/delete',
               type: 'DELETE',
               headers: {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

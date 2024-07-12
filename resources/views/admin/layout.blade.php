@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge" /> -->
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<title>UCKindies - International Kindergarten</title>
@@ -10,11 +10,12 @@
 	
 	<!-- Font-awesome  Css -->
 	<!-- CSS Files -->
+	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
 	<link rel="stylesheet" href="{{ asset('admin/assets/css/icon.css') }}">
 	<link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('admin/assets/css/azzara.min.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('admin/assets/css/image-uploader.css') }}">
-    <link type="text/css" rel="stylesheet" href="{{ asset('admin/assets/css/icon.css') }}">
+    <!-- <link type="text/css" rel="stylesheet" href="{{ asset('admin/assets/css/icon.css') }}"> -->
 	<link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
 	
 	<!-- <script src="{{ asset('assets/js/jquery.min.js') }}"></script> -->
@@ -44,6 +45,18 @@
 		    #emailtext{
 		        font-size:11px;
 		    }
+			.badge-notification {
+				position: absolute;
+				top: 0px;
+				right: 12px;
+				background-color:  rgba(255, 0, 0, 0.8);
+				color: white;
+				border-radius: 50%;
+				padding: 1px 5px;
+			}
+			.notification-icon {
+				position: relative;
+			}
 		</style>
 
 
@@ -234,51 +247,57 @@
 								</ul>
 							</div>
 
-							<a href="javascript:void(0);" >
+							<a href="{{asset('admin/dashboard')}}" >
+							<i class="fas fa-user"></i>
+							<p>Dashboard</p>
+							</a>
+
+							<a href="{{asset('admin/request')}}" >
+							<span class="notification-icon float-right">
+                                        <i class="fas fa-bell fa-2x"></i><span class="badge badge-notification">3</span>
+                                        </span>
+							<p>New Request</p>
+							</a>
+
+							<!-- <a href="{{asset('admin/about')}}" >
 								<i class="fas fa-user-cog"></i>
 								<p>Franchise About Us</p>
-							</a>
+							</a> -->
 
-							<a href="javascript:void(0);" >
+							<!-- <a href="{{ asset('admin/gallery' )}}" >
 							<i class="fas fa-image"></i>
-								<p>Gallery</p>
-							</a>
+								<p>Gallery</p> 
+							</a> -->
 
-							<a href="javascript:void(0);" >
-							<i class="fas fa-envelope"></i>
-								<p>Form to mail</p>
-							</a>
-
-							<a href="javascript:void(0);" >
+							<!-- <a href="{{asset('admin/address')}}?role_id={{$role_id}}" >
 								<i class="fas fa-user-cog"></i>
 								<p>Unit franchise list</p>
-							</a>
+							</a> -->
 
-							<a href="javascript:void(0);" >
-							<i class="fas fa-phone-volume"></i>								<p>Contact details</p>
-							</a>
+							<!-- <a href="{{asset('admin/our_team')}}" >
+							<i class="fas fa-phone-volume"></i>
+							<p>Our Team</p>
+							</a> -->
 
-							<a href="javascript:void(0);" >
-							<i class="fas fa-map-pin"></i>								<p>Google Map</p>
-							</a>
+							<!-- <a href="{{asset('admin/testimonial')}}" >
+							<i class="fas fa-comment"></i>
+							<p>Testimonials</p>
+							</a> -->
 
-							<a href="javascript:void(0);" >
-							<i class="fas fa-comment"></i>								<p>Testimonials</p>
-							</a>
-
-							<a href="javascript:void(0);" >
+							<!-- <a href="javascript:void(0);" >
 								<i class="fas fa-user-cog"></i>
 								<p>Our program</p>
-							</a>
+							</a> -->
 
-							<a href="javascript:void(0);" >
-							<i class="fas fa-share"></i>
+							<!-- <a href="javascript:void(0);" >
+								<i class="fas fa-share"></i>
 								<p>Social media icons</p>
-							</a>
+							</a> -->
 
-							<a href="javascript:void(0);" >
-							<i class="fas fa-calendar"></i>								<p>Events & News</p>
-							</a>
+							<!-- <a href="{{asset('admin/events')}}" >
+							<i class="fas fa-calendar"></i>
+							<p>Events & News</p>
+							</a> -->
 
 
 						</li>
@@ -390,25 +409,15 @@
 								<p>Gallery</p> 
 							</a>
 
-							<!-- <a href="javascript:void(0);" >
-							<i class="fas fa-envelope"></i>
-								<p>Form to mail</p>
-							</a> -->
-
 							<a href="{{asset('admin/address')}}?role_id={{$role_id}}" >
 								<i class="fas fa-user-cog"></i>
 								<p>Unit franchise list</p>
 							</a>
 
-							<!-- <a href="javascript:void(0);" >
+							<a href="{{asset('admin/our_team')}}" >
 							<i class="fas fa-phone-volume"></i>
-							<p>Contact details</p>
-							</a> -->
-
-							<!-- <a href="javascript:void(0);" >
-							<i class="fas fa-map-pin"></i>
-							<p>Google Map</p>
-							</a> -->
+							<p>Our Team</p>
+							</a>
 
 							<a href="{{asset('admin/testimonial')}}" >
 							<i class="fas fa-comment"></i>
@@ -421,7 +430,7 @@
 							</a>
 
 							<a href="javascript:void(0);" >
-							<i class="fas fa-share"></i>
+								<i class="fas fa-share"></i>
 								<p>Social media icons</p>
 							</a>
 
@@ -497,12 +506,11 @@
 
 		<!-- End Sidebar -->
 
-        <main>
-            @yield('content')
-        </main>
-		<!-- <div class="content">
-		@yield('content')
-		</div> -->
+        
+            <main>
+                @yield('content')
+            </main>
+        
 
 
         </div>

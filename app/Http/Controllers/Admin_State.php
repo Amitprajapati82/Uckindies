@@ -21,13 +21,15 @@ class Admin_State extends Controller
         $state_id = !empty($request->query('role_id')) ? $request->query('role_id') : '';
 
         if (!empty($state_id)) {
-            # code...
+            
             $data = Address::select('addresses.*', 'states.state_name as state_name')
-            ->join('states', 'addresses.state_id', '=', 'states.id')
-            ->where('addresses.delete_status', '1')
-            ->where('addresses.state_id', $state_id)
-            ->orderBy('addresses.ID', 'ASC')
-            ->get();
+                ->join('states', 'addresses.state_id', '=', 'states.id')
+                ->where('addresses.delete_status', '1')
+                ->where('addresses.state_id', $state_id)
+                ->orderBy('addresses.ID', 'ASC')
+                ->get();
+                
+                
         }
         else
         {
