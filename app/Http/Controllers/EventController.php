@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\Approval;
 use App\Models\Address;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
@@ -20,18 +21,34 @@ class EventController extends Controller
             $role_id = $SessionData->role_id;
 
             $address = Address::where('state_id',$role_id)->where('delete_status',1)->get();
-            
+            $data = Event::whereHas('approvals', function ($query) {
+                $query->where('status', 1);
+            })->get();
+            // return $data;
+            return view('admin.events', compact('data','address'));
         }
         else
         {
-           
+            $SessionData =  Session::get('Admin');
+
+            $role_id = $SessionData[0]->role_id;
+
+
+            $data = Event::where('status',1)->where('address_id',$role_id)->get();
+            return view('admin.events', compact('data'));
         }
-        $data = Event::where('status',1)->get();
         
-        return view('admin.events', compact('data','address'));
+        
     }
     public function store(Request $request)
     {
+        $admin_id = '';
+        if(Session::has('State')) {
+            # code...
+            $data = Session::get('State');
+            $admin_id = $data->ID;
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -56,6 +73,15 @@ class EventController extends Controller
         $event->image_path = $imagePath;
         $event->is_published = $request->has('is_published') ? 1 : 0;
         $event->save();
+
+
+        $approval = new Approval();
+        $approval->admin_id = $admin_id;
+        $approval->description = "Request to add event";
+        $approval->status = 0;
+        $approval->approvable_id = $event->id;
+        $approval->approvable_type = Event::class;
+        $approval->save();
     
         return redirect()->route('admin.events')->with('success', 'Event created successfully.');
     }

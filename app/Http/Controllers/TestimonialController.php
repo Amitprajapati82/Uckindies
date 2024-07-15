@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Testimonial;
 use App\Models\Address;
+use App\Models\Approval;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 
@@ -19,8 +20,11 @@ class TestimonialController extends Controller
 
             $role_id = $SessionData->role_id;
 
-            $data = Testimonial::where('status',1)->get();
             $address = Address::where('state_id',$role_id)->where('delete_status',1)->get();
+            $data = Testimonial::whereHas('approvals', function ($query) {
+                $query->where('status', 1);
+            })->get();
+            // return $data;
             
             return view('admin.testimonials',compact('data','address'));
         }
@@ -39,6 +43,14 @@ class TestimonialController extends Controller
 
     public function store(Request $request)
     {
+
+
+        $admin_id = '';
+        if(Session::has('State')) {
+            # code...
+            $data = Session::get('State');
+            $admin_id = $data->ID;
+        }
     $request->validate([
         'name' => 'required|string|max:255',
         'Email' => 'required|string|email|max:255',
@@ -70,6 +82,15 @@ class TestimonialController extends Controller
 
         // Save the Testimonial to the database
         $testimonial->save();
+
+
+        $approval = new Approval();
+        $approval->admin_id = $admin_id;
+        $approval->description = "Request to add our team";
+        $approval->status = 0;
+        $approval->approvable_id = $testimonial->id;
+        $approval->approvable_type = Testimonial::class;
+        $approval->save();
 
         return redirect()->back()->with('success', 'Testimonial added successfully!');
     }

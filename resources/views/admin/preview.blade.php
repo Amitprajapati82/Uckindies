@@ -53,92 +53,147 @@
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);">Requestor</a>
+                                                <a href="javascript:void(0);">Preview Content</a>
                                             </li>
                                             <li class="separator">
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);" id="test">About Us</a>
+                                                <a href="javascript:void(0);" id="test">Preview</a>
                                             </li>
                                         </ul>
                                         
-										<button class="btn btn-primary btn-round btn-sm ml-auto" data-toggle="modal" data-target="#add-about_us">
+                                
+										<!-- <button class="btn btn-primary btn-round btn-sm ml-auto" data-toggle="modal" data-target="#add-about_us">
 											<i class="fa fa-plus"></i>
-										</button>
+										</button> -->
 									</div>
 								</div>
-								<div class="card-body">
-									<div class="table-responsive">
-										<table class="display border-top border-bottom table datatable table-striped table-hover table-sm">
-											<thead>
-												<tr>
-													<th>Sr. No.</th>
-													<!-- <th></th> -->
-													<th>Requestor</th>
-													<th>Description</th>
-													<th>Status</th>
-                                                    <!-- <th>Description</th>													 -->
-													
-													<!--<th>Created At</th>-->
-													<!--<th>Updated At</th>-->
-													<!-- <th>Status</th> -->
-													<th>Action</th>
-													
-												</tr>
-											</thead>
-											<tbody>
-											    
-											    @foreach($data as $key=>$item)
-
-												    <tr id="item_{{$item->id}}">
-													<td>{{ $key + 1 }}</td>
-													<td>{{ $item->center}}</td>
-													<td><a href="{{asset('admin/request/preview')}}?id={{$item->id}}&approvable_id={{$item->approvable_id}}">{{ $item->description}}</a></td>
-													
-													<?php
-													    if($item->status == '0')
-													    {
-													        $status = "Inactive";
-													    }
-													    else
-													    {
-													        $status = "Active";
-													    }
-													?>                                                   
-													<!--<td class="catname">{{ $status }}</td>-->
-													<td class="catname text-center">
-                                                        @if($item->status == '0')
-                                                        <a href="" class="text-warning" data-toggle="tooltip" title="Pending">
-                                                            
-                                                            <span class="ml-1">Pending..</span>
-                                                        </a>
-                                                        @else
-                                                            <a href="" class="greenColor" data-toggle="tooltip" title="Active">
-                                                                <i class="fas fa-check-circle fa-2x" aria-hidden="true"></i>
-                                                            </a>
-                                                        @endif
-                                                    </td>
-
-													<!--<td class="catname">{{ $item->created_at }}</td>-->
-													<!--<td class="catname">{{ $item->updated_at }}</td>-->
-													
-													<td>
-                                                        <!-- <a href="" data-toggle="modal" class="text-warning mr-2 editModal" id="About_Us" data-target="#edit-about_us" data-id="{{$item->id}}"><i class="fas fa-edit"></i></a> -->
-														
-													<a href="javascript:void(0);" class="text-danger DeleteLink" data-bandel="{{asset('admin/aboutDelete/'.$item->id)}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash" ></i></a>
-														
-	                                                
-                                                        
-													</td>
-												</tr>
-												@endforeach
-											</tbody>
-										</table>
-									</div>
-								</div>
+								
 							</div>
+                            
 						</div>
+                        <div class="container">
+                            <div class="card">
+                                <div class="card-body">
+                                            <h1 class="text-center">Preview of {{$modelName}} Description</h1>
+                                           
+                                             
+                                                    @if($modelName == 'About')
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col-md-8 offset-md-2">
+                                                                        <div class="card">
+                                                                            <div class="card-body">
+                                                                                <h2 class="card-title text-center">About Details</h2>
+
+                                                                                <div class="form-group">
+                                                                                    <label>Title:</label>
+                                                                                    <input type="text" class="form-control" value="{{ $data->title }}" readonly>
+                                                                                </div>
+
+                                                                                <div class="form-group mt-3">
+                                                                                    <label>Image:</label><br>
+                                                                                    <img src="{{ asset('storage/' . $data->image) }}" alt="About Image" class="img-fluid" >
+                                                                                </div>
+
+                                                                                <div class="form-group " >
+                                                                                    <label for="description">Description:</label>
+                                                                                    <textarea class="form-control" name="" id="" readonly>{{$data->description}}</textarea>
+                                                                                </div>
+
+                                                                                <div class="card-footer mt-3 d-flex justify-content-center">
+                                                                            <form action="" method="POST">
+                                                                                @csrf
+                                                                                <input type="hidden" name="data_id" value="{{ $data->id }}">
+                                                                                <button type="submit" class="btn btn-primary m-1">Approve</button>
+                                                                            </form>
+                                                                            
+                                                                            <form action="" method="POST">
+                                                                                @csrf
+                                                                                <input type="hidden" name="data_id" value="{{ $data->id }}">
+                                                                                <button type="submit" class="btn btn-danger m-1">Reject</button>
+                                                                            </form>
+                                                                        </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                    @elseif($modelName == 'Gallery')
+                                                        
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-md-8 offset-md-2">
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                            <h4 class="text-center mt-3">Image</h4>
+                                                                            <div class="ImagePreview mt-3 d-flex justify-content-center">
+                                                                                @if($data->image_path)
+                                                                                    <img src="{{ asset('storage/' . $data->image_path) }}" alt="Gallery Image" class="img-fluid" style="max-width: 50%; height: 40%;">
+                                                                                @endif
+                                                                            </div>
+
+                                                                            <h4 class="text-center mt-3">Video</h4>
+                                                                            <div class="VideoPreview mt-2 d-flex justify-content-center">
+                                                                                @if($data->video_path)
+                                                                                    <video controls class="w-100" style="max-width: 50%; height: 40%;">
+                                                                                        <source src="{{ asset('storage/' . $data->video_path) }}" type="video/mp4">
+                                                                                        Your browser does not support the video tag.
+                                                                                    </video>
+                                                                                @endif
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="card-footer mt-3 d-flex justify-content-center">
+                                                                            <form action="" method="POST">
+                                                                                @csrf
+                                                                                <input type="hidden" name="data_id" value="{{ $data->id }}">
+                                                                                <button type="submit" class="btn btn-primary m-1">Approve</button>
+                                                                            </form>
+                                                                            
+                                                                            <form action="" method="POST">
+                                                                                @csrf
+                                                                                <input type="hidden" name="data_id" value="{{ $data->id }}">
+                                                                                <button type="submit" class="btn btn-danger m-1">Reject</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    @elseif($modelName == 'OurTeam')
+                                                        <h2>Our Team Details</h2>
+                                                        <img src="{{ asset($data->image_path) }}" alt="Our Team Image" style="max-width: 100%; height: auto;">
+                                                        <p>{{ $data->description }}</p>
+                                                    @elseif($modelName == 'Testimonial')
+                                                        <h2>Testimonial Details</h2>
+                                                        <p>{{ $data->description }}</p>
+                                                        <img src="{{ asset($data->image_path) }}" alt="Testimonial Image" style="max-width: 100%; height: auto;">
+                                                    @elseif($modelName == 'Event')
+                                                        <h2>Event Details</h2>
+                                                        <p>{{ $data->description }}</p>
+                                                        <img src="{{ asset($data->image_path) }}" alt="Event Image" style="max-width: 100%; height: auto;">
+                                                    @endif
+                                          
+                                        
+                                            <p></p>
+                                        </div>
+                                        <!-- <div class="card-footer d-flex justify-content-center">
+                                            <form action="" method="POST" style="display: inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary m-1">Approve</button>
+                                            </form>
+
+                                            <form action="" method="POST" style="display: inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger m-1">Reject</button>
+                                            </form>
+                                        </div> -->
+                                    </div>
+                                </div>
 					</div>
 				</div>
 			</div>
@@ -146,153 +201,13 @@
 </div>
 
   <!-- Modal -->
-  <div class="modal fade add-modal" id="add-about_us" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">
-          Add Gallery
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <form method="post" action="{{ asset('admin/gallery/store') }}" enctype="multipart/form-data" id="addBannerForm">
-    @csrf
-
-    <div class="row">
-        @if (Session::has('State'))
-        <div class="col-sm-12 col-md-6 col-lg-6">
-            <div class="form-group">
-                <label class="form-label">Select Unit</label>
-                <select class="form-control input-pill" id="Unit_id" name="Unit_id">
-                    <option value="">Select Unit</option>
-                    @foreach($address as $askey=>$asitem)
-                    
-                        <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
-                    @endforeach   
-                </select>
-            </div>
-        </div>
-        @endif
-        
-
-        <div class="col-12 col-md-12 col-lg-12 mb-3">
-            <div class="form-group p-0 mt-3">
-                <label for="Image">Photo</label>
-                <span class="text-danger"> *</span>
-                <input type="file" class="form-control input-full input-pill" id="Image_url" name="Image_url">
-                @error('Image')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
-
-        <div class="col-12 col-md-12 col-lg-12 mb-3">
-            <div class="form-group p-0 mt-3">
-                <label for="Video">Video</label>
-                <span class="text-danger"> *</span>
-                <input type="file" class="form-control input-full input-pill" id="Video_url" name="Video_url">
-                @error('Video')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12 mb-3">
-            <button id="addBtn" class="btn btn-secondary btn-sm float-right" type="submit">Submit</button>
-        </div>
-    </div>
-</form>
-
-
-      </div>
-    </div>
-  </div>
-</div>
+  
 
 <!--edit-->
-<div class="modal fade edit-modal" id="edit-about_us" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    Edit Gallery
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{{ asset('admin/gallery/update') }}" enctype="multipart/form-data" id="editGalleryForm">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" name="gallery_id" id="gallery_id" value="">
-                    <div class="row">
-                        @if (Session::has('State'))
-                        <div class="col-sm-12 col-md-6 col-lg-6">
-                        <div class="form-group">
-                            <label class="form-label">Select Unit</label>
-                            <select class="form-control input-pill" id="editUnit_id" name="editUnit_id">
-                                  
-                            </select>
-                        </div>
-                    </div>
-                        @endif
-                    
-                        <div class="col-12 col-md-12 col-lg-12 mb-3">
-                            <div class="form-group p-0 mt-3">
-                                <label for="Image_url">Photo</label>
-                                <span class="text-danger"> *</span>
-                                <input type="file" class="form-control input-full input-pill" id="editImageUrl" name="editImageUrl">
-                                @error('editImageUrl')
-                                    <small class="form-text text-danger">{{ $message }}</small>
-                                @enderror
-                                
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-12 col-lg-12 mb-3">
-                            <div class="form-group p-0 mt-3">
-                                <label for="Video_url">Video</label>
-                                <span class="text-danger"> *</span>
-                                <input type="file" class="form-control input-full input-pill" id="editVideoUrl" name="editVideoUrl">
-                                @error('editVideoUrl')
-                                    <small class="form-text text-danger">{{ $message }}</small>
-                                @enderror
-                               
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12 col-md-12 col-lg-12 mb-3">
-                            <button id="editBtn" class="btn btn-secondary btn-sm float-right" type="submit">Update</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 
-<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content py-2">
-            <div class="modal-body">
-                <p class="text-center mb-0">Are you sure you want to Delete?</p>
-            </div>
-            <div class="modal-footer mx-auto border-top-0">
-                <button type="button" class="btn btn-outline-primary btn-danger" data-dismiss="modal">Cancel</button>
-                <a href="" id="deleteLink"  class="btn btn-success">Confirm</a>
-            </div>
-        </div>
-    </div>
-</div>
+
+
 
 						
                 

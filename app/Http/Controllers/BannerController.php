@@ -31,7 +31,7 @@ class BannerController extends Controller
     public function addBanner(Request $req)
     {        
         // return $req->all();  
-        return $req->file('AddBannerImage');
+        // return $req->file('AddBannerImage');
         
             $BannerPosition =  $req->input('BannerPosition');            
             $isExist = Banner::select("*")

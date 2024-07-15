@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\About;
 use App\Models\Address;
+use App\Models\Approval;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 class AboutControlller extends Controller
@@ -19,7 +20,10 @@ class AboutControlller extends Controller
             $role_id = $SessionData->role_id;
 
             $data = Address::where('state_id',$role_id)->where('delete_status',1)->get();
-            $about = About::where('status',1)->get();
+            $about = About::whereHas('approvals', function ($query) {
+                $query->where('status', 1);
+            })->get();
+            // return $about;
 
             return view('admin.about_us',compact('about','data'));
         }
@@ -44,6 +48,12 @@ class AboutControlller extends Controller
     public function store(Request $request)
     {
         // return 'gkvkv';
+        $admin_id = '';
+        if(Session::has('State')) {
+            # code...
+            $data = Session::get('State');
+            $admin_id = $data->ID;
+        }
         
         
         // return $request->file('Image');
@@ -67,6 +77,15 @@ class AboutControlller extends Controller
         $about_us->description = $description;
         $about_us->image = $path;
         $about_us->save();
+
+        $approval = new Approval();
+        $approval->admin_id = $admin_id;
+        $approval->address_id = $unit_id;
+        $approval->description = "Request to add about";
+        $approval->status = 0;
+        $approval->approvable_id = $about_us->id;
+        $approval->approvable_type = About::class;
+        $approval->save();
         // return $path;
 
         return redirect()->route('about.index')->with('success', 'About us added successfully!');

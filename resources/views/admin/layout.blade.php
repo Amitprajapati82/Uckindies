@@ -378,6 +378,12 @@
 								<!--	</a>-->
 								<!--</li>-->
 							<li class="nav-item">
+
+							<a href="{{ $dashbord }}" >
+									<i class="fas fa-user-cog"></i>
+									<p>Dashboard</p>
+								
+								</a>
 								<a href="javascript:void(0);" data-toggle="collapse" data-target="#Usermgmt" aria-expanded="false" aria-controls="Usermgmt">
 									<i class="fas fa-user-cog"></i>
 									<p>State Management</p>

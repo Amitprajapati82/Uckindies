@@ -193,3 +193,4 @@ Route::delete('admin/our_team/delete',[TeamController::class,'delete'])->name('a
 // Request
 
 Route::get('admin/request',[RequestController::class,'index'])->name('admin.request');
+Route::get('admin/request/preview',[RequestController::class,'preview'])->name('admin.request.preview');
