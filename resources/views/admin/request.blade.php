@@ -76,7 +76,7 @@
 													<th>Sr. No.</th>
 													<!-- <th></th> -->
 													<th>Requestor</th>
-													<th>Video</th>
+													<th>Description</th>
 													<th>Status</th>
                                                     <!-- <th>Description</th>													 -->
 													
@@ -290,7 +290,7 @@
             </div>
             <div class="modal-footer mx-auto border-top-0">
                 <button type="button" class="btn btn-outline-primary btn-danger" data-dismiss="modal">Cancel</button>
-                <a href="" id="deleteLink" data-id="{{$item->id}}" class="btn btn-success">Confirm</a>
+                <a href="" id="deleteLink" data-id="" class="btn btn-success">Confirm</a>
             </div>
         </div>
     </div>

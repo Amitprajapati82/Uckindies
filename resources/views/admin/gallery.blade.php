@@ -147,67 +147,67 @@
 </div>
 
   <!-- Modal -->
-  <div class="modal fade add-modal" id="add-about_us" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">
-          Add Gallery
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <form method="post" action="{{ asset('admin/gallery/store') }}" enctype="multipart/form-data" id="addBannerForm">
-    @csrf
-
-    <div class="row">
-        @if (Session::has('State'))
-        <div class="col-sm-12 col-md-6 col-lg-6">
-            <div class="form-group">
-                <label class="form-label">Select Unit</label>
-                <select class="form-control input-pill" id="Unit_id" name="Unit_id">
-                    <option value="">Select Unit</option>
-                    @foreach($address as $askey=>$asitem)
-                    
-                        <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
-                    @endforeach   
-                </select>
+<div class="modal fade add-modal" id="add-about_us" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                Add Gallery
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </div>
-        @endif
-        
+            <div class="modal-body">
+            <form method="post" action="{{ asset('admin/gallery/store') }}" enctype="multipart/form-data" id="addBannerForm">
+            @csrf
 
-        <div class="col-12 col-md-12 col-lg-12 mb-3">
-            <div class="form-group p-0 mt-3">
-                <label for="Image">Photo</label>
-                <span class="text-danger"> *</span>
-                <input type="file" class="form-control input-full input-pill" id="Image_url" name="Image_url">
-                @error('Image')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
+            <div class="row">
+                @if (Session::has('State'))
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label class="form-label">Select Unit</label>
+                        <select class="form-control input-pill" id="Unit_id" name="Unit_id">
+                            <option value="">Select Unit</option>
+                            @foreach($address as $askey=>$asitem)
+                            
+                                <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
+                            @endforeach   
+                        </select>
+                    </div>
+                </div>
+                @endif
+                
+
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="Image">Photo</label>
+                        <span class="text-danger"> *</span>
+                        <input type="file" class="form-control input-full input-pill" id="Image_url" name="Image_url">
+                        @error('Image')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group p-0 mt-3">
+                        <label for="Video">Video</label>
+                        <span class="text-danger"> *</span>
+                        <input type="file" class="form-control input-full input-pill" id="Video_url" name="Video_url">
+                        @error('Video')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="col-12 col-md-12 col-lg-12 mb-3">
-            <div class="form-group p-0 mt-3">
-                <label for="Video">Video</label>
-                <span class="text-danger"> *</span>
-                <input type="file" class="form-control input-full input-pill" id="Video_url" name="Video_url">
-                @error('Video')
-                    <small class="form-text text-danger">{{ $message }}</small>
-                @enderror
+            <div class="row">
+                <div class="col-12 col-md-12 col-lg-12 mb-3">
+                    <button id="addBtn" class="btn btn-secondary btn-sm float-right" type="submit">Submit</button>
+                </div>
             </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12 mb-3">
-            <button id="addBtn" class="btn btn-secondary btn-sm float-right" type="submit">Submit</button>
-        </div>
-    </div>
-</form>
+        </form>
 
 
       </div>

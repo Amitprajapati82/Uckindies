@@ -21,7 +21,10 @@ class GalleryController extends Controller
             $role_id = $SessionData->role_id;
 
             $address = Address::where('state_id',$role_id)->where('delete_status',1)->get();
-            $data = Gallery::where('status',1)->get();
+            $data = Gallery::whereHas('approvals', function ($query) {
+                $query->where('status', 1);
+            })->get();
+            // return $data;
 
             return view('admin.gallery',compact('data','address'));
         }

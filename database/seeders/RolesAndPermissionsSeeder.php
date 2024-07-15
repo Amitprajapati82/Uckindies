@@ -22,8 +22,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Create roles and assign existing permissions
         $adminRole = Role::create(['name' => 'admin']);
-        $adminRole->givePermissionTo('view_states');
-        $adminRole->givePermissionTo('view_centers');
+        $adminRole->syncpermission('view_states');
+        $adminRole->syncpermission('view_centers');
         // Add more permissions to admin as needed
 
         $stateRole = Role::create(['name' => 'state']);
