@@ -259,10 +259,10 @@
 							<p>New Request</p>
 							</a>
 
-							<!-- <a href="{{asset('admin/about')}}" >
+							<a href="" >
 								<i class="fas fa-user-cog"></i>
-								<p>Franchise About Us</p>
-							</a> -->
+								<p>Roles</p>
+							</a>
 
 							<!-- <a href="{{ asset('admin/gallery' )}}" >
 							<i class="fas fa-image"></i>

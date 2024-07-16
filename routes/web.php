@@ -194,3 +194,6 @@ Route::delete('admin/our_team/delete',[TeamController::class,'delete'])->name('a
 
 Route::get('admin/request',[RequestController::class,'index'])->name('admin.request');
 Route::get('admin/request/preview',[RequestController::class,'preview'])->name('admin.request.preview');
+Route::post('admin/approval_or_reject',[RequestController::class,'approvalOrReject'])->name('admin.request.approval');
+Route::post('admin/reject_reason',[RequestController::class,'rejectReason'])->name('admin.request.reject-reason');
+Route::delete('admin/request/delete',[RequestController::class,'delete'])->name('admin.request.delete');

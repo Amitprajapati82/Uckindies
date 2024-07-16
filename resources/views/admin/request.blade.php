@@ -21,6 +21,9 @@
 .add-icon i{
     line-height: 80px;
 }
+
+
+
 </style>
 
 <div class="main-panel">
@@ -71,7 +74,7 @@
 								<div class="card-body">
 									<div class="table-responsive">
 										<table class="display border-top border-bottom table datatable table-striped table-hover table-sm">
-											<thead>
+											<thead class="thead-dark">
 												<tr>
 													<th>Sr. No.</th>
 													<!-- <th></th> -->
@@ -93,8 +96,8 @@
 
 												    <tr id="item_{{$item->id}}">
 													<td>{{ $key + 1 }}</td>
-													<td>{{ $item->center}}</td>
-													<td><a href="{{asset('admin/request/preview')}}?id={{$item->id}}&approvable_id={{$item->approvable_id}}">{{ $item->description}}</a></td>
+													<td class="font-weight-bold highlighted-title">{{ $item->center}}</td>
+													<td><a href="{{asset('admin/request/preview')}}?id={{$item->id}}&approvable_id={{$item->approvable_id}}" class="text-decoration-none">{{ $item->description}}</a></td>
 													
 													<?php
 													    if($item->status == '0')
@@ -109,14 +112,20 @@
 													<!--<td class="catname">{{ $status }}</td>-->
 													<td class="catname text-center">
                                                         @if($item->status == '0')
+                                                            <a href="" class="text-warning" data-toggle="tooltip" title="Pending">
+                                                                
+                                                                <span class="ml-1 btn btn-warning btn-rounded">Pending <i class="fas fa-clock"></i></span>
+                                                            </a>
+                                                        @elseif($item->status == '1')
+                                                            <a href="" class="text-warning" data-toggle="tooltip" title="Pending">
+                                                                
+                                                                <span class="ml-1 btn btn-primary btn-rounded">Approved  <i class="fas fa-check"></i></span>
+                                                            </a>
+                                                        @else
                                                         <a href="" class="text-warning" data-toggle="tooltip" title="Pending">
                                                             
-                                                            <span class="ml-1">Pending..</span>
+                                                            <span class="ml-1 btn btn-danger btn-rounded">Reject <i class="fas fa-times"></i></span>
                                                         </a>
-                                                        @else
-                                                            <a href="" class="greenColor" data-toggle="tooltip" title="Active">
-                                                                <i class="fas fa-check-circle fa-2x" aria-hidden="true"></i>
-                                                            </a>
                                                         @endif
                                                     </td>
 
@@ -533,7 +542,7 @@
             var deleteId = $(this).data('id');
 
             $.ajax({
-                url: '/admin/gallery/delete',
+                url: '/admin/request/delete',
                 type: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -86,7 +86,8 @@ class TestimonialController extends Controller
 
         $approval = new Approval();
         $approval->admin_id = $admin_id;
-        $approval->description = "Request to add our team";
+        $approval->address_id = $request->input('Unit_id');
+        $approval->description = "Request to add Testimonial";
         $approval->status = 0;
         $approval->approvable_id = $testimonial->id;
         $approval->approvable_type = Testimonial::class;

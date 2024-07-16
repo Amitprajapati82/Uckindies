@@ -77,6 +77,7 @@ class EventController extends Controller
 
         $approval = new Approval();
         $approval->admin_id = $admin_id;
+        $approval->address_id = $request->input('Unit_id');
         $approval->description = "Request to add event";
         $approval->status = 0;
         $approval->approvable_id = $event->id;
