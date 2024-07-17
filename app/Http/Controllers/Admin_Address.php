@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\{Address,State};
+use App\Models\Approval;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -20,13 +21,20 @@ class Admin_Address extends Controller
 
         if(!empty($id)){
             $data = DB::table('addresses as a')
-                ->leftJoin('states as s', 'a.state_id', '=', 's.ID')
-                ->select('a.*', 's.state_name')
-                ->where('a.status', 1)
-                ->where('state_id',$id)
-                ->where('a.delete_status', 1)
-                ->orderBy('a.ID', 'DESC')
-                ->get();
+            ->leftJoin('states as s', 'a.state_id', '=', 's.ID')
+            ->leftJoin('approvals as ap', 'a.ID', '=', 'ap.address_id')
+            ->select('a.*', 's.state_name')
+            ->where('a.status', 1)
+            ->where('a.delete_status', 1)
+            ->where('ap.status', 1)
+            ->orderBy('a.ID', 'DESC')
+            ->distinct('a.ID')
+            ->get();
+
+
+
+                
+                
                 // return $data;
         }else{
 
@@ -39,7 +47,7 @@ class Admin_Address extends Controller
                     ->get();
         }
         
-        $State = State::where('delete_status', '1')->where('status', '1')->orderBy('ID', 'ASC')->get();
+        $State = State::where('id',$id)->where('delete_status', '1')->where('status', '1')->orderBy('ID', 'ASC')->get();
 
         // if(!empty($State)){
             // return 'fdf';
@@ -56,7 +64,13 @@ class Admin_Address extends Controller
 
     public function add(Request $req)
     {   
-            
+        $admin_id = '';
+        if(Session::has('State')) {
+            # code...
+            $data = Session::get('State');
+            $admin_id = $data->ID;
+        }
+
         $Address = new Address; 
         $Address->state_id =  $req->input('state_id');
         $Address->center =  $req->input('center');
@@ -72,6 +86,15 @@ class Admin_Address extends Controller
         $Address->created_at =  $date;
         $Address->updated_at =  $date;
         $result = $Address->save();
+
+        $approval = new Approval();
+        $approval->admin_id = $admin_id;
+        $approval->address_id = $Address->id;
+        $approval->description = "Request to add unit";
+        $approval->status = 0;
+        $approval->approvable_id = $Address->id;;
+        $approval->approvable_type = Address::class;
+        $approval->save();
         
         if($result)
         {

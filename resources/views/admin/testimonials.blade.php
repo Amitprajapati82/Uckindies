@@ -71,7 +71,7 @@
 								<div class="card-body">
 									<div class="table-responsive">
 										<table class="display border-top border-bottom table datatable table-striped table-hover table-sm">
-											<thead>
+											<thead class="thead-dark">
 												<tr>
 													<th>Sr. No.</th>
 													<th>Name</th>
@@ -246,6 +246,7 @@
                         @error('PublishedImage')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
+                        <div id="imagePreview" class="mt-2"></div>
                     </div>
                 </div>
 
@@ -355,9 +356,10 @@
                         <label for="editPublishedImage">Published Image</label>
                         <span class="text-danger"> *</span>
                         <input type="file" class="form-control input-full input-pill" id="editPublishedImage" name="editPublishedImage">
-                        @error('published_image')
+                        @error('editPublishedImage')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
+                        <div id="edit_imagePreview" class="mt-2"></div>
                         <!-- <img src="" alt="Current Image" style="width: 90px; height: auto; margin-top: 10px;"> -->
                     </div>
                 </div>
@@ -425,6 +427,11 @@
                     } else {
                         $('#editPublished').prop('checked', false);
                     } 
+                    var imagePath = data[0].image_path ? '/storage/images/' + data[0].image_path.replace('public/', '') : null;
+                    if (imagePath) {
+                        $('#edit_imagePreview').html('<img src="' + imagePath + '" style="max-width: 150px; width: 100%; height: auto;">');                    } else {
+                        $('#edit_imagePreview').empty();
+                    }
                     // $('#editEmail').val(data[0].email) 
                     
                 },
@@ -433,6 +440,40 @@
                 }
             });
         });
+    });
+
+    $('#PublishedImage').on('change', function() {
+        var imagePreview = $('#imagePreview');
+        imagePreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = $('<img />', {
+            src: e.target.result,
+            style: 'max-width: 150px; width: 100%; height: auto;'
+            });
+            imagePreview.append(img);
+        };
+        reader.readAsDataURL(file);
+        }
+    });
+
+    $('#editPublishedImage').on('change', function() {
+        var imagePreview = $('#edit_imagePreview');
+        imagePreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = $('<img />', {
+            src: e.target.result,
+            style: 'max-width: 100%; height: auto;'
+            });
+            imagePreview.append(img);
+        };
+        reader.readAsDataURL(file);
+        }
     });
     
      $( "#addForm" ).submit(function( e ) {

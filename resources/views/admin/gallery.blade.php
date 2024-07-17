@@ -53,13 +53,13 @@
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);">About Us Management</a>
+                                                <a href="javascript:void(0);">Gallery Management</a>
                                             </li>
                                             <li class="separator">
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);" id="test">About Us</a>
+                                                <a href="javascript:void(0);" id="test">Gallery</a>
                                             </li>
                                         </ul>
                                         
@@ -71,7 +71,7 @@
 								<div class="card-body">
 									<div class="table-responsive">
 										<table class="display border-top border-bottom table datatable table-striped table-hover table-sm">
-											<thead>
+											<thead class="thead-dark">
 												<tr>
 													<th>Sr. No.</th>
 													<!-- <th></th> -->
@@ -187,6 +187,7 @@
                 @error('Image')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
+                <div id="imagePreview" class="mt-2"></div>
             </div>
         </div>
 
@@ -198,6 +199,7 @@
                 @error('Video')
                     <small class="form-text text-danger">{{ $message }}</small>
                 @enderror
+                <div id="videoPreview" class="mt-2"></div>
             </div>
         </div>
     </div>
@@ -253,6 +255,7 @@
                                 @error('editImageUrl')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
+                                <div id="edit_imagePreview" class="mt-2"></div>
                                 
                             </div>
                         </div>
@@ -265,7 +268,7 @@
                                 @error('editVideoUrl')
                                     <small class="form-text text-danger">{{ $message }}</small>
                                 @enderror
-                               
+                                <div id="edit_videoPreview" class="mt-2"></div>
                             </div>
                         </div>
                     </div>
@@ -317,7 +320,20 @@
                 success: function (data) {
                     console.log(data);
                     $('#editUnit_id').append('<option value="' + data[0].address_id + '">' + data[0].center + '</option>');
-                    
+
+                    var imagePath = data[0].image_path ? '/storage/' + data[0].image_path.replace('public/', '') : null;
+                    if (imagePath) {
+                        $('#edit_imagePreview').html('<img src="' + imagePath + '" style="max-width: 150px; width: 100%; height: auto;">');
+                    } else {
+                        $('#edit_imagePreview').empty();
+                    }
+
+                    var videoPath = data[0].video_path ? '/storage/' + data[0].video_path.replace('public/', '') : null;
+                    if (videoPath) {
+                        $('#edit_videoPreview').html('<video src="' + videoPath + '" controls style="max-width: 150px; width: 100%; height: auto;"></video>');
+                    } else {
+                        $('#edit_videoPreview').empty();
+                    }
                 },
                 error: function (error) {
                     console.log(error);
@@ -325,6 +341,77 @@
             });
         });
     });
+
+    $('#Image_url').on('change', function() {
+        var imagePreview = $('#imagePreview');
+        imagePreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = $('<img />', {
+            src: e.target.result,
+            style: 'max-width: 150px; width: 100%; height: auto;'
+            });
+            imagePreview.append(img);
+        };
+        reader.readAsDataURL(file);
+        }
+    });
+
+    $('#editImageUrl').on('change', function() {
+        var imagePreview = $('#edit_imagePreview');
+        imagePreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = $('<img />', {
+            src: e.target.result,
+            style: 'max-width: 100%; height: auto;'
+            });
+            imagePreview.append(img);
+        };
+        reader.readAsDataURL(file);
+        }
+    });
+
+    $('#Video_url').on('change', function() {
+        var videoPreview = $('#videoPreview');
+        videoPreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var video = $('<video />', {
+            src: e.target.result,
+            controls: true,
+            style: 'max-width: 150px; width: 100%; height: auto;'
+            });
+            videoPreview.append(video);
+        };
+        reader.readAsDataURL(file);
+        }
+    });
+
+    $('#editVideoUrl').on('change', function() {
+        var videoPreview = $('#edit_videoPreview');
+        videoPreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var video = $('<video />', {
+            src: e.target.result,
+            controls: true,
+            style: 'max-width: 100%; height: auto;'
+            });
+            videoPreview.append(video);
+        };
+        reader.readAsDataURL(file);
+        }
+    });
+
     
      $( "#addForm" ).submit(function( e ) {
  

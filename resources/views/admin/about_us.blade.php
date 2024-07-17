@@ -71,7 +71,7 @@
 								<div class="card-body">
 									<div class="table-responsive">
 										<table class="display border-top border-bottom table datatable table-striped table-hover table-sm">
-											<thead>
+											<thead class="thead-dark">
 												<tr>
 													<th>Sr. No.</th>
 													<th>Title</th>
@@ -198,7 +198,7 @@
                 @enderror
             </div>
             <div class="ImagePreview mt-2" style="display: none;">
-                <img id="previewImage" src="#" alt="Image Preview" style="max-width: 50%; max-height: 30%;">
+                <img id="previewImage" src="#" alt="Image Preview" style="max-width: 150px; width: 100%; height: auto;">
             </div>
         </div>
 
@@ -280,9 +280,7 @@
                             <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                        <div class="ImagePreview mt-2" style="display: none;">
-                            <img id="previewEditImage" src="" alt="Current Image" style="max-width: 100%; max-height: 200px;">
-                        </div>
+                        <div id="edit_imagePreview" class="mt-2"></div>
                     </div>
                 </div>
 
@@ -349,7 +347,12 @@
                    
                         console.log(data);
                     $('#editUnit_id').append('<option value="' + data[0].address_id + '">' + data[0].center + '</option>');
-                    
+                    var imagePath = data[0].image ? '/storage/' + data[0].image.replace('public/', '') : null;
+                    if (imagePath) {
+                        $('#edit_imagePreview').html('<img src="' + imagePath + '" style="max-width: 150px; width: 100%; height: auto;">');
+                    } else {
+                        $('#edit_imagePreview').empty();
+                    }
                     $('#editDescription').val(data[0].description); // Populate edit field with fetched data
                     // $('#editPreviewImage').attr('src', imageUrl); // Populate edit field with fetched data
                     // $.each(data, function name(key,value) {
@@ -382,20 +385,20 @@
         }
     });
 
-    $('#editAboutImage').change(function() {
-        var input = this;
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('#previewEditImage').attr('src', e.target.result);
-                $('.ImagePreview').show(); // Show the image preview container
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        } else {
-          
-            $('.ImagePreview').show(); // Show the current image if no new file selected
+    $('#editAboutImage').on('change', function() {
+        var imagePreview = $('#edit_imagePreview');
+        imagePreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = $('<img />', {
+            src: e.target.result,
+            style: 'max-width: 100%; height: auto;'
+            });
+            imagePreview.append(img);
+        };
+        reader.readAsDataURL(file);
         }
     });
     

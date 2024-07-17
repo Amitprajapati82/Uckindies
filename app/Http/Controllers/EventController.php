@@ -8,6 +8,7 @@ use App\Models\Approval;
 use App\Models\Address;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -20,7 +21,16 @@ class EventController extends Controller
 
             $role_id = $SessionData->role_id;
 
-            $address = Address::where('state_id',$role_id)->where('delete_status',1)->get();
+            $address = Address::select('addresses.*', 'states.state_name as state_name', 'approval_status.status as approval_status')
+                        ->leftJoin('states', 'addresses.state_id', '=', 'states.id')
+                        ->leftJoin(DB::raw('(select address_id, status from approvals where id in (select max(id) from approvals where status = 1 group by address_id)) as approval_status'), function ($join) {
+                            $join->on('addresses.ID', '=', 'approval_status.address_id');
+                        })
+                        ->where('addresses.state_id', $role_id)
+                        ->where('approval_status.status',1)
+                        ->where('addresses.delete_status', 1)
+                        ->orderBy('addresses.ID', 'ASC')
+                        ->get();
             $data = Event::whereHas('approvals', function ($query) {
                 $query->where('status', 1);
             })->get();

@@ -7,6 +7,7 @@ use App\Models\Approval;
 use App\Models\Event;
 use App\Models\About;
 use App\Models\Gallery;
+use App\Models\Address;
 use App\Models\OurTeam;
 use App\Models\Testimonial;
 use Illuminate\Support\Facades\DB;
@@ -84,6 +85,16 @@ class RequestController extends Controller
                     // return $data;
 
             $modelName = 'Event';
+        }elseif ($approval->approvable_type == Address::class) {
+            # code...
+            $data = Approval::join('addresses', 'approvals.approvable_id', '=', 'addresses.id')
+                    ->where('approvals.id', $id)
+                    ->where('addresses.id', $approvable_id)
+                    ->select('approvals.id as approval_id','addresses.*') // Select all columns from both tables
+                    ->first();
+
+                    // return $data;
+                    $modelName = 'Address';
         }
 
         if ($data === null) {

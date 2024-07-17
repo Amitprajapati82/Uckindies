@@ -71,7 +71,7 @@
 								<div class="card-body">
 									<div class="table-responsive">
 										<table class="display border-top border-bottom table datatable table-striped table-hover table-sm">
-											<thead>
+											<thead class="thead-dark">
 												<tr>
 													<th>Sr. No.</th>
 													<th>Image</th>
@@ -189,6 +189,7 @@
                         @error('Image')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
+                        <div id="imagePreview" class="mt-2"></div>
                     </div>
                 </div>
 
@@ -255,6 +256,7 @@
                         @error('editImage')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
+                        <div id="edit_imagePreview" class="mt-2"></div>
                         
                     </div>
                 </div>
@@ -322,7 +324,11 @@
                 success: function (data) {
 
                     // console.log(data);
-
+                    var imagePath = data[0].image_path ? '/storage/' + data[0].image_path.replace('public/', '') : null;
+                    if (imagePath) {
+                        $('#edit_imagePreview').html('<img src="' + imagePath + '" style="max-width: 150px; width: 100%; height: auto;">');                    } else {
+                        $('#edit_imagePreview').empty();
+                    }
                     $('#editDescription').val(data[0].description);
                     $('#editUnit_id').append('<option value="' + data[0].address_id + '">' + data[0].center + '</option>');
                     // $('#editEmail').val(data[0].email) 
@@ -342,6 +348,40 @@
                 }
             });
         });
+    });
+
+    $('#Image').on('change', function() {
+        var imagePreview = $('#imagePreview');
+        imagePreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = $('<img />', {
+            src: e.target.result,
+            style: 'max-width: 150px; width: 100%; height: auto;'
+            });
+            imagePreview.append(img);
+        };
+        reader.readAsDataURL(file);
+        }
+    });
+
+    $('#editImage').on('change', function() {
+        var imagePreview = $('#edit_imagePreview');
+        imagePreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = $('<img />', {
+            src: e.target.result,
+            style: 'max-width: 100%; height: auto;'
+            });
+            imagePreview.append(img);
+        };
+        reader.readAsDataURL(file);
+        }
     });
     
      $( "#addForm" ).submit(function( e ) {

@@ -320,6 +320,63 @@
                                                                 </div>
                                                             </div>
                                                     </div>
+                                                    @elseif($modelName == 'Address')
+                                                    <div class="container mt-5">
+                                                            <div class="row">
+                                                                <div class="col-md-8 offset-md-2">
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                            <h2 class="card-title text-center">Units Details</h2>
+
+                                                                            <div class="form-group">
+                                                                                <label>Unit:</label>
+                                                                                <input type="text" class="form-control" value="{{ $data->center }}" readonly>
+                                                                            </div>
+
+                                                                            
+
+                                                                            <div class="form-group">
+                                                                                <label>Description:</label>
+                                                                                <textarea class="form-control" readonly>{{ $data->address }}</textarea>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <label>Conatct:</label>
+                                                                                <input type="number" class="form-control" value="{{ $data->contact }}" readonly>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <label>Email:</label>
+                                                                                <input type="text" class="form-control" value="{{ $data->email }}" readonly>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label>Facebook:</label>
+                                                                                <input type="text" class="form-control" value="{{ $data->facebook }}" readonly>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <label>Instagram:</label>
+                                                                                <input type="text" class="form-control" value="{{ $data->insta }}" readonly>
+                                                                            </div>
+
+                                                                            
+                                                                            @if ($data->approval_status == 1)
+                                                                                    <div class="card-footer mt-3 d-flex justify-content-center" style="display: none !important;">
+                                                                                        <button type="button" class="btn btn-primary m-1 approveBtn" data-id="{{ $data->approval_id }}">Approve</button>
+                                                                                        <button type="button" class="btn btn-danger m-1 rejectBtn" data-id="{{ $data->approval_id }}">Reject</button>
+                                                                                        </div>
+                                                                                @else
+                                                                                <div class="card-footer mt-3 d-flex justify-content-center">
+                                                                                    <button type="button" class="btn btn-primary m-1 approveBtn" data-id="{{ $data->approval_id }}">Approve</button>
+                                                                                    <button type="button" class="btn btn-danger m-1 rejectBtn" data-id="{{ $data->approval_id }}">Reject</button>
+                                                                                    </div>
+                                                                                @endif
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                    </div>
                                                     @endif
                                           
                                         

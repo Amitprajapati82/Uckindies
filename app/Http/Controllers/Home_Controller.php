@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\{ Address,State};
 use App\Models\Admin;
+use App\Models\Approval;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -79,7 +80,7 @@ class Home_Controller extends Controller
     {
         $data = DB::select("SELECT a.*, s.state_name  FROM `addresses` AS a LEFT JOIN states AS s ON a.state_id = s.ID WHERE a.status = 1 AND a.delete_status=1 ");
         $State = State::where('delete_status', '1')->where('status', '1')->orderBy('ID', 'ASC')->get();
-        // return 'hdfs';
+        // return $data;
         
         return view('centers', ['data'=>$data,'State'=>$State]);
     }
@@ -94,10 +95,29 @@ class Home_Controller extends Controller
     
     public function state($state)
     {
+        $State_id = null;
+
+        if (Session::has('State')) {
+
+            $data = Session::get('State');
+            $State_id =  $data->role_id;
+
+        }elseif(Session::has('Admin')){
+
+            $data = Session::get('Admin');
+            $State_id =  $data[0]->role_id;
+            
+        }
+        
         $temp = str_replace('_', ' ', $state);
         $state = ucwords($temp);
-        // return $temp;
-        return view('states', ['state'=>$state]);
+
+        $state = State::where('id',$State_id)->where('delete_status',1)->get();
+
+        // return $state;
+        // return $State_id;
+        
+        return view('states1', ['state'=>$state]);
     }    
     
      public function login()
@@ -117,13 +137,27 @@ class Home_Controller extends Controller
     {
         $State = State::where('delete_status',1)->count();
         $Units = Address::where('delete_status',1)->count();
-        // return $State;
+        
+        // return $request;
         return view('admin.index',compact('State','Units'));
     } 
     public function StateDashboard()
     {
-        // return 'gvsdgigdgdi';
-        return view('state.index');
+        $data = Session::get('State');
+        $state_id = $data->role_id;
+
+        $State = State::where('id',$state_id)->where('delete_status',1)->count();
+
+        $Units = Address::leftJoin('states', 'addresses.state_id', '=', 'states.id')
+        ->leftJoin(DB::raw('(select address_id, status from approvals where id in (select max(id) from approvals where status = 1 group by address_id)) as approval_status'), function ($join) {
+            $join->on('addresses.ID', '=', 'approval_status.address_id');
+        })
+        ->where('addresses.state_id', $state_id)
+        ->where('approval_status.status', 1)
+        ->where('addresses.delete_status', 1)
+        ->count();
+
+        return view('state.index',compact('State','Units'));
     } 
     public function CenterDashboard()
     {

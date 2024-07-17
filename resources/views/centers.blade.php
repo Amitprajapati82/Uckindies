@@ -43,7 +43,8 @@
                         @if($Statevalue->ID == $value->state_id)
                         <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
                             
-                            <h4>{{$key}} {{$value->center}}  </h4>
+                        <h4 ><a class="text-head4" href="">{{ $key }} {{ $value->center }}</a></h4>
+
                             <p><span>Address : - </span><span>{{$value->address}}</span></p>
                             <p><span>Contact No : - </span><span>{{$value->contact}} </span></p>
                             <p><span>Email Id : - </span><span>{{$value->email}}</span></p>
