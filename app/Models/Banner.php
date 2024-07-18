@@ -11,4 +11,9 @@ class Banner extends Model
 
     protected $table = 'uc_banners';
     protected $fillable = ['banner_image'];
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
 }

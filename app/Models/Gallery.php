@@ -14,4 +14,9 @@ class Gallery extends Model
     {
         return $this->morphMany(Approval::class, 'approvable');
     }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
 }

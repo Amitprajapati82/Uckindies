@@ -329,7 +329,8 @@
                             <div class="swiper-slide">
                                 <div class="banner-slide">
                                     <figure>
-                                        <img src="assets1/images/slide-1.jpg">
+                                    <img src="{{ asset('assets1/images/slide-1.jpg') }}" alt="Slide 1">
+
                                     </figure>
                                 </div>
                             </div>
@@ -339,7 +340,7 @@
                             <div class="swiper-slide">
                                 <div class="banner-slide">
                                     <figure>
-                                        <img src="assets1/images/slide-2.jpg">
+                                    <img src="{{ asset('assets1/images/slide-2.jpg') }}" alt="Slide 2">
                                     </figure>
                                 </div>
                             </div>
@@ -349,8 +350,7 @@
                             <div class="swiper-slide">
                                 <div class="banner-slide">
                                     <figure>
-                                        <img src="assets1/images/slide-3.jpg">
-                                    </figure>
+                                    <img src="{{ asset('assets1/images/slide-3.jpg') }}" alt="Slide 2">                                    </figure>
                                 </div>
                             </div>
                             <!-- Header Slide end -->
@@ -418,6 +418,8 @@
 	
 	
 		<!-- About us Section Starts -->
+    @foreach ($aboutData as $value)
+    
 	<section  class="courses" id="about">
 		<div class="container">
 			<div class="row">
@@ -434,26 +436,32 @@
 			<div class="row">
 				<div class="col-md-4">
 					<!-- About Image Start -->
-					<div class="about-image wow fadeInLeft" data-wow-delay="0.3s">
-						<img src="assets1/images/about.jpg" />
-					</div>
+                    
+                     <!-- {{$value->about_image_path}} -->
+                     <div class="about-image wow fadeInLeft" data-wow-delay="0.3s">
+                         <img src="{{asset('storage/'.$value->about_image_path)}}" />
+                     </div>
+                     
 					<!-- About Image End -->
 				</div>
 				
 				<div class="col-md-8">
 					<!-- About Content Start -->
+
+
+                     
 					<div class="about-content wow fadeInUp" data-wow-delay="0.6s">
 						
 
-						<p> Uckindies a Concept Kindergarten Maharashatra,  is a nationally recognized preschool education platform catering to the children ranging from 2 to 5 years of age with an advanced learning approach, unlike the other Montessori learning centers.</p>
+						<p>{{$value->about_us_content}}</p>
 							
-						<p>	Uckindies a Concept Kindergarten Maharashatra, fosters learning with great fun using different activities for the toddlers. The nursery wing of Uckindies follows a distinctive formulation of curriculum, wherein preschool education is not bound to be streamlined to the content but is explorative in nature to help a child enjoy his days of childhood while learning the age-appropriate curriculum.</p>
+						<!-- <p>	Uckindies a Concept Kindergarten Maharashatra, fosters learning with great fun using different activities for the toddlers. The nursery wing of Uckindies follows a distinctive formulation of curriculum, wherein preschool education is not bound to be streamlined to the content but is explorative in nature to help a child enjoy his days of childhood while learning the age-appropriate curriculum.</p>
 							
 						<p>	At Uckindies Maharashatra, children are made to indulge in various kinds of recreational activities to encourage them and develop a kind of search-behavior within them.</p>
 							
 						<p>	Being one of the top preschools in India, there are enormous activities planned and executed in the nursery and kindergarten platform to groom various aspects of learning at Uckindies Preschool in Maharashatra. Uckindies fosters the firsts of a child in a memorable strand, with first school bag, first friend, first classroom, first outing, and first learning experience along with amazing talking books and talking pen.</p>
 							
-						<p>	Uckindies nursery school is an ideal place for your child to grow and blossom beautifully!</p>
+						<p>	Uckindies nursery school is an ideal place for your child to grow and blossom beautifully!</p> -->
 						
 						
 					</div>
@@ -471,6 +479,7 @@
 			</div>
 		</div>
 	</section>
+    @endforeach
 	<!-- About us Section Ends -->
 	
 	
@@ -727,14 +736,15 @@ Helps keep children away from addictive gadgets</p>
 	
 	
 		<!-- Testimonial Section Starts -->
-		
-			<section class="testimonial" id="testimonial">
+	
+    
+    <section class="testimonial" id="testimonial">
         <div class="container mb-5">
             <div class="row">
                 <div class="col-md-12">
                     <!-- Section title start -->
                     <div class="section-title">
-                        <h2 class="color-orange">Parents Say!</h2>
+                        <h2 class="color-orange">Testimonial</h2>
                     </div>
                     <!-- Section title end -->
                 </div>
@@ -747,18 +757,21 @@ Helps keep children away from addictive gadgets</p>
                             <div class="swiper-container testimonial-slider">
                                 <div class="swiper-wrapper">
                                     <!-- Testimonial Slide start -->
+                                    @foreach ($testimonialData as $item)
+                                    
                                     <div class="swiper-slide">
                                         <div class="testimonial-slide">
                                             <figure>
-                                                <img src="assets1/images/team-4.jpg" alt="">
+                                                <img src="{{asset('storage/images/'.$item->testimonial_image)}}" alt="">
                                             </figure>
-                                            <h3>Krystal Hickman</h3>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            <h3>{{$item->testimonial_author}}</h3>
+                                            <p>{{$item->testimonial_content}}</p>
                                         </div>
                                     </div>
+                                    @endforeach
                                     <!-- Testimonial Slide end -->
                                     <!-- Testimonial Slide start -->
-                                    <div class="swiper-slide">
+                                    <!-- <div class="swiper-slide">
                                         <div class="testimonial-slide">
                                             <figure>
                                                 <img src="assets1/images/team-4.jpg" alt="">
@@ -766,10 +779,10 @@ Helps keep children away from addictive gadgets</p>
                                             <h3>Krystal Hickman</h3>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- Testimonial Slide end -->
                                     <!-- Testimonial Slide start -->
-                                    <div class="swiper-slide">
+                                    <!-- <div class="swiper-slide">
                                         <div class="testimonial-slide">
                                             <figure>
                                                 <img src="assets1/images/team-4.jpg" alt="">
@@ -777,7 +790,7 @@ Helps keep children away from addictive gadgets</p>
                                             <h3>Krystal Hickman</h3>
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- Testimonial Slide end -->
                                     <!-- Add more testimonial slides as needed -->
                                 </div>
@@ -791,6 +804,7 @@ Helps keep children away from addictive gadgets</p>
             </div>
         </div>
     </section>
+   
 	
 
 	
@@ -814,69 +828,16 @@ Helps keep children away from addictive gadgets</p>
 			</div>
 			
 			<div class="row gallery">
+                @foreach ( $galleryData as $item )
+                
 				<div class="col-lg-3 col-md-4 col-sm-6">
 					<!-- Photo Gallery Single start -->
 					<div class="photo-single photo-orange wow fadeInUp" data-wow-delay="0.3s">
-						<a href="assets1/images/course-1.jpg"><img src="assets1/images/course-1.jpg" /></a>
+						<a href="assets1/images/course-1.jpg"><img src="{{asset('storage/'.$item->gallery_image)}}" /></a>
 					</div>
 					<!-- Photo Gallery Single end -->
 				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-blue wow fadeInUp" data-wow-delay="0.6s">
-						<a href="assets1/images/course-2.jpg"><img src="assets1/images/course-2.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-green wow fadeInUp" data-wow-delay="0.9s">
-						<a href="assets1/images/course-3.jpg"><img src="assets1/images/course-3.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-orange wow fadeInUp" data-wow-delay="1.2s">
-						<a href="assets1/images/event-1.jpg"><img src="assets1/images/event-1.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-blue wow fadeInUp" data-wow-delay="1.5s">
-						<a href="assets1/images/event-2.jpg"><img src="assets1/images/event-2.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-green wow fadeInUp" data-wow-delay="1.8s">
-						<a href="assets1/images/event-3.jpg"><img src="assets1/images/event-3.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-orange wow fadeInUp" data-wow-delay="2.1s">
-						<a href="assets1/images/course-1.jpg"><img src="assets1/images/course-1.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-blue wow fadeInUp" data-wow-delay="2.4s">
-						<a href="assets1/images/course-2.jpg"><img src="assets1/images/course-2.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
+                @endforeach
 			</div>
 		</div>
 	</section>
@@ -898,54 +859,18 @@ Helps keep children away from addictive gadgets</p>
 			</div>
             
             <div class="row gallery">
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <!-- Video Gallery Single start -->
-                    <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <!-- Video Gallery Single end -->
-                </div>
+                @foreach ($galleryData as $item)
                 
                 <div class="col-lg-4 col-md-4 col-sm-6">
                     <!-- Video Gallery Single start -->
                     <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
+                        <iframe width="100%" height="auto" src="{{asset('storage/'.$item->gallery_video)}}" frameborder="0" allowfullscreen></iframe>
                     </div>
                     <!-- Video Gallery Single end -->
                 </div>
                 
-              <div class="col-lg-4 col-md-4 col-sm-6 ">
-                    <!-- Video Gallery Single start -->
-                    <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <!-- Video Gallery Single end -->
-                </div>
-                
-               <div class="col-lg-4 col-md-4 col-sm-6 mt-5 mb-5">
-                    <!-- Video Gallery Single start -->
-                    <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <!-- Video Gallery Single end -->
-                </div>
-                
-                
-                <div class="col-lg-4 col-md-4 col-sm-6 mt-5 mb-5">
-                    <!-- Video Gallery Single start -->
-                    <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <!-- Video Gallery Single end -->
-                </div>
-                
-                <div class="col-lg-4 col-md-4 col-sm-6 mt-5 mb-5">
-                    <!-- Video Gallery Single start -->
-                    <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <!-- Video Gallery Single end -->
-                </div>
+                @endforeach
+                 
             </div>
         </div>
     </section>
@@ -1063,55 +988,24 @@ Helps keep children away from addictive gadgets</p>
 					<div class="swiper-container event-slider">
 						<div class="swiper-wrapper">
 							<!-- Event Single Slide start -->
-							<div class="swiper-slide">
-								<div class="event-single event-orange">
-									<figure>
-										<img src="assets1/images/event-1.jpg" alt="" />
-										<div class="date"><span>06</span> Dec - 18</div>
-									</figure>
-									
-									<div class="event-body">
-										<h3>Outdor Music Event</h3>
-										<p class="location">New York, Times Square</p>
-										<p class="time">9:00 AM to 12:00 PM</p>
-									</div>
-								</div>
-							</div>
+                             @foreach ($eventData as $item)
+                                <div class="swiper-slide">
+                                    <div class="event-single event-orange">
+                                        <figure>
+                                            <img src="{{asset('storage/'.$item->image_path)}}" alt="" />
+                                            <div class="date"><span>06</span> Dec - 18</div>
+                                        </figure>
+                                        
+                                        <div class="event-body">
+                                            <h3>{{$item->event_title}}</h3>
+                                            <p class="location">{{$item->location}}, Times Square</p>
+                                            <p class="time">{{$item->start_time}} AM to {{$item->start_time}} PM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                             @endforeach    
 							<!-- Event Single Slide end -->
 							
-							<!-- Event Single Slide start -->
-							<div class="swiper-slide">
-								<div class="event-single event-blue">
-									<figure>
-										<img src="assets1/images/event-2.jpg" alt="" />
-										<div class="date"><span>06</span> Dec - 18</div>
-									</figure>
-									
-									<div class="event-body">
-										<h3>Outdor Music Event</h3>
-										<p class="location">New York, Times Square</p>
-										<p class="time">9:00 AM to 12:00 PM</p>
-									</div>
-								</div>
-							</div>
-							<!-- Event Single Slide end -->
-							
-							<!-- Event Single Slide start -->
-							<div class="swiper-slide">
-								<div class="event-single event-green">
-									<figure>
-										<img src="assets1/images/event-3.jpg" alt="" />
-										<div class="date"><span>06</span> Dec - 18</div>
-									</figure>
-									
-									<div class="event-body">
-										<h3>Outdor Music Event</h3>
-										<p class="location">New York, Times Square</p>
-										<p class="time">9:00 AM to 12:00 PM</p>
-									</div>
-								</div>
-							</div>
-							<!-- Event Single Slide end -->
 						</div>
 						
 						<!-- Event Pagination start -->
@@ -1186,31 +1080,32 @@ Helps keep children away from addictive gadgets</p>
 					
 					<!-- Contact Form start -->
 					<div class="contact-form">
-					<form id="contactForm" action="#" method="post">
-    <div class="row">
-        <div class="form-group col-md-12 col-sm-12">
-            <input type="text" class="form-control" placeholder="Student Name" />
-        </div>
-        
-        <div class="form-group col-md-12 col-sm-12">
-            <input type="text" class="form-control" placeholder="Contact No" />
-        </div>
-        
-        <div class="form-group col-md-12 col-sm-12">
-            <input type="number" class="form-control" placeholder="Age" />
-        </div>
-        
-        <div class="form-group col-md-12 col-sm-12">
-            <input type="text" class="form-control" placeholder="Location" />
-        </div>
-        
-       
-        
-        <div class="col-md-12 col-sm-12 text-center">
-            <button type="submit" class="btn-contact">Submit</button>
-        </div>
-    </div>
-</form>
+                        <form id="contactForm" action="{{asset('contact_us')}}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <input type="text" name="stud_name" id="stud_name" class="form-control" placeholder="Student Name" />
+                                </div>
+                                
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <input type="number" name="number" id="number" class="form-control" placeholder="Contact No" />
+                                </div>
+                                
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <input type="number" name="age" id="age" class="form-control" placeholder="Age" />
+                                </div>
+                                
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <input type="text" name="location" id="location" class="form-control" placeholder="Location" />
+                                </div>
+                                
+                            
+                                
+                                <div class="col-md-12 col-sm-12 text-center">
+                                    <button type="submit" class="btn-contact">Submit</button>
+                                </div>
+                            </div>
+                        </form>
 
 					</div>
 					<!-- Contact Form end -->

@@ -60,7 +60,8 @@ Route::get('state/dashboard', [Home_Controller::class, 'StateDashboard'])->name(
 Route::get('center/dashboard', [Home_Controller::class, 'CenterDashboard'])->name('admin.center');
 
 
-// Route::get('', [Home_Controller::class, 'StateContent'])->name('admin.State-Content');
+
+Route::post('/contact_us', [Home_Controller::class, 'ContactUs'])->name('admin.contact_us');
 
 // Route::group(['middleware' => ['auth:admin', 'check.role:admin']], function () {
 //     Route::get('admin/dashboard', [Home_Controller::class, 'AdminDashboard'])->name('admin.dashboard'); // Routes accessible only to admin

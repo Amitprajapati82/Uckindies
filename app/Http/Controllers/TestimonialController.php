@@ -34,14 +34,14 @@ class TestimonialController extends Controller
             $data = Testimonial::whereHas('approvals', function ($query) {
                 $query->where('status', 1);
             })->get();
-            // return $data;
             
             return view('admin.testimonials',compact('data','address'));
         }
-        else
+        elseif(Session::has('Admin'))
         {
             $SessionData =  Session::get('Admin');
-
+            
+            // return $SessionData;
             $role_id = $SessionData[0]->role_id;
 
 

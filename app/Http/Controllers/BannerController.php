@@ -5,12 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\models\Banner;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 class BannerController extends Controller
 {
     //
     public function index()
     {
-        $bannerData = Banner::where('status',1)->get();
+        $State_id = '';
+        if(Session::has('State')){
+
+            $data = Session::get('State');
+            $State_id = $data->role_id;
+
+        }elseif(Session::has('Admin')){
+
+            $data = Session::get('Admin');
+            $State_id = $data->role_id;
+        }
+        // return $State_id;
+        $bannerData = Banner::where('state_id',$State_id)->where('status',1)->get();
         // return $bannerData;
         return view("admin.banner",compact('bannerData'));
     }

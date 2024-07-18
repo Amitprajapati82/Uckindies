@@ -34,15 +34,15 @@ class GalleryController extends Controller
             $data = Gallery::whereHas('approvals', function ($query) {
                 $query->where('status', 1);
             })->get();
-            // return $data;
-
+            
             return view('admin.gallery',compact('data','address'));
         }
         else
         {
             $SessionData =  Session::get('Admin');
-
+            
             $role_id = $SessionData[0]->role_id;
+            // return $role_id;
             
             $data = Gallery::where('status',1)->where('address_id',$role_id)->get();
 
