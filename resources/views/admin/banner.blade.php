@@ -91,10 +91,10 @@
 											</thead>
 											<tbody>
 											    
-											    @foreach($bannerData as $key=>$item)
+											    @foreach($data  as $key=>$item)
 												<tr>
 													<td>{{ $key + 1 }}</td>
-													<td class="catname"><img src="{{ asset('assets/img/'.$item->banner_image) }}" style="width: 90px;height: auto;" alt="Banner Image" /></td>
+													<td class="catname"><img src="{{ asset('admin/assets/img/'.$item->banner_image) }}" style="width: 90px;height: auto;" alt="Banner Image" /></td>
 													<td>{{  $item->banner_name  }}</td>
 													<td class="catname">{{ $item->banner_position }}</td>
                                                     <td class="catname">{{ $item->description }}</td>
@@ -174,7 +174,21 @@
         <form method='post' action="{{asset('admin/add_Banner')}}" enctype="multipart/form-data" id="addBannerForm">
         <!--<form method='post' enctype="multipart/form-data" id="addForm">-->
             @csrf
+            <input type="hidden" name="state_id" id="state_id" value="{{$role_id}}" >
           <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <label class="form-label">Select Unit</label>
+                        <select class="form-control input-pill" id="Unit_id" name="Unit_id">
+                            <option value="">Select Unit</option>
+                            @foreach($address as $askey=>$asitem)
+                            
+                            <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
+                            @endforeach   
+                        </select>
+                    </div>
+                </div>
+
             <div class="col-12 col-md-6 col-lg-6 mb-3">
               <div class="form-group p-0">
                 <label for="BannerName">Banner Name </label>
@@ -215,7 +229,7 @@
 
             <div class="col-12 col-md-6 col-lg-6 mb-3">
               <div class="form-group p-0">
-                <label for="BannerPosition">Banner Position *</label>
+                <label for="BannerPosition">Banner Position</label>
                 <span class="text-danger">*</span>
                 <input type="text" class="form-control input-full input-pill" id="BannerPosition" name="BannerPosition" placeholder="Enter Banner Position" required onkeypress="return addOnlyNumberKey(event)" maxlength="1">
                 <span id="BannerPositionAddError" class="text-danger textNotVisible">Banner position already exists</span>
@@ -288,6 +302,15 @@
 				<form  method='post' action="{{ asset('admin/bannerEdit') }}" enctype="multipart/form-data">
 				    @csrf
 					<div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label">Select Unit</label>
+                                <select class="form-control input-pill" id="editUnit_id" name="editUnit_id">
+                                    
+                                </select>
+                            </div>
+                        </div>
+
 						<div class="col-12 col-md-6 col-lg-6 mb-3">
 							<div class="form-group p-0">
 								<label for="BannerName">Banner Name <span class="text-danger">*</span></label>
@@ -450,11 +473,12 @@
             console.log("data : ",data);
             
             $('#editbannerid').val(data[0].id);
+            $('#editUnit_id').append('<option value="' + data[0].address_id + '">' + data[0].center + '</option>');
             $('#EditBannerName').val(data[0].banner_name);  
             $('#EditBannerPosition').val(data[0].banner_position);  
             $('#EditDescription').val(data[0].description);
             
-            var imgurl1 = "{{asset('assets/img/')}}" + "/" + data[0].banner_image;
+            var imgurl1 = "{{asset('admin/assets/img/')}}" + "/" + data[0].banner_image;
             var image1 = { id: data[0].ID,imgid : data[0].ID , name: data[0].banner_image, file: imgurl1, size:data[0].ID,size2:'512', thumbnail: imgurl1};
             images1.push(image1);
             

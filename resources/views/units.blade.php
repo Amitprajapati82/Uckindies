@@ -8,26 +8,28 @@
 	<meta name="description" content="">
     <meta name="keywords" content="">
     <!--<meta name="author" content="Awaiken Theme">-->
-    <link href="assets1/images/fav.png" rel="icon"> 
+    <link href="{{ asset('assets1/images/fav.png') }}" rel="icon">
+ 
 	<!-- Page Title -->
 	<title>Uckindies State </title>
 	<!-- Google Fonts css-->
 	<link href="https://fonts.googleapis.com/css?family=Bubblegum+Sans|Roboto:300,400,500,700,900" rel="stylesheet">
 	<!-- Bootstrap css -->
-	<link href="assets1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="{{ asset('assets1/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
 	<!-- Font Awesome icon css-->
-	<link href="assets1/css/font-awesome.min.css" rel="stylesheet" media="screen">
-	<link href="assets1/css/flaticon.css" rel="stylesheet" media="screen">
+	<link href="{{ asset('assets1/css/font-awesome.min.css') }}" rel="stylesheet" media="screen">
+	<link href="{{ asset('assets1/css/flaticon.css') }}" rel="stylesheet" media="screen">
 	<!-- Swiper's CSS -->
-	<link rel="stylesheet" href="assets1/css/swiper.min.css">
+	<link rel="stylesheet" href="{{ asset('assets1/css/swiper.min.css') }}">
 	<!-- Animated css -->
-	<link href="assets1/css/animate.css" rel="stylesheet">
+	<link href="{{ asset('assets1/css/animate.css') }}" rel="stylesheet">
 	<!-- Magnific Popup CSS -->
-	<link href="assets1/css/magnific-popup.css" rel="stylesheet">
+	<link href="{{ asset('assets1/css/magnific-popup.css') }}" rel="stylesheet">
 	<!-- Slick nav css -->
-	<link rel="stylesheet" href="assets1/css/slicknav.css">
+	<link rel="stylesheet" href="{{ asset('assets1/css/slicknav.css') }}">
 	<!-- Main custom css -->
-	<link href="assets1/css/custom.css" rel="stylesheet" media="screen">
+	<link href="{{ asset('assets1/css/custom.css') }}" rel="stylesheet" media="screen">
+
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -60,7 +62,7 @@
 }
 
 .swiper-container {
-    padding: 20px 0;
+    padding: 0px 0;
 }
 
 .swiper-pagination-bullet {
@@ -258,65 +260,31 @@
 				<div class="col-md-12">
 					<div class="swiper-container banner-slider">
 						<div class="swiper-wrapper">
+							@foreach ($bannerData as $item)
 							<!-- Header Slide start -->
-							<div class="swiper-slide">
-								<div class="banner-slide">
-									<figure>
-										<img src="assets1/images/slide-1.jpg">
-									</figure>
-									
-									<div class="banner-content">
-                                        <h1>UC KINDIES International
-<br/>Kindergarten, Airoli</h1>
-                                        <h2 class="sub-heading">ADMISSION OPEN 2024-25</h2>
-                                    </div>
-									
-									
-								
-								</div>
+							 
+							 <div class="swiper-slide">
+								 <div class="banner-slide">
+									 <figure>
+										 <img src="{{asset('admin/assets/img/'.$item->banner_image)}}">
+									 </figure>
+									 
+									 <div class="banner-content">
+										 <h1>UC KINDIES International
+ <br/>Kindergarten, {{$item->center}}</h1>
+										 <h2 class="sub-heading">ADMISSION OPEN 2024-25</h2>
+									 </div>
+									 
+									 
+								 
+								 </div>
+							 </div>
+							 
+							 <!-- Header Slide end -->
+							 
+							 
+							 @endforeach
 							</div>
-							
-							<!-- Header Slide end -->
-							
-							<!-- Header Slide start -->
-							<div class="swiper-slide">
-								<div class="banner-slide">
-									<figure>
-										<img src="assets1/images/slide-2.jpg">
-									</figure>
-									
-									
-									<div class="banner-content">
-                                        <h1>UC KINDIES International
-<br/>Kindergarten, Airoli</h1>
-                                        <h2 class="sub-heading">ADMISSION OPEN 2024-25</h2>
-                                    </div>
-									
-								
-								</div>
-							</div>
-							<!-- Header Slide end -->
-							
-							<!-- Header Slide start -->
-							<div class="swiper-slide">
-								<div class="banner-slide">
-									<figure>
-										<img src="assets1/images/slide-3.jpg">
-									</figure>
-									
-									<div class="banner-content">
-                                        <h1>UC KINDIES International
-<br/>Kindergarten, Airoli</h1>
-                                        <h2 class="sub-heading">ADMISSION OPEN 2024-25</h2>
-                                    </div>
-									
-									
-								
-									</div> 
-								</div>
-							</div>
-							<!-- Header Slide end -->
-						</div>
 						
 					
 					</div>
@@ -328,6 +296,7 @@
 	
 	
 		<!-- About us Section Starts -->
+		
 	<section  class="about" id="about">
 		<div class="container">
 			<div class="row">
@@ -341,122 +310,47 @@
 				</div>
 			</div>
 			
-			<div class="row">
 			
-				
-				<div class="col-md-4">
-    <!-- About Image Start -->
-    <div class="about-image-wrapper">
-        <div class="about-image wow fadeInLeft" data-wow-delay="0.3s">
-            <img src="assets1/images/about.jpg" alt="About Image" />
-        </div>
-        
-    </div>
-    
-    <p class="image-heading mt-3">Meet Mrs. Deepa Rajput, the
-dedicated and passionate
-leader at UC KINDIES, Airoli.</p>
-    <!-- About Image End -->
-</div>
-				
-				<div class="col-md-8">
-					<!-- About Content Start -->
-					<div class="about-content wow fadeInUp  mt-2  text-justify" data-wow-delay="0.6s">
+			
+			<div class="row mt-5">
+				@foreach ($aboutData as $item)
+				<div class="col-md-4 mt-5">
+					<!-- About Image Start -->
+					<div class="about-image-wrapper mt-5">
+						<div class="about-image wow fadeInLeft" data-wow-delay="0.3s">
+							<img src="{{asset('storage/'.$item->about_image_path)}}" alt="About Image" />
+						</div>
 						
-
-						<p> Welcome to UC KINDIES International Kindergarten,
-                            With more that 20+ years of experience in early
-                            childhood education, Mrs. Rajput is committed to
-                            creating a nurturing and stimulating environment
-                            where young minds can thrive. Her expertise and
-                            innovative approach to teaching ensure that every
-                            child at UC KINDIES receives the highest quality of
-                            care and education. Mrs. Rajput's warm and
-                            supportive demeaner makes her a beloved figure
-                            among students, parents, and staff alike.</p>
-							
+					</div>
+				<!-- </div>	 -->
+					<p class="image-heading mt-2">Meet Mrs. Deepa Rajput, the
+						dedicated and passionate
+						leader at UC KINDIES, Airoli.</p>
+						<!-- About Image End -->
+					</div>
 					
+					<div class="col-md-8 mt-5">
+						
+						<!-- About Content Start -->
+						
+						<div class="about-content wow fadeInUp  mt-5  text-justify" data-wow-delay="0.6s">
+							
+							<p>{{$item->about_us_content}}</p>
+							
+						</div>
 						
 						
 					</div>
-					
+					@endforeach
 				</div>
-			</div>
-		</div>
-	</section>
+					
+				<!-- </div> -->
+			</section>
+			
 	<!-- About us Section Ends -->
 	
 	
-	
-		<!-- About us Section Starts -->
-	<section  class="about mt-5 " id="about">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 mt-5">
-					<!-- Section title start -->
-					<div class="section-title">
-						<h2 class="color-orange">Why UC KINDIES International Kindergarten, Airoli</h2>
-						<!-- <p>Lorem ipsum dolor sit amet, ipsum dolor sit amet</p> -->
-					</div>
-					<!-- Section title end -->
-				</div>
-			</div>
-			
-			<div class="row">
-		
-				
-			
-				<div class="col-md-8">
-					<!-- About Content Start -->
-					<div class="about-content wow fadeInUp  mt-2  text-justify" data-wow-delay="0.6s">
-						
-						<ul>
-						    
-                        <li><b>Holistic Curriculum:</b> Our curriculum integrates academic learning with creative arts and physical activities, ensuring well-rounded development.</li>
-
-                        <li><b>Experienced Educators:</b> Our team of qualified
-                        teachers is dedicated to providing personalized
-                        attention to each child.</li>
-
-                        <li><b>Safe and Secure Environment:</b> Our state-of-the-art
-                        facilities prioritize the safety and well-being of
-                        every child.</li>
-                        <li><b>Social and Emotional Growth:</b> We focus on
-                        nurturing empathy, communication, and social
-                        skills, preparing children for future success.</li>
-                        
-                        </ul>
-							
-					
-						
-						
-					</div>
-					
-				</div>
-				
-				
-			<div class="col-md-4">
-    <!-- About Image Start -->
-    <div class="about-image-wrapper">
-        <div class="about-image wow fadeInLeft" data-wow-delay="0.3s">
-            <img src="assets1/images/about.jpg" alt="About Image" />
-        </div>
-        
-    </div>
-    
-
-</div>
-				
-				
-				
-				
-			</div>
-		</div>
-	</section>
-	<!-- About us Section Ends -->
-	
-	
-		<!-- Upcoming Events Section Starts -->
+	<!-- Upcoming Events Section Starts -->
 	<section class="Programs" id="Programs">
 		<div class="container">
 			<div class="row">
@@ -729,15 +623,18 @@ Helps keep children away from addictive gadgets</p>
                             <div class="swiper-container testimonial-slider">
                                 <div class="swiper-wrapper">
                                     <!-- Testimonial Slide start -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-slide">
-                                            <figure>
-                                                <img src="assets1/images/team-4.jpg" alt="">
-                                            </figure>
-                                            <h3>Krystal Hickman</h3>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-                                        </div>
-                                    </div>
+									 @foreach ($testimonialData as $key =>$item)
+									 
+									 <div class="swiper-slide">
+										 <div class="testimonial-slide">
+											 <figure>
+												 <img src="{{asset('storage/images/'.$item->testimonial_image_path)}}" alt="">
+											 </figure>
+											 <h3>{{$item->testimonial_author}}</h3>
+											 <p>{{$item->testimonial_content}}</p>
+										 </div>
+									 </div>
+									 @endforeach
                                     <!-- Testimonial Slide end -->
                                     <!-- Testimonial Slide start -->
                                     <div class="swiper-slide">
@@ -795,69 +692,17 @@ Helps keep children away from addictive gadgets</p>
 			</div>
 			
 			<div class="row gallery">
+				@foreach ($galleryData as $item)
+				
 				<div class="col-lg-3 col-md-4 col-sm-6">
 					<!-- Photo Gallery Single start -->
 					<div class="photo-single photo-orange wow fadeInUp" data-wow-delay="0.3s">
-						<a href="assets1/images/course-1.jpg"><img src="assets1/images/course-1.jpg" /></a>
+						<a href=""><img src="{{asset('storage/'.$item->gallery_image_path)}}" /></a>
 					</div>
 					<!-- Photo Gallery Single end -->
 				</div>
+				@endforeach
 				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-blue wow fadeInUp" data-wow-delay="0.6s">
-						<a href="assets1/images/course-2.jpg"><img src="assets1/images/course-2.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-green wow fadeInUp" data-wow-delay="0.9s">
-						<a href="assets1/images/course-3.jpg"><img src="assets1/images/course-3.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-orange wow fadeInUp" data-wow-delay="1.2s">
-						<a href="assets1/images/event-1.jpg"><img src="assets1/images/event-1.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-blue wow fadeInUp" data-wow-delay="1.5s">
-						<a href="assets1/images/event-2.jpg"><img src="assets1/images/event-2.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-green wow fadeInUp" data-wow-delay="1.8s">
-						<a href="assets1/images/event-3.jpg"><img src="assets1/images/event-3.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-orange wow fadeInUp" data-wow-delay="2.1s">
-						<a href="assets1/images/course-1.jpg"><img src="assets1/images/course-1.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
-				
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<!-- Photo Gallery Single start -->
-					<div class="photo-single photo-blue wow fadeInUp" data-wow-delay="2.4s">
-						<a href="assets1/images/course-2.jpg"><img src="assets1/images/course-2.jpg" /></a>
-					</div>
-					<!-- Photo Gallery Single end -->
-				</div>
 			</div>
 		</div>
 	</section>
@@ -868,6 +713,7 @@ Helps keep children away from addictive gadgets</p>
 	 <section class="video-gallery" id="video-gallery">
         <div class="container">
           	<div class="row">
+				
 				<div class="col-md-12">
 					<!-- Section title start -->
 					<div class="section-title">
@@ -879,54 +725,16 @@ Helps keep children away from addictive gadgets</p>
 			</div>
             
             <div class="row gallery">
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <!-- Video Gallery Single start -->
-                    <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <!-- Video Gallery Single end -->
-                </div>
-                
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <!-- Video Gallery Single start -->
-                    <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <!-- Video Gallery Single end -->
-                </div>
-                
-              <div class="col-lg-4 col-md-4 col-sm-6 ">
-                    <!-- Video Gallery Single start -->
-                    <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <!-- Video Gallery Single end -->
-                </div>
-                
-               <div class="col-lg-4 col-md-4 col-sm-6 mt-5 mb-5">
-                    <!-- Video Gallery Single start -->
-                    <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <!-- Video Gallery Single end -->
-                </div>
-                
-                
-                <div class="col-lg-4 col-md-4 col-sm-6 mt-5 mb-5">
-                    <!-- Video Gallery Single start -->
-                    <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <!-- Video Gallery Single end -->
-                </div>
-                
-                <div class="col-lg-4 col-md-4 col-sm-6 mt-5 mb-5">
-                    <!-- Video Gallery Single start -->
-                    <div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
-                        <iframe width="100%" height="auto" src="assets1/images/gallery-video.mp4" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <!-- Video Gallery Single end --> 
-                </div>
+			@foreach ($galleryData as $item)
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<!-- Video Gallery Single start -->
+					<div class="video-single video-orange wow fadeInUp" data-wow-delay="0.3s">
+						<iframe width="100%" height="auto" src="{{'/storage/'.$item->gallery_video_path}}" frameborder="0" allowfullscreen></iframe>
+					</div>
+					<!-- Video Gallery Single end -->
+				</div>
+			@endforeach
+                     
             </div>
         </div>
     </section>
@@ -957,54 +765,22 @@ Helps keep children away from addictive gadgets</p>
 					<div class="swiper-container event-slider">
 						<div class="swiper-wrapper">
 							<!-- Event Single Slide start -->
-							<div class="swiper-slide">
-								<div class="event-single event-orange">
-									<figure>
-										<img src="assets1/images/event-1.jpg" alt="" />
-										<div class="date"><span>06</span> Dec - 18</div>
-									</figure>
-									
-									<div class="event-body">
-										<h3>Outdor Music Event</h3>
-										<p class="location">New York, Times Square</p>
-										<p class="time">9:00 AM to 12:00 PM</p>
+							 @foreach ($eventData as $item)
+							 <div class="swiper-slide">
+									<div class="event-single event-orange">
+										<figure>
+											<img src="{{asset('storage/'.$item->image_path)}}" alt="" />
+											<div class="date"><span>06</span> Dec - 18</div>
+										</figure>
+										
+										<div class="event-body">
+											<h3>{{$item->event_title}}</h3>
+											<p class="location">{{$item->location}}, Times Square</p>
+											<p class="time">{{$item->start_time}} AM to {{$item->end_time}} PM</p>
+										</div>
 									</div>
 								</div>
-							</div>
-							<!-- Event Single Slide end -->
-							
-							<!-- Event Single Slide start -->
-							<div class="swiper-slide">
-								<div class="event-single event-blue">
-									<figure>
-										<img src="assets1/images/event-2.jpg" alt="" />
-										<div class="date"><span>06</span> Dec - 18</div>
-									</figure>
-									
-									<div class="event-body">
-										<h3>Outdor Music Event</h3>
-										<p class="location">New York, Times Square</p>
-										<p class="time">9:00 AM to 12:00 PM</p>
-									</div>
-								</div>
-							</div>
-							<!-- Event Single Slide end -->
-							
-							<!-- Event Single Slide start -->
-							<div class="swiper-slide">
-								<div class="event-single event-green">
-									<figure>
-										<img src="assets1/images/event-3.jpg" alt="" />
-										<div class="date"><span>06</span> Dec - 18</div>
-									</figure>
-									
-									<div class="event-body">
-										<h3>Outdor Music Event</h3>
-										<p class="location">New York, Times Square</p>
-										<p class="time">9:00 AM to 12:00 PM</p>
-									</div>
-								</div>
-							</div>
+							 @endforeach
 							<!-- Event Single Slide end -->
 						</div>
 						
@@ -1165,31 +941,32 @@ Helps keep children away from addictive gadgets</p>
 					
 					<!-- Contact Form start -->
 					<div class="contact-form">
-					<form id="contactForm" action="#" method="post">
-    <div class="row">
-        <div class="form-group col-md-12 col-sm-12">
-            <input type="text" class="form-control" placeholder="Student Name" />
-        </div>
-        
-        <div class="form-group col-md-12 col-sm-12">
-            <input type="text" class="form-control" placeholder="Contact No" />
-        </div>
-        
-        <div class="form-group col-md-12 col-sm-12">
-            <input type="number" class="form-control" placeholder="Age" />
-        </div>
-        
-        <div class="form-group col-md-12 col-sm-12">
-            <input type="text" class="form-control" placeholder="Location" />
-        </div>
-        
-       
-        
-        <div class="col-md-12 col-sm-12 text-center">
-            <button type="submit" class="btn-contact">Submit</button>
-        </div>
-    </div>
-</form>
+						<form id="contactForm" action="{{asset('contact_us')}}" method="POST">
+
+							@csrf
+							<div class="row">
+								<input type="hidden" name="unit_id" id="unit_id" value="{{$unit_id}}">
+								<div class="form-group col-md-12 col-sm-12">
+									<input type="text" name="stud_name" id="stud_name" class="form-control" placeholder="Student Name" />
+								</div>
+								
+								<div class="form-group col-md-12 col-sm-12">
+									<input type="number" name="number" id="number" class="form-control" placeholder="Contact No" />
+								</div>
+								
+								<div class="form-group col-md-12 col-sm-12">
+									<input type="number" name="age" id="age" class="form-control" placeholder="Age" />
+								</div>
+								
+								<div class="form-group col-md-12 col-sm-12">
+									<input type="text" name="location" id="location" class="form-control" placeholder="Location" />
+								</div>
+								
+								<div class="col-md-12 col-sm-12 text-center">
+									<button type="submit" class="btn-contact">Submit</button>
+								</div>
+							</div>
+						</form>
 
 					</div>
 					<!-- Contact Form end -->
@@ -1234,22 +1011,22 @@ Helps keep children away from addictive gadgets</p>
 	<!-- Footer Section Ends -->
 	
 	<!-- Jquery Library File -->
-	<script src="assets1/js/jquery-1.12.4.min.js"></script>
-	<!-- Bootstrap js file -->
-	<script src="assets1/js/bootstrap.min.js"></script>
-	<!-- Wow js file -->
-	<script src="assets1/js/wow.js"></script>
-	<!-- Swiper Carousel js file -->
-	<script src="assets1/js/swiper.min.js"></script>
-	<script src="assets1/js/SwiperAnimation.min.js"></script>
-	<!-- Magnific Popup core JS file -->
-	<script src="assets1/js/jquery.magnific-popup.min.js"></script>
-	<!-- Slick Nav js file -->
-	<script src="assets1/js/jquery.slicknav.js"></script>
-	<!-- SmoothScroll -->
-	<!--<script src="assets1/js/SmoothScroll.js"></script>-->
-    <!-- Main Custom js file -->
-	<script src="assets1/js/function.js"></script>
+	<script src="{{ asset('assets1/js/jquery-1.12.4.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('assets1/js/bootstrap.min.js') }}"></script>
+    <!-- Wow.js -->
+    <script src="{{ asset('assets1/js/wow.js') }}"></script>
+    <!-- Swiper Carousel -->
+    <script src="{{ asset('assets1/js/swiper.min.js') }}"></script>
+    <script src="{{ asset('assets1/js/SwiperAnimation.min.js') }}"></script>
+    <!-- Magnific Popup -->
+    <script src="{{ asset('assets1/js/jquery.magnific-popup.min.js') }}"></script>
+    <!-- Slick Nav -->
+    <script src="{{ asset('assets1/js/jquery.slicknav.js') }}"></script>
+    <!-- SmoothScroll (if needed, uncomment the script tag) -->
+    <!-- <script src="{{ asset('assets1/js/SmoothScroll.js') }}"></script> -->
+    <!-- Main Custom JS -->
+    <script src="{{ asset('assets1/js/function.js') }}"></script>
 	
 <!--	<link rel="stylesheet" href="path/to/magnific-popup.css">-->
 <!--<script src="path/to/jquery.magnific-popup.min.js"></script>-->

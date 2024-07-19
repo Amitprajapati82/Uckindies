@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\About;
 use App\Models\Gallery;
 use App\Models\Address;
+use App\Models\Banner;
 use App\Models\OurTeam;
 use App\Models\Testimonial;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,7 @@ class RequestController extends Controller
     //
     public function index(Request $request)
     {
+        // return 'vkbsk';
         $data = DB::table('approvals')
             ->join('addresses', 'approvals.address_id', '=', 'addresses.id')
             ->whereIn('approvals.status', [0,1,2])
@@ -90,11 +92,21 @@ class RequestController extends Controller
             $data = Approval::join('addresses', 'approvals.approvable_id', '=', 'addresses.id')
                     ->where('approvals.id', $id)
                     ->where('addresses.id', $approvable_id)
-                    ->select('approvals.id as approval_id','addresses.*') // Select all columns from both tables
+                    ->select('approvals.id as approval_id','addresses.*') 
                     ->first();
 
                     // return $data;
                     $modelName = 'Address';
+        }elseif ($approval->approvable_type == Banner::class) {
+            // return 'hkfvfd';
+            $data = Approval::join('addresses', 'approvals.approvable_id', '=', 'uc_banners.id')
+                    ->where('approvals.id', $id)
+                    ->where('uc_banners.id', $approvable_id)
+                    ->select('approvals.id as approval_id','uc_banners.*') 
+                    ->first();
+
+                    // return $data->approvable_id;
+                    $modelName = 'Banner';
         }
 
         if ($data === null) {

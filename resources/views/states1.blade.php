@@ -70,7 +70,7 @@
 }
 
 .swiper-container {
-    padding: 20px 0;
+    padding: 0px 0;
 }
 
 .swiper-pagination-bullet {
@@ -326,34 +326,19 @@
                     <div class="swiper-container banner-slider">
                         <div class="swiper-wrapper">
                             <!-- Header Slide start -->
-                            <div class="swiper-slide">
-                                <div class="banner-slide">
-                                    <figure>
-                                    <img src="{{ asset('assets1/images/slide-1.jpg') }}" alt="Slide 1">
-
-                                    </figure>
-                                </div>
-                            </div>
+                             @foreach ($bannerData as $item)
+                             
+                             <div class="swiper-slide">
+                                 <div class="banner-slide">
+                                     <figure>
+                                     <img src="{{ asset('admin/assets/img/'.$item->banner_image) }}" alt="Slide 1">
+ 
+                                     </figure>
+                                 </div>
+                             </div>
+                             @endforeach
                             <!-- Header Slide end -->
-                            
-                            <!-- Header Slide start -->
-                            <div class="swiper-slide">
-                                <div class="banner-slide">
-                                    <figure>
-                                    <img src="{{ asset('assets1/images/slide-2.jpg') }}" alt="Slide 2">
-                                    </figure>
-                                </div>
-                            </div>
-                            <!-- Header Slide end -->
-                            
-                            <!-- Header Slide start -->
-                            <div class="swiper-slide">
-                                <div class="banner-slide">
-                                    <figure>
-                                    <img src="{{ asset('assets1/images/slide-3.jpg') }}" alt="Slide 2">                                    </figure>
-                                </div>
-                            </div>
-                            <!-- Header Slide end -->
+                        
                         </div>
                     </div>
                 </div>
@@ -363,36 +348,38 @@
 
     <div class="sticky-form">
         
-        <form action="/submit" method="POST" class="banner-form">
-    <h2 class="color-orange">Enroll Today!</h2>
-    <div class="form-group">
-        <input type="text" name="name" placeholder=" Name" required>
-    </div>
-    <div class="form-group">
-        <input type="tel" name="mobile" placeholder=" Mobile No" required>
-    </div>
-    <div class="form-group">
-        <input type="email" name="email" placeholder=" Email id " required>
-    </div>
-    
-    
-    <div class="form-group">
-    <!--<label for="exampleFormControlSelect1">Please select</label>-->
-    <select class="form-control" id="exampleFormControlSelect1">
-         <option>please Select</option>
-      <option>Are you Looking for Franchise/Business</option>
-      <option>Looking for Admission for Your ids?</option>
-    </select>
-  </div>
+        <form action="{{asset('franchise_enquiry')}}" method="POST" class="banner-form">
+            @csrf
+            <h2 class="color-orange">Enroll Today!</h2>
+            <div class="form-group">
+                <input type="text" name="name" placeholder=" Name" required>
+            </div>
+            <div class="form-group">
+                <input type="tel" name="mobile" placeholder=" Mobile No" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" placeholder=" Email id " required>
+            </div>
+            
+            
+            <div class="form-group">
+            <!--<label for="exampleFormControlSelect1">Please select</label>-->
+            <select class="form-control" id="exampleFormControlSelect1" name="enquiry" required>
+                <option>please Select</option>
+                <option>Are you Looking for Franchise/Business</option>
+                <option>Looking for Admission for Your ids?</option>
+            </select>
+        </div>
   
-  <div class="form-group">
-        <input type="text" name="location" placeholder=" Location" required>
-    </div>
+        <div class="form-group">
+            <input type="text" name="location" id="loctaion" placeholder=" Location" required>
+        </div>
     
     
     <div class="form-group">
         <button type="submit" class="btn-slider">Submit</button>
     </div>
+
 </form>
 
         <!--<form action="/submit" method="POST" class="banner-form">-->
@@ -417,77 +404,57 @@
 	<!-- Banner Slider Section ends -->
 	
 	
-		<!-- About us Section Starts -->
+    <!-- About us Section Starts -->
     @foreach ($aboutData as $value)
-    
-	<section  class="courses" id="about">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<!-- Section title start -->
-					<div class="section-title">
-						<h2 class="color-orange">About International Kindergarten, Airoli</h2>
-					
-					</div>
-					<!-- Section title end -->
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-md-4">
-					<!-- About Image Start -->
+        <section  class="courses" id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Section title start -->
+                        <div class="section-title">
+                            <h2 class="color-orange">About International Kindergarten, Airoli</h2>
+                        
+                        </div>
+                        <!-- Section title end -->
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- About Image Start -->
+                        
+                        <!-- {{$value->about_image_path}} -->
+                        <div class="about-image wow fadeInLeft" data-wow-delay="0.3s">
+                            <img src="{{asset('storage/'.$value->about_image_path)}}" />
+                        </div>
+                        
+                        <!-- About Image End -->
+                    </div>
                     
-                     <!-- {{$value->about_image_path}} -->
-                     <div class="about-image wow fadeInLeft" data-wow-delay="0.3s">
-                         <img src="{{asset('storage/'.$value->about_image_path)}}" />
-                     </div>
-                     
-					<!-- About Image End -->
-				</div>
-				
-				<div class="col-md-8">
-					<!-- About Content Start -->
+                    <div class="col-md-8">
+                        <!-- About Content Start -->
+                        <div class="about-content wow fadeInUp" data-wow-delay="0.6s">
 
-
-                     
-					<div class="about-content wow fadeInUp" data-wow-delay="0.6s">
-						
-
-						<p>{{$value->about_us_content}}</p>
-							
-						<!-- <p>	Uckindies a Concept Kindergarten Maharashatra, fosters learning with great fun using different activities for the toddlers. The nursery wing of Uckindies follows a distinctive formulation of curriculum, wherein preschool education is not bound to be streamlined to the content but is explorative in nature to help a child enjoy his days of childhood while learning the age-appropriate curriculum.</p>
-							
-						<p>	At Uckindies Maharashatra, children are made to indulge in various kinds of recreational activities to encourage them and develop a kind of search-behavior within them.</p>
-							
-						<p>	Being one of the top preschools in India, there are enormous activities planned and executed in the nursery and kindergarten platform to groom various aspects of learning at Uckindies Preschool in Maharashatra. Uckindies fosters the firsts of a child in a memorable strand, with first school bag, first friend, first classroom, first outing, and first learning experience along with amazing talking books and talking pen.</p>
-							
-						<p>	Uckindies nursery school is an ideal place for your child to grow and blossom beautifully!</p> -->
-						
-						
-					</div>
-					<!-- About Content End -->
-					
-					<!-- About Social Link Starts -->
-					<!--<div class="about-social-links">-->
-					<!--	<a href="#"><i class="fa fa-facebook"></i></a>-->
-					<!--	<a href="#"><i class="fa fa-twitter"></i></a>-->
-					<!--	<a href="#"><i class="fa fa-linkedin"></i></a>-->
-					<!--	<a href="#"><i class="fa fa-instagram"></i></a>-->
-					<!--</div>-->
-					<!-- About Social Link Ends -->
-				</div>
-			</div>
-		</div>
-	</section>
+                            <p>{{$value->about_us_content}}</p>
+                                
+                        </div>
+                        <!-- About Content End -->
+                        
+                        <!-- About Social Link Starts -->
+                        <!--<div class="about-social-links">-->
+                        <!--	<a href="#"><i class="fa fa-facebook"></i></a>-->
+                        <!--	<a href="#"><i class="fa fa-twitter"></i></a>-->
+                        <!--	<a href="#"><i class="fa fa-linkedin"></i></a>-->
+                        <!--	<a href="#"><i class="fa fa-instagram"></i></a>-->
+                        <!--</div>-->
+                        <!-- About Social Link Ends -->
+                    </div>
+                </div>
+            </div>
+        </section>
     @endforeach
 	<!-- About us Section Ends -->
 	
-	
-	
-    
-    
-    
-    
 	<!-- Upcoming Events Section Starts -->
 	<section class="Programs" id="Programs">
 		<div class="container">
@@ -733,18 +700,14 @@ Helps keep children away from addictive gadgets</p>
 	</section>
 	<!-- Upcoming Events Section Ends -->
 	
-	
-	
-		<!-- Testimonial Section Starts -->
-	
-    
+	<!-- Testimonial Section Starts -->
     <section class="testimonial" id="testimonial">
         <div class="container mb-5">
             <div class="row">
                 <div class="col-md-12">
                     <!-- Section title start -->
                     <div class="section-title">
-                        <h2 class="color-orange">Testimonial</h2>
+                        <h2 class="color-orange">Parents Say!</h2>
                     </div>
                     <!-- Section title end -->
                 </div>
@@ -769,29 +732,7 @@ Helps keep children away from addictive gadgets</p>
                                         </div>
                                     </div>
                                     @endforeach
-                                    <!-- Testimonial Slide end -->
-                                    <!-- Testimonial Slide start -->
-                                    <!-- <div class="swiper-slide">
-                                        <div class="testimonial-slide">
-                                            <figure>
-                                                <img src="assets1/images/team-4.jpg" alt="">
-                                            </figure>
-                                            <h3>Krystal Hickman</h3>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-                                        </div>
-                                    </div> -->
-                                    <!-- Testimonial Slide end -->
-                                    <!-- Testimonial Slide start -->
-                                    <!-- <div class="swiper-slide">
-                                        <div class="testimonial-slide">
-                                            <figure>
-                                                <img src="assets1/images/team-4.jpg" alt="">
-                                            </figure>
-                                            <h3>Krystal Hickman</h3>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
-                                        </div>
-                                    </div> -->
-                                    <!-- Testimonial Slide end -->
+                                    
                                     <!-- Add more testimonial slides as needed -->
                                 </div>
                                 <!-- Testimonial Pagination start -->
@@ -804,16 +745,8 @@ Helps keep children away from addictive gadgets</p>
             </div>
         </div>
     </section>
-   
-	
-
-	
-
-        
-        
-        
-        
-		<!-- Photo Gallery Section Starts -->
+    
+	<!-- Photo Gallery Section Starts -->
 	<section class="photo-gallery" id="gallery">
 		<div class="container">
 			<div class="row">
@@ -843,9 +776,7 @@ Helps keep children away from addictive gadgets</p>
 	</section>
 	<!-- Photo Gallery Section Ends -->
 	
-	
-	
-	 <section class="video-gallery" id="video-gallery">
+    <section class="video-gallery" id="video-gallery">
         <div class="container">
           	<div class="row">
 				<div class="col-md-12">
@@ -875,101 +806,37 @@ Helps keep children away from addictive gadgets</p>
         </div>
     </section>
     
-    
     <div class="container">
-    <div class="text-center mx-auto  wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px; visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
-        <h1 class="mb-3 mt-3">Unit Franchise List</h1>
-    </div>
-
-    <div class="row g-5">
-        <div class="col-12 ">
-            <h1 class="mb-5"><a href="https://uckindiesindia.com/states/maharashtra">Maharashtra</a></h1>
-            <div class="row">
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
-                    <h4>1) UC Kindies Thane Center</h4>
-                    <p><span>Address: - </span><span>Devdarshan CHS, Bangalow no. 8, near KMC Nursing Home, Ghodbunder Road, Thane</span></p>
-                    <p><span>Contact No: - </span><span>9930556597</span></p>
-                    <p><span>Email Id: - </span><span>admin.india@uckindies.com</span></p>
-                </div>
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
-                    <h4>2) UC Kindies Airoli Center</h4>
-                    <p><span>Address: - </span><span>Shop No. 4 and 5, Whispering Palms CHS, Sector 19, near Union Bank, Airoli, Navi Mumbai, Maharashtra, 400708</span></p>
-                    <p><span>Contact No: - </span><span>8657219221</span></p>
-                    <p><span>Email Id: - </span><span>uckindies.airoli@gmail.com</span></p>
-                </div>
-            </div>
+        <div class="text-center mx-auto  wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px; visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+            <h1 class="mb-3 mt-3">Unit Franchise List</h1>
         </div>
 
-        <div class="col-12">
-            <h1 class="mb-5"><a href="https://uckindiesindia.com/states/telangana">Telangana</a></h1>
-            <div class="row">
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
-                    <h4>1) UC Kindies MF Center</h4>
-                    <p><span>Address: - </span><span>C/o GSR Eduwiser Pvt Ltd, Venkoti Building, 101, Ayyappa Society, Madhapur, Telangana 500081</span></p>
-                    <p><span>Contact No: - </span><span>9100728396</span></p>
-                    <p><span>Email Id: - </span><span>uckindiestelangana2020@gmail.com</span></p>
-                </div>
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
-                    <h4>2) UC Kindies Hyderabad Center</h4>
-                    <p><span>Address: - </span><span>3-4-15, Srinivaspuram, Ramanthapur,Hyderabad, Telangana 500013</span></p>
-                    <p><span>Contact No: - </span><span>9100728396</span></p>
-                    <p><span>Email Id: - </span><span>sangeetha.uckindies@gmail.com</span></p>
-                </div>
-            </div>
-        </div>
+        <div class="row g-5">
+            @foreach ($groupedData as $data)
+            
+            <div class="col-12 ">
+            <h1 class="mb-5"> <a href="{{ url('/states/' . strtolower($data['state_name']) . '/?id=' . $data['state_id']) }}">
+                {{ $data['state_name'] }}
+            </a></h1>
 
-        <div class="col-12">
-            <h1 class="mb-5"><a href="https://uckindiesindia.com/states/madhya_pradesh">Madhya Pradesh</a></h1>
-            <div class="row">
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: hidden; animation-delay: 0.1s; animation-name: none;">
-                    <h4>1) UC Kindies Indore Center</h4>
-                    <p><span>Address: - </span><span>5/5 B, Navratna Bagh, Geeta Bhavan Sqaure, Indore – 452001</span></p>
-                    <p><span>Contact No: - </span><span>9111611107</span></p>
-                    <p><span>Email Id: - </span><span>kindieseducation@gmail.com</span></p>
+                <div class="row">
+                @foreach($data['addresses'] as $index => $address)
+                    <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+                        <h4>{{ $index + 1 }}) {{ $address['center'] }}</h4>
+                        <p><span>Address: - </span><span>{{ $address['franchise_details'] }}</span></p>
+                        <p><span>Contact No: - </span><span>9930556597</span></p>
+                        <p><span>Email Id: - </span><span>admin.india@uckindies.com</span></p>
+                    </div>
+                @endforeach
+                
                 </div>
             </div>
-        </div>
+            @endforeach
 
-        <div class="col-12">
-            <h1 class="mb-5"><a href="https://uckindiesindia.com/states/punjab">Punjab</a></h1>
-            <div class="row">
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: hidden; animation-delay: 0.1s; animation-name: none;">
-                    <h4>1) UC Kindies Punjab & Chandigarh network Branch</h4>
-                    <p><span>Address: - </span><span>121, 2nd Floor, opposite Shri Jain mandir, new Jawahar nagar, Jalandhar city Punjab - 144001.</span></p>
-                    <p><span>Contact No: - </span><span>9814406113, 9814006113.</span></p>
-                </div>
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: hidden; animation-delay: 0.1s; animation-name: none;">
-                    <h4>2) UC Kindies Jalandhar Kunj Branch</h4>
-                    <p><span>Address: - </span><span>NVR-GSA Tower, Gate no.2, Jalandhar Kunj, Kapurthala Road, Jalandhar - 144002</span></p>
-                    <p><span>Contact No: - </span><span>9988088171, 9876575400.</span></p>
-                </div>
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: hidden; animation-delay: 0.1s; animation-name: none;">
-                    <h4>3) UC Kindies Ludhiana Branch</h4>
-                    <p><span>Address: - </span><span>18-H Sarabha Nagar, Ludhiana - 144001</span></p>
-                    <p><span>Contact No: - </span><span>9855390000, 9814634000.</span></p>
-                </div>
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: hidden; animation-delay: 0.1s; animation-name: none;">
-                    <h4>4) UC Kindies GTB Nagar Branch</h4>
-                    <p><span>Address: - </span><span>448 GTB Nagar, Near Prithvi Planet, Jalandhar City, Jalandhar - 144001.</span></p>
-                    <p><span>Contact No: - </span><span>82648250000, 9815545226.</span></p>
-                </div>
-                <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s" style="visibility: hidden; animation-delay: 0.1s; animation-name: none;">
-                    <h4>5) UC Kindies Bathinda Branch</h4>
-                    <p><span>Address: - </span><span>Near Xaverian Lab, Power House Road, Bathinda - 144002</span></p>
-                    <p><span>Contact No: - </span><span>9780507050, 9877375294.</span></p>
-                    <p><span>Email Id: - </span><span>uckindiesbathinda@gmail.com</span></p>
-                </div>
-            </div>
         </div>
     </div>
-</div>
-
-    
-    
-    
-    <!-- Video Gallery Section Ends -->
-        
-        	<!-- Upcoming Events Section Starts -->
+   
+    <!-- Upcoming Events Section Starts -->
 	<section class="events" id="events">
 		<div class="container">
 			<div class="row">
@@ -1019,20 +886,17 @@ Helps keep children away from addictive gadgets</p>
 	<!-- Upcoming Events Section Ends -->
 	
 	
-		<section class="contactus" id="contact">
-	<div class= "container mb-5">
-	 <div class="map-container">
-	     <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7533.435957393041!2d72.972337!3d19.251119!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7bbea4bf3b50d%3A0x8fcc479ff05f1910!2sUC%20KINDIES%20INTERNATIONAL%20KINDERGARTEN!5e0!3m2!1sen!2sin!4v1721131634684!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-       
-    </div>
-	</div>
+    <section class="contactus" id="contact">
+        <div class= "container mb-5">
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7533.435957393041!2d72.972337!3d19.251119!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7bbea4bf3b50d%3A0x8fcc479ff05f1910!2sUC%20KINDIES%20INTERNATIONAL%20KINDERGARTEN!5e0!3m2!1sen!2sin!4v1721131634684!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        
+        </div>
+        </div>
+
+    </section>
 	
-		</section>
-	
-	
-	
-	
-    	<!-- Contact us Section Starts -->
+    <!-- Contact us Section Starts -->
 	<section class="contactus" id="contact">
 		<div class="container">
 			<div class="row">
@@ -1082,6 +946,7 @@ Helps keep children away from addictive gadgets</p>
 					<div class="contact-form">
                         <form id="contactForm" action="{{asset('contact_us')}}" method="post">
                             @csrf
+                            <input type="hidden" name="state_id" id="state_id" value="{{$State_id}}">
                             <div class="row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <input type="text" name="stud_name" id="stud_name" class="form-control" placeholder="Student Name" />
@@ -1114,17 +979,6 @@ Helps keep children away from addictive gadgets</p>
 		</div>
 	</section>
 	<!-- Contact us Section Ends -->
-	
-        
-
-	
-
-	
-
-
-
-	
-
 	
 	<!-- Footer Section Starts -->
 	<footer class="footer">
@@ -1165,55 +1019,48 @@ Helps keep children away from addictive gadgets</p>
 <!--<script src="path/to/jquery.magnific-popup.min.js"></script>-->
 
 	
-	<script>
-	    
-
-	    
-	    document.addEventListener('DOMContentLoaded', function () {
-    var swiper = new Swiper('.testimonial-slider', {
-        slidesPerView: 3,
-        spaceBetween: 30,
-        loop: true,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        breakpoints: {
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 30
+<script>
+	        
+    document.addEventListener('DOMContentLoaded', function () {
+        var swiper = new Swiper('.testimonial-slider', {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
             },
-            768: {
-                slidesPerView: 2,
-                spaceBetween: 20
-            },
-            640: {
-                slidesPerView: 1,
-                spaceBetween: 10
+            breakpoints: {
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 30
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 20
+                },
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 10
+                }
             }
-        }
+        });
     });
-});
 
 	
 
-
-
-$(document).ready(function() {
-    $('.video-popup').magnificPopup({
-        type: 'iframe',
-        mainClass: 'mfp-fade',
-        removalDelay: 160,
-        preloader: false,
-        fixedContentPos: false
+    $(document).ready(function() {
+        $('.video-popup').magnificPopup({
+            type: 'iframe',
+            mainClass: 'mfp-fade',
+            removalDelay: 160,
+            preloader: false,
+            fixedContentPos: false
+        });
     });
-});
 
 
-
-
-	</script>
-	 
-
+</script>
+	
 </body>
 </html>

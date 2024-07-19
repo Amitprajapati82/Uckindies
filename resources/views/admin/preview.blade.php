@@ -377,6 +377,8 @@
                                                                 </div>
                                                             </div>
                                                     </div>
+                                                    @elseif($modelName == 'Banner')
+                                                    
                                                     @endif
                                           
                                         

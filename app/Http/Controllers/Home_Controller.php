@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Enquiry;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -95,21 +96,22 @@ class Home_Controller extends Controller
         return view('join_us');
     }    
     
-    public function state($state)
+    public function state(Request $request ,$state)
     {
-        $State_id = null;
+        $State_id = $request->query('id');
+        // return $State_id;
 
-        if (Session::has('State')) {
+        // if (Session::has('State')) {
 
-            $data = Session::get('State');
-            $State_id =  $data->role_id;
+        //     $data = Session::get('State');
+        //     $State_id =  $data->role_id;
 
-        }elseif(Session::has('Admin')){
+        // }elseif(Session::has('Admin')){
 
-            $data = Session::get('Admin');
-            $State_id =  $data[0]->role_id;
+        //     $data = Session::get('Admin');
+        //     $State_id =  $data[0]->role_id;
             
-        }
+        // }
         
         $temp = str_replace('_', ' ', $state);
         $state = ucwords($temp);
@@ -167,27 +169,30 @@ class Home_Controller extends Controller
                 )
                 ->get();
 
-            // $addressData = DB::table('states')
-            // // ->leftJoin('uc_banners', 'states.id', '=', 'uc_banners.state_id')
-            // // ->leftJoin('about_us', 'states.id', '=', 'about_us.state_id')
-            // // ->leftJoin('testimonials', 'states.id', '=', 'testimonials.state_id')
-            // // ->leftJoin('events', 'states.id', '=', 'events.state_id')
-            // // ->leftJoin('our_teams', 'states.id', '=', 'our_teams.state_id')
-            // ->leftJoin('addresses', 'states.id', '=', 'addresses.state_id')
-            // // ->leftJoin('galleries', 'states.id', '=', 'galleries.state_id')
-            // ->where('states.id', $State_id)
-            // ->where('states.delete_status', 1)
-            // ->select(
-            //     'states.*',
-            //     // 'uc_banners.banner_name', 'uc_banners.banner_image',
-            //     // 'about_us.description as about_us_content', 'about_us.image as about_image_path',
-            //     // 'testimonials.name as testimonial_author', 'testimonials.message as testimonial_content', 'testimonials.image_path as testimonial_image',
-            //     // 'events.title as event_title', 'events.description as event_description', 'events.image_path',
-            //     // 'our_teams.description as team_position', 'our_teams.image_path as team_photo',
-            //     'addresses.center as center', 'addresses.address as franchise_details',
-            //     // 'galleries.image_path as gallery_image'
-            // )->distinct('states.id')
-            // ->get();
+                $addressData = DB::table('states')
+                    ->leftJoin('addresses', 'states.id', '=', 'addresses.state_id')
+                    ->where('states.id', $State_id)
+                    ->where('addresses.delete_status', 1)
+                    ->select(
+                        'states.id',
+                        'states.state_name',
+                        'addresses.center as center',
+                        'addresses.address as franchise_details'
+                    ) ->get();
+
+                    $groupedData = $addressData->groupBy('state_id')->map(function ($items) {
+                        return [
+                            'state_id' => $items->first()->id,
+                            'state_name' => $items->first()->state_name,
+                            'addresses' => $items->map(function ($item) {
+                                return [
+                                    'center' => $item->center,
+                                    'franchise_details' => $item->franchise_details,
+                                ];
+                            })->toArray()
+                        ];
+                    })->values()->toArray();
+            
 
 
     
@@ -206,12 +211,114 @@ class Home_Controller extends Controller
         // return $testimonialData;
         // return $eventData;
         // return $ourTeamData;
-        // return $addressData;
+        // return $groupedData;
         // return $galleryData;
         // return $State_id;
         
-        return view('states1',compact('state','bannerData','aboutData','testimonialData','eventData','ourTeamData','galleryData'));
-    }    
+        return view('states1',compact('State_id','state','bannerData','aboutData','testimonialData','eventData','ourTeamData','galleryData','groupedData'));
+    }   
+    
+    public function Units(Request $request ,$units)
+    {
+
+        $unit_id = $request->query('id');
+
+        $temp = str_replace('_', ' ', $units);
+        $Units = ucwords($temp);
+
+        $bannerData = DB::table('uc_banners')
+            ->leftJoin('addresses', 'uc_banners.address_id', '=', 'addresses.id')
+            ->where('uc_banners.address_id', $unit_id) // Filter by unit_id
+            ->where('addresses.delete_status', 1)
+            ->select(
+                'addresses.*',
+                'uc_banners.banner_name',
+                'uc_banners.banner_image'
+            )
+            ->get();
+
+
+            $aboutData = DB::table('about_us')
+                ->leftJoin('addresses', 'about_us.address_id', '=', 'addresses.id')
+                ->where('addresses.id', $unit_id)
+                ->where('addresses.delete_status', 1)
+                ->select(
+                    // 'addresses.id',
+                    'about_us.id as about_us_id',
+                    'about_us.description as about_us_content',
+                    'about_us.image as about_image_path'
+                )
+                ->get();
+
+            // $processedData = $aboutData->groupBy('about_us_id')->map(function ($items) {
+            //     return [
+            //         'about_us_id' => $items->first()->about_us_id,
+            //         'about_us_content' => $items->pluck('about_us_content')->toArray(), // Or concatenate if you want all contents
+            //         'about_image_path' => $items->pluck('about_image_path')->toArray() // Collect all image paths
+            //     ];
+            // });
+
+            $testimonialData = DB::table('testimonials')
+                ->leftJoin('addresses', 'testimonials.address_id', '=', 'addresses.id')
+                ->where('addresses.id', $unit_id)
+                ->where('addresses.delete_status', 1)
+                ->select(
+                    'testimonials.id as testimonial_id',
+                    'testimonials.message as testimonial_content',
+                    'testimonials.name as testimonial_author',
+                    'testimonials.image_path as testimonial_image_path'
+                )
+                ->get();
+
+            
+                $galleryData = DB::table('galleries')
+                    ->leftJoin('addresses', 'galleries.address_id', '=', 'addresses.id')
+                    ->where('addresses.id', $unit_id)
+                    ->where('addresses.delete_status', 1)
+                    ->select(
+                        'galleries.id as gallery_id',
+                        // 'galleries.title as gallery_title',
+                        'galleries.image_path as gallery_image_path',
+                        'galleries.video_path as gallery_video_path'
+                    )
+                    ->get();
+
+
+                    $eventData = DB::table('addresses')
+                        ->leftJoin('events', 'addresses.id', '=', 'events.address_id')
+                        ->where('addresses.id', $unit_id)
+                        ->where('addresses.delete_status', 1)
+                        ->select(
+                            'addresses.*',
+                            'events.title as event_title',
+                            'events.description as event_description',
+                            'events.image_path',
+                            'events.start_time as start_time',
+                            'events.end_time as end_time',
+                            'events.location as location'
+                        )
+                        ->get();
+                
+            
+
+
+        // printf($bannerData);echo'<pre>';die;
+
+        return view('units',compact('unit_id','Units','bannerData','aboutData','testimonialData','galleryData','eventData'));
+    }
+
+    public function enquiryForm(Request $request)
+    {
+        $enquiry = new Enquiry();
+        $enquiry->name = $request->input('name');
+        $enquiry->email = $request->input('email');
+        $enquiry->mobile = $request->input('mobile');
+        $enquiry->enquiry = $request->input('enquiry');
+        $enquiry->location = $request->input('location');
+        $enquiry->save();
+
+        return redirect()->back()->with(['Success' => 'Successfully inserted data.']);
+    }
     
      public function login()
     {   
@@ -278,7 +385,8 @@ class Home_Controller extends Controller
 
     public function ContactUs(Request $request)
     {
-        // return $request->input('stud_name');
+        $Unit_data_id = $request->input('unit_id');
+        $State_data_id = $request->input('state_id');
         // $request->validate([
         //     'name' => 'required|string|max:255',
         //     'email' => 'required|email|max:255',
@@ -290,6 +398,12 @@ class Home_Controller extends Controller
         $contact->age = $request->input('age');
         $contact->mobile = $request->input('number');
         $contact->location = $request->input('location');
+        if ($State_data_id) {
+          
+            $contact->state_id = $State_data_id;
+        }else{
+            $contact->address_id = $Unit_data_id;
+        }
         $contact->save();
 
         return redirect()->back()->with(['Success' => 'Contact Submit Successfully.']);

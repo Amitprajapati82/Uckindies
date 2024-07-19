@@ -31,6 +31,7 @@ class EventController extends Controller
                         ->where('addresses.delete_status', 1)
                         ->orderBy('addresses.ID', 'ASC')
                         ->get();
+                        
             $data = Event::whereHas('approvals', function ($query) {
                 $query->where('status', 1);
             })->get();

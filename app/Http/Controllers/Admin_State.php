@@ -45,7 +45,7 @@ class Admin_State extends Controller
             
             $data = State::where('delete_status', '1')->orderBy('ID', 'ASC')->get();
         }
-        // return $data;
+        return $data;
         return view('admin/states', ['data'=>$data]);
 
     }
