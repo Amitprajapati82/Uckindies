@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Approval;
 use Illuminate\Http\Request;
-use App\Models\Approval;
+// use App\Models\Approval;
 use App\Models\Event;
 use App\Models\About;
 use App\Models\Gallery;
