@@ -53,13 +53,13 @@
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);">Testimonial Management</a>
+                                                <a href="javascript:void(0);">Events Management</a>
                                             </li>
                                             <li class="separator">
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);" id="test">Testimonial</a>
+                                                <a href="javascript:void(0);" id="test">Events</a>
                                             </li>
                                         </ul>
                                         
@@ -71,7 +71,7 @@
 								<div class="card-body">
 									<div class="table-responsive">
 										<table class="display border-top border-bottom table datatable table-striped table-hover table-sm">
-											<thead>
+											<thead class="thead-dark">
 												<tr>
 													<th>Sr. No.</th>
 													<th>Title</th>
@@ -256,6 +256,7 @@
                         @error('image')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
+                        <div id="imagePreview" class="mt-2"></div>
                     </div>
                 </div>
 
@@ -385,6 +386,7 @@
                         @error('eventImage')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
+                        <div id="edit_imagePreview" class="mt-2"></div>
                     </div>
                 </div>
 
@@ -467,6 +469,12 @@
                         $('#eventPublished').prop('checked', false);
                     } 
                     // $('#editEmail').val(data[0].email) 
+
+                    var imagePath = data[0].image_path ? '/storage/' + data[0].image_path.replace('public/', '') : null;
+                    if (imagePath) {
+                        $('#edit_imagePreview').html('<img src="' + imagePath + '" style="max-width: 150px; width: 100%; height: auto;">');                    } else {
+                        $('#edit_imagePreview').empty();
+                    }
                     
                 },
                 error: function (error) {
@@ -474,8 +482,44 @@
                 }
             });
         });
+        
     });
     
+    $('#image').on('change', function() {
+        var imagePreview = $('#imagePreview');
+        imagePreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = $('<img />', {
+            src: e.target.result,
+            
+            style: 'max-width: 150px; width: 100%; height: auto;'
+            });
+            imagePreview.append(img);
+        };
+        reader.readAsDataURL(file);
+        }
+    });
+
+    $('#eventImage').on('change', function() {
+        var imagePreview = $('#edit_imagePreview');
+        imagePreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = $('<img />', {
+            src: e.target.result,
+            style: 'max-width: 100%; height: auto;'
+            });
+            imagePreview.append(img);
+        };
+        reader.readAsDataURL(file);
+        }
+    });
+
      $( "#addForm" ).submit(function( e ) {
  
       // Stop form from submitting normally

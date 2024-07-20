@@ -31,19 +31,28 @@
                      $key = 1; 
                      $url1 = strtolower($Statevalue->state_name);
                      $url = str_replace(' ', '_', $url1);
+                    //  echo'<pre>';printf($data);die;
                      
                      ?>
                      
                     <h1 >
                         <!--<a href="javascript:void(0)">	{{$Statevalue->state_name}} </a>-->
-                        <a href="{{ asset('states/'.$url) }}">	{{$Statevalue->state_name}} </a>
+                        <a href="{{ asset('states/'.$url.'?id='.$Statevalue->ID) }}">
+                            {{$Statevalue->state_name}}
+                        </a>
+
                            </h1>
                     @foreach($data as $value)
                     
                         @if($Statevalue->ID == $value->state_id)
+                        <?php 
+                            $unitUrl = strtolower($value->center);
+                            $unitUrl = str_replace(' ', '_', $unitUrl);
+                        ?>
                         <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
                             
-                            <h4>{{$key}} {{$value->center}}  </h4>
+                        <h4 ><a class="text-head4" href="{{asset('units/'.$unitUrl.'?id='.$value->ID)}}">{{ $key }} {{ $value->center }}</a></h4>
+
                             <p><span>Address : - </span><span>{{$value->address}}</span></p>
                             <p><span>Contact No : - </span><span>{{$value->contact}} </span></p>
                             <p><span>Email Id : - </span><span>{{$value->email}}</span></p>

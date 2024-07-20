@@ -51,6 +51,7 @@ Route::get('/centers', [Home_Controller::class, 'centers'])->name('home.centers'
 Route::get('/awards', [Home_Controller::class, 'awards'])->name('home.awards');
 Route::get('/join_us', [Home_Controller::class, 'join_us'])->name('home.join_us');
 Route::get('states/{state}', [Home_Controller::class, 'state'])->name('home.states');
+Route::get('units/{units}', [Home_Controller::class, 'Units'])->name('home.Units');
 // Route::get('centers/maharastra', 'App\Http\Controllers\Home_Controller@state');
 Route::get('/login', [Home_Controller::class, 'login'])->name('home.login');
 Route::get('/forgot_password', [Home_Controller::class, 'forgot_password'])->name('home.forgot_password');
@@ -58,6 +59,11 @@ Route::get('/forgot_password', [Home_Controller::class, 'forgot_password'])->nam
 Route::get('admin/dashboard', [Home_Controller::class, 'AdminDashboard'])->name('admin.dashboard');
 Route::get('state/dashboard', [Home_Controller::class, 'StateDashboard'])->name('admin.state');
 Route::get('center/dashboard', [Home_Controller::class, 'CenterDashboard'])->name('admin.center');
+
+
+
+Route::post('/contact_us', [Home_Controller::class, 'ContactUs'])->name('admin.contact_us');
+Route::post('/franchise_enquiry', [Home_Controller::class, 'enquiryForm'])->name('admin.enquiry');
 
 // Route::group(['middleware' => ['auth:admin', 'check.role:admin']], function () {
 //     Route::get('admin/dashboard', [Home_Controller::class, 'AdminDashboard'])->name('admin.dashboard'); // Routes accessible only to admin
@@ -193,3 +199,7 @@ Route::delete('admin/our_team/delete',[TeamController::class,'delete'])->name('a
 // Request
 
 Route::get('admin/request',[RequestController::class,'index'])->name('admin.request');
+Route::get('admin/request/preview',[RequestController::class,'preview'])->name('admin.request.preview');
+Route::post('admin/approval_or_reject',[RequestController::class,'approvalOrReject'])->name('admin.request.approval');
+Route::post('admin/reject_reason',[RequestController::class,'rejectReason'])->name('admin.request.reject-reason');
+Route::delete('admin/request/delete',[RequestController::class,'delete'])->name('admin.request.delete');

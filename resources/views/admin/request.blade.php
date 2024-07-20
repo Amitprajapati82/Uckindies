@@ -21,6 +21,9 @@
 .add-icon i{
     line-height: 80px;
 }
+
+
+
 </style>
 
 <div class="main-panel">
@@ -71,7 +74,7 @@
 								<div class="card-body">
 									<div class="table-responsive">
 										<table class="display border-top border-bottom table datatable table-striped table-hover table-sm">
-											<thead>
+											<thead class="thead-dark">
 												<tr>
 													<th>Sr. No.</th>
 													<!-- <th></th> -->
@@ -90,13 +93,11 @@
 											<tbody>
 											    
 											    @foreach($data as $key=>$item)
-												<tr id="item_{{$item->id}}">
+
+												    <tr id="item_{{$item->id}}">
 													<td>{{ $key + 1 }}</td>
-													<!-- <td>{{ $item->id}}</td> -->
-													<!-- <td>{{  $item->image_path  }}</td> -->
-													<td class="catname"><img src="{{ asset('storage/' . $item->image_path) }}" style="width: 90px; height: auto;" alt="Banner Image" /></td>
-													<!-- <td class="catname">{{ $item->banner_position }}</td> -->
-                                                    <td class="catname">{{ $item->video_path }}</td>
+													<td class="font-weight-bold highlighted-title">{{ $item->center}}</td>
+													<td><a href="{{asset('admin/request/preview')}}?id={{$item->id}}&approvable_id={{$item->approvable_id}}" class="text-decoration-none">{{ $item->description}}</a></td>
 													
 													<?php
 													    if($item->status == '0')
@@ -110,23 +111,30 @@
 													?>                                                   
 													<!--<td class="catname">{{ $status }}</td>-->
 													<td class="catname text-center">
-    												    @if($item->status == '0')
-    												        <a href="{{asset('admin/bannerstatus/'.$item->id)}}" class="redColor" data-toggle="tooltip" title="Inactive">
-    												            <i class="fas fa-check-circle fa-2x " aria-hidden="true"></i>
-    												        </a>
-    												    @else
-    												        <a href="{{asset('admin/bannerstatus/'.$item->id)}}" class="greenColor" data-toggle="tooltip" title="Active">
-    												            <i class="fas fa-check-circle fa-2x" aria-hidden="true"></i>
-    												        </a>
-    												    @endif
-													</td>
+                                                        @if($item->status == '0')
+                                                            <a href="" class="text-warning" data-toggle="tooltip" title="Pending">
+                                                                
+                                                                <span class="ml-1 btn btn-warning btn-rounded">Pending <i class="fas fa-clock"></i></span>
+                                                            </a>
+                                                        @elseif($item->status == '1')
+                                                            <a href="" class="text-warning" data-toggle="tooltip" title="Pending">
+                                                                
+                                                                <span class="ml-1 btn btn-primary btn-rounded">Approved  <i class="fas fa-check"></i></span>
+                                                            </a>
+                                                        @else
+                                                        <a href="" class="text-warning" data-toggle="tooltip" title="Pending">
+                                                            
+                                                            <span class="ml-1 btn btn-danger btn-rounded">Reject <i class="fas fa-times"></i></span>
+                                                        </a>
+                                                        @endif
+                                                    </td>
+
 													<!--<td class="catname">{{ $item->created_at }}</td>-->
 													<!--<td class="catname">{{ $item->updated_at }}</td>-->
 													
 													<td>
-                                                        <a href="" data-toggle="modal" class="text-warning mr-2 editModal" id="About_Us" data-target="#edit-about_us" data-id="{{$item->id}}"><i class="fas fa-edit"></i></a>
-														<!-- <a id="editModal{{ $item->id }}"  class="text-warning mr-2 editModal" data-href="{{asset('admin/editBannerData')}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>  -->
-														<!--<a href="{{ asset('admin/bannerDelete/'.$item->ID) }}" class="text-danger" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i></a>-->
+                                                        <!-- <a href="" data-toggle="modal" class="text-warning mr-2 editModal" id="About_Us" data-target="#edit-about_us" data-id="{{$item->id}}"><i class="fas fa-edit"></i></a> -->
+														
 													<a href="javascript:void(0);" class="text-danger DeleteLink" data-bandel="{{asset('admin/aboutDelete/'.$item->id)}}" data-id="{{$item->id}}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash" ></i></a>
 														
 	                                                
@@ -238,8 +246,7 @@
                         <div class="form-group">
                             <label class="form-label">Select Unit</label>
                             <select class="form-control input-pill" id="editUnit_id" name="editUnit_id">
-                               
-                                
+                                  
                             </select>
                         </div>
                     </div>
@@ -290,7 +297,7 @@
             </div>
             <div class="modal-footer mx-auto border-top-0">
                 <button type="button" class="btn btn-outline-primary btn-danger" data-dismiss="modal">Cancel</button>
-                <a href="" id="deleteLink" data-id="" class="btn btn-success">Confirm</a>
+                <a href="" id="deleteLink" data-id="{{$item->id}}" class="btn btn-success">Confirm</a>
             </div>
         </div>
     </div>
@@ -535,7 +542,7 @@
             var deleteId = $(this).data('id');
 
             $.ajax({
-                url: '/admin/gallery/delete',
+                url: '/admin/request/delete',
                 type: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

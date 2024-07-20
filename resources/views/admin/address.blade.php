@@ -55,15 +55,29 @@
                                             <li class="separator">
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
+                                            @if (Session::has('State'))
+                                            
+                                            <li class="nav-item">
+                                                <a href="javascript:void(0);">Unit Management</a>
+                                            </li>
+                                            @else
                                             <li class="nav-item">
                                                 <a href="javascript:void(0);">Admin Management</a>
                                             </li>
+                                            @endif
                                             <li class="separator">
                                                 <i class="flaticon-right-arrow"></i>
                                             </li>
+                                            @if (Session::has('State'))
+                                            
+                                            <li class="nav-item">
+                                                <a href="javascript:void(0);" id="test">Units</a>
+                                            </li>
+                                            @else
                                             <li class="nav-item">
                                                 <a href="javascript:void(0);" id="test">Addresses</a>
                                             </li>
+                                            @endif
                                         </ul>
                                         
 										<button class="btn btn-primary btn-round btn-sm ml-auto" title="Add Address" data-toggle="modal" data-target="#add-address">
@@ -74,7 +88,7 @@
 								<div class="card-body">
 									<div class="table-responsive">
 										<table class="display border-top border-bottom table datatable table-striped table-hover table-sm">
-											<thead>
+											<thead class="thead-dark">
 												<tr>
 													<th>Sr. No.</th>
 													<th>Status</th>
@@ -188,7 +202,7 @@
 						<div class="form-group">
 							<label class="form-label">Select State</label>
                             <select class="form-control input-pill" id="state_id" name="state_id"  >
-                                <option value="">Select State</option>
+                                <!-- <option value="">Select State</option> -->
                                 @foreach($State as $askey=>$asitem)
                                 
                                 <option value="{{$asitem->ID}}">{{ $asitem->state_name }}</option>
@@ -282,7 +296,7 @@
 						<div class="form-group">
 							<label class="form-label">Select State</label>
                             <select class="form-control input-pill" id="Ustate_id" name="state_id"  >
-                                <option value="">Select State</option>
+                                <!-- <option value="">Select State</option> -->
                                 @foreach($State as $askey=>$asitem)
                                 
                                 <option value="{{$asitem->ID}}">{{ $asitem->state_name }}</option>

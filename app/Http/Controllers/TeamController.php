@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // use IIluminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Session;
+// use IIluminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
+
 use App\Models\OurTeam;
+use App\Models\Approval;
 use App\Models\Address;
 use IIluminate\Support\Facades\Storage;
 
@@ -20,8 +24,20 @@ class TeamController extends Controller
 
             $role_id = $SessionData->role_id;
 
-            $data = OurTeam::where('status',1)->get();
-            $address = Address::where('state_id',$role_id)->where('delete_status',1)->get();
+            $address = Address::select('addresses.*', 'states.state_name as state_name', 'approval_status.status as approval_status')
+                    ->leftJoin('states', 'addresses.state_id', '=', 'states.id')
+                    ->leftJoin(DB::raw('(select address_id, status from approvals where id in (select max(id) from approvals where status = 1 group by address_id)) as approval_status'), function ($join) {
+                        $join->on('addresses.ID', '=', 'approval_status.address_id');
+                    })
+                    ->where('addresses.state_id', $role_id)
+                    ->where('approval_status.status',1)
+                    ->where('addresses.delete_status', 1)
+                    ->orderBy('addresses.ID', 'ASC')
+                    ->get();
+            $data = OurTeam::whereHas('approvals', function ($query) {
+                $query->where('status', 1);
+            })->get();
+            // return $data;
 
             return view('admin.our_team', compact('data','address'));
         }
@@ -40,6 +56,12 @@ class TeamController extends Controller
 
     public function store(Request $request)
     {
+        $admin_id = '';
+        if(Session::has('State')) {
+            # code...
+            $data = Session::get('State');
+            $admin_id = $data->ID;
+        }
         // $sessionData  = Session::get('State');
         // $admin_id = $sessionData->role_id;
         // $address_id = Address::where('state_id',$admin_id)->where('delete_status',1)->select('id')->get();
@@ -57,6 +79,15 @@ class TeamController extends Controller
         $team->image_path =  $imagePath;
         $team->description =  $request->Description;
         $team->save();
+
+        $approval = new Approval();
+        $approval->admin_id = $admin_id;
+        $approval->address_id = $request->Unit_id;
+        $approval->description = "Request to add our team";
+        $approval->status = 0;
+        $approval->approvable_id = $team->id;
+        $approval->approvable_type = OurTeam::class;
+        $approval->save();
 
         return redirect()->back()->with('Success','Our Team Successfully Inserted');
 

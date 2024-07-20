@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Testimonial;
 use App\Models\Address;
+use App\Models\Approval;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class TestimonialController extends Controller
@@ -19,15 +21,27 @@ class TestimonialController extends Controller
 
             $role_id = $SessionData->role_id;
 
-            $data = Testimonial::where('status',1)->get();
-            $address = Address::where('state_id',$role_id)->where('delete_status',1)->get();
+            $address = Address::select('addresses.*', 'states.state_name as state_name', 'approval_status.status as approval_status')
+                    ->leftJoin('states', 'addresses.state_id', '=', 'states.id')
+                    ->leftJoin(DB::raw('(select address_id, status from approvals where id in (select max(id) from approvals where status = 1 group by address_id)) as approval_status'), function ($join) {
+                        $join->on('addresses.ID', '=', 'approval_status.address_id');
+                    })
+                    ->where('addresses.state_id', $role_id)
+                    ->where('approval_status.status',1)
+                    ->where('addresses.delete_status', 1)
+                    ->orderBy('addresses.ID', 'ASC')
+                    ->get();
+            $data = Testimonial::whereHas('approvals', function ($query) {
+                $query->where('status', 1);
+            })->get();
             
             return view('admin.testimonials',compact('data','address'));
         }
-        else
+        elseif(Session::has('Admin'))
         {
             $SessionData =  Session::get('Admin');
-
+            
+            // return $SessionData;
             $role_id = $SessionData[0]->role_id;
 
 
@@ -39,6 +53,14 @@ class TestimonialController extends Controller
 
     public function store(Request $request)
     {
+
+
+        $admin_id = '';
+        if(Session::has('State')) {
+            # code...
+            $data = Session::get('State');
+            $admin_id = $data->ID;
+        }
     $request->validate([
         'name' => 'required|string|max:255',
         'Email' => 'required|string|email|max:255',
@@ -70,6 +92,16 @@ class TestimonialController extends Controller
 
         // Save the Testimonial to the database
         $testimonial->save();
+
+
+        $approval = new Approval();
+        $approval->admin_id = $admin_id;
+        $approval->address_id = $request->input('Unit_id');
+        $approval->description = "Request to add Testimonial";
+        $approval->status = 0;
+        $approval->approvable_id = $testimonial->id;
+        $approval->approvable_type = Testimonial::class;
+        $approval->save();
 
         return redirect()->back()->with('success', 'Testimonial added successfully!');
     }

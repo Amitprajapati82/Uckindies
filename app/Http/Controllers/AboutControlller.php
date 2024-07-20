@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\About;
 use App\Models\Address;
+use App\Models\Approval;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 class AboutControlller extends Controller
 {
     //
@@ -18,8 +20,21 @@ class AboutControlller extends Controller
 
             $role_id = $SessionData->role_id;
 
-            $data = Address::where('state_id',$role_id)->where('delete_status',1)->get();
-            $about = About::where('status',1)->get();
+            $data = Address::select('addresses.*', 'states.state_name as state_name', 'approval_status.status as approval_status')
+                    ->leftJoin('states', 'addresses.state_id', '=', 'states.id')
+                    ->leftJoin(DB::raw('(select address_id, status from approvals where id in (select max(id) from approvals where status = 1 group by address_id)) as approval_status'), function ($join) {
+                        $join->on('addresses.ID', '=', 'approval_status.address_id');
+                    })
+                    ->where('addresses.state_id', $role_id)
+                    ->where('approval_status.status',1)
+                    ->where('addresses.delete_status', 1)
+                    ->orderBy('addresses.ID', 'ASC')
+                    ->get();
+
+            $about = About::whereHas('approvals', function ($query) {
+                $query->where('status', 1);
+            })->get();
+            // return $about;
 
             return view('admin.about_us',compact('about','data'));
         }
@@ -29,7 +44,7 @@ class AboutControlller extends Controller
 
             $role_id = $SessionData[0]->ID;
             
-            return $role_id;
+            // return $role_id;
             
             $about = About::where('status',1)->where('address_id',$role_id)->get();
 
@@ -44,6 +59,12 @@ class AboutControlller extends Controller
     public function store(Request $request)
     {
         // return 'gkvkv';
+        $admin_id = '';
+        if(Session::has('State')) {
+            # code...
+            $data = Session::get('State');
+            $admin_id = $data->ID;
+        }
         
         
         // return $request->file('Image');
@@ -67,6 +88,15 @@ class AboutControlller extends Controller
         $about_us->description = $description;
         $about_us->image = $path;
         $about_us->save();
+
+        $approval = new Approval();
+        $approval->admin_id = $admin_id;
+        $approval->address_id = $unit_id;
+        $approval->description = "Request to add about";
+        $approval->status = 0;
+        $approval->approvable_id = $about_us->id;
+        $approval->approvable_type = About::class;
+        $approval->save();
         // return $path;
 
         return redirect()->route('about.index')->with('success', 'About us added successfully!');
@@ -95,7 +125,7 @@ class AboutControlller extends Controller
     public function update(Request $request)
     {
         $id = $request->input('about_id');
-        // return $request->file('editAboutImage');
+        // $image =  $request->file('editAboutImage');
         $title =  $request->input('editTitleName');
         $description =  $request->input('editDescription');
         $unit_id =  $request->input('editUnit_id');
@@ -104,6 +134,7 @@ class AboutControlller extends Controller
         $data = About::findOrFail( $id );
         // return $data;
         $data->title = $title;
+        // $data->image = $image;
         $data->address_id = $unit_id;
         $data->description = $description;
 

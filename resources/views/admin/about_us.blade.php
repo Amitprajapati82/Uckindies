@@ -71,7 +71,7 @@
 								<div class="card-body">
 									<div class="table-responsive">
 										<table class="display border-top border-bottom table datatable table-striped table-hover table-sm">
-											<thead>
+											<thead class="thead-dark">
 												<tr>
 													<th>Sr. No.</th>
 													<th>Title</th>
@@ -160,101 +160,67 @@
       </div>
       <div class="modal-body">
       <form method="post" action="{{ asset('admin/about/store') }}" enctype="multipart/form-data" id="addBannerForm">
-            @csrf
-            
-            @if (Session::has('State'))
-                <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="form-group">
-                        <label class="form-label">Select Unit</label>
-                        <select class="form-control input-pill" id="Unit_id" name="Unit_id">
-                            <option value="">Select Unit</option>
-                            @foreach($data as $askey=>$asitem)
-                                <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
-                            @endforeach   
-                        </select>
-                    </div>
-                </div>
-            @endif
-            
+    @csrf
 
-            <div class="row m-2">
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Title">Title</label>
-                        <span class="text-danger"> *</span>
-                        <input type="text"  class="form-control input-full input-pill" id="TitleName" name="TitleName">
-                        @error('TitleName')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
+    @if (Session::has('State'))
+    <div class="col-sm-12 col-md-6 col-lg-6">
+        <div class="form-group">
+            <label class="form-label">Select Unit</label>
+            <select class="form-control input-pill" id="Unit_id" name="Unit_id">
+                <option value="">Select Unit</option>
+                @foreach($data as $askey=>$asitem)
+                <option value="{{$asitem->ID}}">{{ $asitem->center }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    @endif
 
-                <!-- <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Email">Email</label>
-                        <span class="text-danger"> *</span>
-                        <input type="text" class="form-control input-full input-pill" id="Email" name="Email">
-                        @error('Email')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div> -->
-
-                <!-- <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Message">Message</label>
-                        <span class="text-danger"> *</span>
-                        <textarea class="form-control input-full input-pill" id="Message" name="Message" rows="5"></textarea>
-                        @error('Message')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div> -->
-
-                <!-- <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Ratings">Ratings</label>
-                        <span class="text-danger"> *</span>
-                        <input type="number" class="form-control input-full input-pill" id="Ratings" name="Ratings" min="1" max="5" step="1">
-                        @error('Ratings')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div> -->
-
-               
-
-                <div class="col-12 mb-3">
-                    <div class="form-group p-0 mt-3">
-                        <label for="Image">About Image</label>
-                        <span class="text-danger"> *</span>
-                        <input type="file" class="form-control input-full input-pill" id="Image" name="Image">
-                        @error('Image')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <div class="form-group p-0">
-                        <label for="Description">Description</label>
-                        <span class="text-danger">*</span>
-                        <textarea class="form-control input-full input-pill" id="Description" name="Description" placeholder="Enter Description" rows="4" style="width:100%" maxlength="50" onkeypress="return addOnlyDescriptionKey(event)"></textarea>
-                        @error('Description')
-                            <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-
+    <div class="row m-2">
+        <div class="col-12 col-md-12 col-lg-12 mb-3">
+            <div class="form-group p-0 mt-3">
+                <label for="Title">Title</label>
+                <span class="text-danger"> *</span>
+                <input type="text" class="form-control input-full input-pill" id="TitleName" name="TitleName">
+                @error('TitleName')
+                <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-12 col-md-12 col-lg-12 mb-3">
-                    <button id="addBtn" class="btn btn-secondary btn-sm float-right" type="submit">Submit</button>
-                </div>
+        <div class="col-12 mb-3">
+            <div class="form-group p-0 mt-3">
+                <label for="Image">About Image</label>
+                <span class="text-danger"> *</span>
+                <input type="file" class="form-control input-full input-pill" id="Image" name="Image">
+                @error('Image')
+                <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
             </div>
-        </form>
+            <div class="ImagePreview mt-2" style="display: none;">
+                <img id="previewImage" src="#" alt="Image Preview" style="max-width: 150px; width: 100%; height: auto;">
+            </div>
+        </div>
+
+        <div class="col-12 col-md-12 col-lg-12 mb-3">
+            <div class="form-group p-0">
+                <label for="Description">Description</label>
+                <span class="text-danger">*</span>
+                <textarea class="form-control input-full input-pill" id="Description" name="Description" placeholder="Enter Description" rows="4" style="width:100%" maxlength="50" onkeypress="return addOnlyDescriptionKey(event)"></textarea>
+                @error('Description')
+                <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 mb-3">
+            <button id="addBtn" class="btn btn-secondary btn-sm float-right" type="submit">Submit</button>
+        </div>
+    </div>
+</form>
 
 
       </div>
@@ -275,7 +241,7 @@
         </button>
       </div>
       <div class="modal-body">
-      <form method="post" action="{{ asset('admin/about/update') }}" enctype="multipart/form-data" id="addBannerForm">
+        <form method="post" action="{{ asset('admin/about/update') }}" enctype="multipart/form-data" id="addBannerForm">
             @csrf
             <input type="hidden" id="about_id" name="about_id" value="">
             <div class="row">
@@ -305,13 +271,16 @@
                 <!-- </div> -->
 
                 <!-- <div class="col-12 col-md-6 col-lg-6 mb-3"> -->
-                    <div class="form-group p-0 mt-3">
-                        <label for="editAboutImage">About Image</label>
-                        <span class="text-danger"> *</span>
-                        <input type="file" class="form-control input-full input-pill" id="editAboutImage" name="editAboutImage">
-                        @error('editAboutImage')
+                <div class="col-12 mb-3">
+                        <div class="form-group p-0 mt-3">
+                            <label for="editAboutImage">About Image</label>
+                            <span class="text-danger"> *</span>
+                            <input type="file" class="form-control input-full input-pill" id="editAboutImage" name="editAboutImage">
+                            @error('editAboutImage')
                             <small class="form-text text-danger">{{ $message }}</small>
-                        @enderror
+                            @enderror
+                        </div>
+                        <div id="edit_imagePreview" class="mt-2"></div>
                     </div>
                 </div>
 
@@ -377,9 +346,15 @@
                     $('#editTitleName').val(data[0].title);
                    
                         console.log(data);
-                        $('#editUnit_id').append('<option value="' + data[0].address_id + '">' + data[0].center + '</option>');
-                    
-                    $('#editDescription').val(data[0].description) // Populate edit field with fetched data
+                    $('#editUnit_id').append('<option value="' + data[0].address_id + '">' + data[0].center + '</option>');
+                    var imagePath = data[0].image ? '/storage/' + data[0].image.replace('public/', '') : null;
+                    if (imagePath) {
+                        $('#edit_imagePreview').html('<img src="' + imagePath + '" style="max-width: 150px; width: 100%; height: auto;">');
+                    } else {
+                        $('#edit_imagePreview').empty();
+                    }
+                    $('#editDescription').val(data[0].description); // Populate edit field with fetched data
+                    // $('#editPreviewImage').attr('src', imageUrl); // Populate edit field with fetched data
                     // $.each(data, function name(key,value) {
                     //     console.log(data.title);
                     //     $('#editForm').attr('action', '/update/data/' + recordId); // Update form action URL
@@ -391,6 +366,40 @@
                 }
             });
         });
+    });
+
+    $('#Image').change(function() {
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#previewImage').attr('src', e.target.result);
+                $('.ImagePreview').show(); // Show the image preview container
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            $('#previewImage').attr('src', '#');
+            $('.ImagePreview').hide(); // Hide the image preview container if no file selected
+        }
+    });
+
+    $('#editAboutImage').on('change', function() {
+        var imagePreview = $('#edit_imagePreview');
+        imagePreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = $('<img />', {
+            src: e.target.result,
+            style: 'max-width: 100%; height: auto;'
+            });
+            imagePreview.append(img);
+        };
+        reader.readAsDataURL(file);
+        }
     });
     
      $( "#addForm" ).submit(function( e ) {

@@ -8,6 +8,7 @@ use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class GalleryController extends Controller
 {
@@ -21,18 +22,16 @@ class GalleryController extends Controller
             $role_id = $SessionData->role_id;
 
             $address = Address::where('state_id',$role_id)->where('delete_status',1)->get();
-            $data = Gallery::whereHas('approvals', function ($query) {
-                $query->where('status', 1);
-            })->get();
-            // return $data;
+            $data = Gallery::where('status',1)->get();
 
             return view('admin.gallery',compact('data','address'));
         }
         else
         {
             $SessionData =  Session::get('Admin');
-
+            
             $role_id = $SessionData[0]->role_id;
+            // return $role_id;
             
             $data = Gallery::where('status',1)->where('address_id',$role_id)->get();
 
@@ -88,6 +87,7 @@ class GalleryController extends Controller
         
         $approval = new Approval();
         $approval->admin_id = $admin_id;
+        $approval->address_id = $address_id;
         $approval->description = "Request to add gallery";
         $approval->status = 0;
         $approval->approvable_id = $gallery->id;

@@ -254,15 +254,15 @@
 
 							<a href="{{asset('admin/request')}}" >
 							<span class="notification-icon float-right">
-                                        <i class="fas fa-bell fa-2x"></i><span class="badge badge-notification">3</span>
-                                        </span>
+								<i class="fas fa-bell fa-2x"></i><span class="badge badge-notification">3</span>
+							</span>
 							<p>New Request</p>
 							</a>
 
-							<!-- <a href="{{asset('admin/about')}}" >
+							<a href="" >
 								<i class="fas fa-user-cog"></i>
-								<p>Franchise About Us</p>
-							</a> -->
+								<p>Roles</p>
+							</a>
 
 							<!-- <a href="{{ asset('admin/gallery' )}}" >
 							<i class="fas fa-image"></i>
@@ -378,6 +378,12 @@
 								<!--	</a>-->
 								<!--</li>-->
 							<li class="nav-item">
+
+							<a href="{{ $dashbord }}" >
+									<i class="fas fa-user-cog"></i>
+									<p>Dashboard</p>
+								
+								</a>
 								<a href="javascript:void(0);" data-toggle="collapse" data-target="#Usermgmt" aria-expanded="false" aria-controls="Usermgmt">
 									<i class="fas fa-user-cog"></i>
 									<p>State Management</p>
@@ -424,15 +430,15 @@
 							<p>Testimonials</p>
 							</a>
 
-							<a href="javascript:void(0);" >
+							<!-- <a href="javascript:void(0);" >
 								<i class="fas fa-user-cog"></i>
 								<p>Our program</p>
-							</a>
+							</a> -->
 
-							<a href="javascript:void(0);" >
+							<!-- <a href="javascript:void(0);" >
 								<i class="fas fa-share"></i>
 								<p>Social media icons</p>
-							</a>
+							</a> -->
 
 							<a href="{{asset('admin/events')}}" >
 							<i class="fas fa-calendar"></i>
