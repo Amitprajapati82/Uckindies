@@ -56,11 +56,16 @@
                                   <div class="card">
                                       <div class="card-body position-relative">
                                         <span class="notification-icon float-right">
-                                            <i class="fas fa-bell fa-2x"></i>
+                                          <i class="fas fa-map-marker-alt fa-2x"></i>
                                             
                                         </span>
                                           <h1>States</h1>
-                                          <h3><a href="">{{$State}}</a></h3>
+                                          <h3>
+                                            <a href="{{ asset('admin/states') }}{{ isset($state_id) ? '?role_id=' . $state_id : '' }}">
+                                                {{$State}}
+                                            </a>
+                                        </h3>
+                                        
                                           <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                           <!-- Notification Icon -->
                                       </div>
@@ -71,10 +76,14 @@
                                   <div class="card">
                                       <div class="card-body position-relative">
                                         <span class="notification-icon float-right">
-                                            <i class="fas fa-bell fa-2x"></i>
-                                        </span>
+                                          <i class="fas fa-sitemap fa-2x"></i>                                        </span>
                                           <h1>Units</h1>
-                                          <h3><a href="">{{$Units}}</a></h3>
+                                          <h3>
+                                            <a href="{{ asset('admin/address') }}{{ isset($state_id) ? '?role_id=' . $state_id : '' }}">
+                                                {{$Units}}
+                                            </a>
+                                        </h3>
+                                        
                                           <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                           <!-- Notification Icon -->
                                       </div>
@@ -88,6 +97,65 @@
               <!-- </div> -->
             </div>
         </div>	
+        @elseif(Session::has('State'))
+        <div class="page-inner">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card mb-0">
+                <div class="card-header py-2 mt-4">
+                    <div class="d-flex align-items-center">
+                        <!-- <div class="row"> -->
+                          <div class="col-sm-4">
+                              <div class="card">
+                                  <div class="card-body position-relative">
+                                    <span class="notification-icon float-right">
+                                    <i class="fas fa-bell fa-2x"></i><span class="badge badge-notification">3</span>
+                                    </span>
+                                      <h1>Notification</h1>
+                                      <p class="card-text text-warning">New Update</p>
+                                      <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                      <!-- Notification Icon -->
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col-sm-4">
+                              <div class="card">
+                                  <div class="card-body position-relative">
+                                    <span class="notification-icon float-right">
+                                      <i class="fas fa-map-marker-alt fa-2x"></i>                                            
+                                    </span>
+                                      <h1>States</h1>
+                                      <h3><a href="{{ asset('admin/states') }}?role_id={{ $state_id }}">{{$State}}</a></h3>
+
+                                      <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                      <!-- Notification Icon -->
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col-sm-4">
+                              <div class="card">
+                                  <div class="card-body position-relative">
+                                    <span class="notification-icon float-right">
+                                      <i class="fas fa-sitemap fa-2x"></i>
+                                    </span>
+                                      <h1>Units</h1>
+                                      <h3><a href="{{ asset('admin/address') }}?role_id={{ $state_id }}">{{$Units}}</a></h3>
+
+                                      <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                      <!-- Notification Icon -->
+                                  </div>
+                              </div>
+                          </div>
+
+                               
+                </div>
+              </div>
+            </div>
+          <!-- </div> -->
+        </div>
+    </div>	
     @endif
     </div>
 </div>

@@ -100,15 +100,14 @@
 													<th>Sr. No.</th>
 													
 													<th>State</th>
-                                                    @php
-                                                        if(Session::has('State')) {
-                                                    @endphp
+                                                    
+                                                    {{-- @if(Session::has('State')) 
+                                                    
 
                                                         <th>Center</th>
 
-                                                    @php
-                                                        }
-                                                    @endphp
+                                                    @endif --}}
+                                                       
 													<th>Created On</th>
 													<th>Last Modified On</th>
                                                     <th>Status</th>
@@ -137,15 +136,13 @@
 													
 													
 													<td>{{ $item->state_name }}</td>
-                                                    @php
-                                                        if(Session::has('State')) {
-                                                    @endphp
+                                                    
+                                                    {{-- @if(Session::has('State')) 
+                                                   
 
                                                         <td>{{ $item->center }}</td>
 
-                                                    @php
-                                                        }
-                                                    @endphp
+                                                    @endif --}}
                                                     <!-- <td>{{ $item->center }}</td> -->
                                                     <td>{{ $created_at }}</td>
                                                     <td>{{ $updated_at }}</td>

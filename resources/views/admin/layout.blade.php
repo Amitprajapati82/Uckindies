@@ -379,7 +379,7 @@
 								<!--</li>-->
 							<li class="nav-item">
 
-							<a href="{{ $dashbord }}" >
+							<a href="{{asset('admin/dashboard')}}" >
 									<i class="fas fa-user-cog"></i>
 									<p>Dashboard</p>
 								

@@ -114,17 +114,17 @@
                                                         @if($item->status == '0')
                                                             <a href="" class="text-warning" data-toggle="tooltip" title="Pending">
                                                                 
-                                                                <span class="ml-1 btn btn-warning btn-rounded">Pending <i class="fas fa-clock"></i></span>
+                                                                <span class="ml-1 badge badge-pill badge-warning">Pending <i class="fas fa-clock"></i></span>
                                                             </a>
                                                         @elseif($item->status == '1')
-                                                            <a href="" class="text-warning" data-toggle="tooltip" title="Pending">
+                                                            <a href="" class="text-warning" data-toggle="tooltip"   title="Pending">
                                                                 
-                                                                <span class="ml-1 btn btn-primary btn-rounded">Approved  <i class="fas fa-check"></i></span>
+                                                                <span class="ml-1 badge badge-pill badge-primary">Approved  <i class="fas fa-check"></i></span>
                                                             </a>
                                                         @else
                                                         <a href="" class="text-warning" data-toggle="tooltip" title="Pending">
                                                             
-                                                            <span class="ml-1 btn btn-danger btn-rounded">Reject <i class="fas fa-times"></i></span>
+                                                            <span class="ml-1 badge badge-pill badge-danger">Reject <i class="fas fa-times"></i></span>
                                                         </a>
                                                         @endif
                                                     </td>

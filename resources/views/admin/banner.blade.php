@@ -2,9 +2,9 @@
 @section('content')
 
 <style>
-    input[type="file"] {
+    /* input[type="file"] {
     display:none;
-}
+} */
 
 .custom-file-upload {
     border: 1px solid #ccc;
@@ -94,7 +94,7 @@
 											    @foreach($data  as $key=>$item)
 												<tr>
 													<td>{{ $key + 1 }}</td>
-													<td class="catname"><img src="{{ asset('admin/assets/img/'.$item->banner_image) }}" style="width: 90px;height: auto;" alt="Banner Image" /></td>
+													<td class="catname"><img src="{{ asset('storage/'.$item->banner_image) }}" style="width: 90px;height: auto;" alt="Banner Image" /></td>
 													<td>{{  $item->banner_name  }}</td>
 													<td class="catname">{{ $item->banner_position }}</td>
                                                     <td class="catname">{{ $item->description }}</td>
@@ -262,8 +262,8 @@
                 <div class="form-group p-0">
 					<label>Banner Image</label>
                     <span class="text-danger">*</span>
-                        <div class="input-AddBannerImage-1" style="padding-top: .5rem;">
-                            <input type="file" id="AddBannerImage" name="AddBannerImage" class="form-control">
+                        <div class="input-AddBannerImage" style="padding-top: .5rem;">
+                            <input type="file" id="AddBannerImage" name="AddBannerImage" class="form-control input-full input-pill">
                             <span id="file-name" class="form-text text-info mt-2"></span>
                         </div>
                         @error('AddBannerImage')
@@ -288,6 +288,101 @@
 <!--edit-->
 
 <div class="modal fade edit-modal" id="edit-banner" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Banner</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method='post' action="{{ url('admin/bannerEdit') }}" enctype="multipart/form-data" id="editBannerForm">
+            @csrf
+            <input type="hidden"  id="editbannerid" name="editbannerid" value="" >
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                    <label class="form-label">Select Unit</label>
+                    <select class="form-control input-pill" id="editUnit_id" name="editUnit_id">
+                        
+                        
+                    </select>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 col-lg-6 mb-3">
+                <div class="form-group p-0">
+                  <label for="edit_BannerName">Banner Name </label><span class="text-danger">*</span>
+                  <input type="text" class="form-control input-full input-pill" id="EditBannerName" name="EditBannerName" placeholder="Enter Banner Name" required onkeypress="return addOnlyDescriptionKey(event)" maxlength="30">
+                  <span id="edit_BannerNameAddError" class="text-danger textNotVisible">Banner name already exists</span>
+                  @error('EditBannerName')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                  @enderror
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 col-lg-6 mb-3">
+                <div class="form-group p-0">
+                  <label for="edit_Page">Page</label><span class="text-danger"> *</span>
+                  <select class="form-select form-control input-full input-pill" name="page" id="edit_page">
+                      
+                  </select>
+                  @error('BannerPosition')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                  @enderror
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6 col-lg-6 mb-3">
+                <div class="form-group p-0">
+                  <label for="edit_BannerPosition">Banner Position</label><span class="text-danger">*</span>
+                  <input type="text" class="form-control input-full input-pill" id="EditBannerPosition" name="EditBannerPosition" placeholder="Enter Banner Position" required onkeypress="return addOnlyNumberKey(event)" maxlength="1">
+                  <span id="edit_BannerPositionAddError" class="text-danger textNotVisible">Banner position already exists</span>
+                  @error('BannerPosition')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                  @enderror
+                </div>
+              </div>
+
+              <div class="col-12 col-md-12 col-lg-12 mb-3">
+                <div class="form-group p-0">
+                  <label for="edit_Description">Description</label><span class="text-danger">*</span>
+                  <textarea class="form-control input-full input-pill" id="EditDescription" name="EditDescription" placeholder="Enter Description" row="4" style="width:100%" maxlength="50" onkeypress="return addOnlyDescriptionKey(event)"></textarea>
+                  @error('EditDescription')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                  @enderror
+                </div>
+              </div>
+
+              <div class="col-12 col-md-12 col-lg-12 mb-3">
+                <div class="form-group p-0">
+                  <label>Banner Image</label><span class="text-danger">*</span>
+                  <div class="input-EditBannerImage-1" style="padding-top: .5rem;">
+                    <input type="file" id="editbannerimage" name="editbannerimage" class="form-control input-full input-pill">
+                    <span id="edit-file-name" class="form-text text-info mt-2"></span>
+                  </div>
+                  @error('editbannerimage')
+                    <small class="form-text text-danger">{{ $message }}</small>
+                  @enderror
+                  <div id="edit_imagePreview" class="mt-2"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 col-md-12 col-lg-12 mb-3">
+                <button id="editBtn" class="btn btn-secondary btn-sm float-right" type="submit">Update</button>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{{-- <div class="modal fade edit-modal" id="edit-banner" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -408,7 +503,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- <script src="{{ asset('assets/js/jquery.min.js') }}"></script> -->
@@ -477,6 +572,12 @@
             $('#EditBannerName').val(data[0].banner_name);  
             $('#EditBannerPosition').val(data[0].banner_position);  
             $('#EditDescription').val(data[0].description);
+
+            var imagePath = data[0].banner_image ? '/storage/' + data[0].banner_image.replace('public/', '') : null;
+                    if (imagePath) {
+                        $('#edit_imagePreview').html('<img src="' + imagePath + '" style="max-width: 150px; width: 100%; height: auto;">');                    } else {
+                        $('#edit_imagePreview').empty();
+                    }
             
             var imgurl1 = "{{asset('admin/assets/img/')}}" + "/" + data[0].banner_image;
             var image1 = { id: data[0].ID,imgid : data[0].ID , name: data[0].banner_image, file: imgurl1, size:data[0].ID,size2:'512', thumbnail: imgurl1};
@@ -530,6 +631,24 @@
         });
         
     });
+
+    $('#editbannerimage').on('change', function() {
+        var imagePreview = $('#edit_imagePreview');
+        imagePreview.empty(); // Clear previous content
+        var file = this.files[0];
+        if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var img = $('<img />', {
+            src: e.target.result,
+            style: 'max-width: 30%; height: auto;'
+            });
+            imagePreview.append(img);
+        };
+        reader.readAsDataURL(file);
+        }
+    });
+
           
 
     // Validation START

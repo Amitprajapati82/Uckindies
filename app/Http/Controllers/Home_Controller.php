@@ -335,8 +335,35 @@ class Home_Controller extends Controller
     
     public function AdminDashboard()
     {
-        $State = State::where('delete_status',1)->count();
-        $Units = Address::where('delete_status',1)->count();
+        // return 'bdscs';
+        
+        $State = '';
+        $Units = '';
+
+        if (Session::has('State')) {
+            $data = Session::get('State');
+            $state_id = $data->role_id;
+            # code...
+            $State = State::where('id',$state_id)->where('delete_status',1)->count();
+            
+            $Units = Address::leftJoin('states', 'addresses.state_id', '=', 'states.id')
+            ->leftJoin(DB::raw('(select address_id, status from approvals where id in (select max(id) from approvals where      status = 1 group by address_id)) as approval_status'), function ($join) {
+                $join->on('addresses.ID', '=', 'approval_status.address_id');
+            })
+            ->where('addresses.state_id', $state_id)
+            ->where('approval_status.status', 1)
+            ->where('addresses.delete_status', 1)
+            ->count();
+            // return $Units;
+
+            return view('admin.index',compact('State','Units','state_id'));
+
+        }elseif(Session::has('Admin')){
+
+            $State = State::where('delete_status',1)->count();
+            $Units = Address::where('delete_status',1)->count();
+        }
+        
         
         // return $request;
         return view('admin.index',compact('State','Units'));
@@ -357,7 +384,7 @@ class Home_Controller extends Controller
         ->where('addresses.delete_status', 1)
         ->count();
 
-        return view('state.index',compact('State','Units'));
+        return view('state.index',compact('State','Units','state_id'));
     } 
     public function CenterDashboard()
     {

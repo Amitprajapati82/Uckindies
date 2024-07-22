@@ -57,7 +57,7 @@ Route::get('/login', [Home_Controller::class, 'login'])->name('home.login');
 Route::get('/forgot_password', [Home_Controller::class, 'forgot_password'])->name('home.forgot_password');
 
 Route::get('admin/dashboard', [Home_Controller::class, 'AdminDashboard'])->name('admin.dashboard');
-Route::get('state/dashboard', [Home_Controller::class, 'StateDashboard'])->name('admin.state');
+// Route::get('state/dashboard', [Home_Controller::class, 'StateDashboard'])->name('admin.state');
 Route::get('center/dashboard', [Home_Controller::class, 'CenterDashboard'])->name('admin.center');
 
 

@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Http\Exceptions\PostTooLargeException;
+use Exception;
 
 class Handler extends ExceptionHandler
 {
@@ -38,4 +40,6 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    
 }

@@ -19,7 +19,15 @@ class RequestController extends Controller
     //
     public function index(Request $request)
     {
-        return view('admin.request');
+        // return 'vkbsk';
+        $data = DB::table('approvals')
+            ->join('addresses', 'approvals.address_id', '=', 'addresses.id')
+            ->whereIn('approvals.status', [0,1,2])
+            ->where('approvals.delete_status',1)
+            ->select('approvals.*', 'addresses.center')
+            ->get(); 
+            // return $data;
+        return view('admin.request' ,compact('data'));
     }
 
    
@@ -29,7 +37,7 @@ class RequestController extends Controller
         $approvable_id = $request->query('approvable_id');
         
         $approval = Approval::find($id);
-        // return $approval;
+        // return Banner::class;
 
         $data = [];
         $modelName ='';
@@ -89,8 +97,8 @@ class RequestController extends Controller
                     // return $data;
                     $modelName = 'Address';
         }elseif ($approval->approvable_type == Banner::class) {
-            // return 'hkfvfd';
-            $data = Approval::join('addresses', 'approvals.approvable_id', '=', 'uc_banners.id')
+            // return 'hkfvkj';
+            $data = Approval::join('uc_banners', 'approvals.approvable_id', '=', 'uc_banners.id')
                     ->where('approvals.id', $id)
                     ->where('uc_banners.id', $approvable_id)
                     ->select('approvals.id as approval_id','uc_banners.*') 
@@ -103,7 +111,7 @@ class RequestController extends Controller
         if ($data === null) {
             abort(404, 'Record not found');
         }
-
+        // return $data;
         return view('admin.preview', compact('data', 'modelName'));
     }
 

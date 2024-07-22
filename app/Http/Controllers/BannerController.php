@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\models\Banner;
+use App\Models\Banner;
 use App\models\Approval;
 use App\models\Address;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 class BannerController extends Controller
 {
     //
@@ -64,7 +65,11 @@ class BannerController extends Controller
     }
 
     public function addBanner(Request $req)
-    {        
+    {       
+        // $req->validate([
+        //     'banner_image' => 'required|file|max:51200', // 51200 KB = 50 MB
+        // ]);
+        // return $req->file('AddBannerImage'); 
         $admin_id = '';
         if(Session::has('State')) {
             # code...
@@ -74,18 +79,10 @@ class BannerController extends Controller
         // return $req->all();  
         // return $req->file('AddBannerImage');
         
-            $BannerPosition =  $req->input('BannerPosition');            
-            $isExist = Banner::select("*")
-                        ->where("banner_position", "$BannerPosition")
-                        ->exists();
-        if($isExist)
-        {
-            // echo "Data already exits";
-            $req->session()->flash('error',"Duplicate data. please change banner position");      // success / error
-            return redirect('/admin/banner');
-        }
-        else
-        {  
+            // $BannerPosition =  $req->input('BannerPosition');            
+            
+        
+         
             $ban = new Banner;
             $ban->banner_name =  $req->input('BannerName');
             $ban->state_id =  $req->input('state_id');
@@ -94,18 +91,23 @@ class BannerController extends Controller
             $ban->description = $req->input('Description');
             // $ban->status = $req->input('Status');
             
-            // return $req->file('AddBannerImage');
             if($req->hasFile('AddBannerImage') )
             {
-              
-                foreach($req->file('AddBannerImage') as $key => $value1)
-                {
-                    $imageName1 = 'Banner_'.rand(1001,9999) . '.' . $value1->getClientOriginalExtension();
-                    $value1->move('admin/assets/img/',$imageName1);
-                    $imagedata1[] = $imageName1;
-                    // return $imagedata1[0];
-                }
-                $ban->banner_image = $imagedata1[0];
+                $imagePath = $req->file('AddBannerImage')->store('images', 'public');
+                
+                    # code...
+                    // $imagePath = $image->store('images', 'public');
+
+                    $ban->banner_image = $imagePath;
+                
+                // foreach($req->file('AddBannerImage') as $key => $value1)
+                // {
+                //     $imageName1 = 'Banner_'.rand(1001,9999) . '.' . $value1->getClientOriginalExtension();
+                //     $value1->move('admin/assets/img/',$imageName1);
+                //     $imagedata1[] = $imageName1;
+                //     // return $imagedata1[0];
+                // }
+                // $ban->banner_image = $imagedata1[0];
                 
             }
     
@@ -119,10 +121,12 @@ class BannerController extends Controller
             $approval->status = 0;
             $approval->approvable_id = $ban->id;
             $approval->approvable_type = Banner::class;
+            
+            // return $approval;
             $approval->save();
 
             return redirect('admin/banner');
-        }
+        
     }
 
     public function editBannerData(Request $request)
@@ -144,39 +148,42 @@ class BannerController extends Controller
      
     public function bannerUpdate(Request $req)
     {
+        // return $req->file('editbannerimage');
         $id = $req->input('editbannerid');
+        // return $id;
         $BannerName = $req->input('EditBannerName');
         $BannerPosition = $req->input('EditBannerPosition');
         $Description = $req->input('EditDescription');
 
         // Check if the banner position already exists for a different banner
-        $isExist = Banner::where('banner_position', $BannerPosition)
-                        ->where('id', '!=', $id)
-                        ->exists();
+        // $isExist = Banner::findOrFail($id);
+        
+        $banner = Banner::findOrFail($id);
+        $banner->banner_position = $BannerPosition;
+        $banner->description = $Description;
+        $banner->banner_name = $BannerName;
 
-        if ($isExist) {
-            $req->session()->flash('error', "Duplicate data. please change banner position");
-            return redirect('/admin/banner');
-        } else {
-            $banner = Banner::findOrFail($id);
-            $banner->banner_position = $BannerPosition;
-            $banner->description = $Description;
-            $banner->banner_name = $BannerName;
+        // return 'dsbkdbs';
+        // return $req->file('editbannerimage');
+        if ($req->hasFile('editbannerimage')) {
+            // return 'djvsl';
+            $image = $req->file('editbannerimage');
 
-            if ($req->hasFile('editbannerimage1')) {
-                foreach ($req->file('editbannerimage1') as $key => $value1) {
-                    $imageName1 = 'Banner_' . rand(1001, 9999) . '.' . $value1->getClientOriginalExtension();
-                    $value1->move(public_path('admin/assets/img/admin/banner'), $imageName1);
-                    $imagedata1[] = $imageName1;
-                }
-                $banner->banner_image = $imagedata1[0];
+            if ($banner->banner_image) {
+                Storage::disk('public')->delete($banner->editbannerimage);
+                
+                $imagePath = $image->store('images', 'public');
+                // return $imagePath;
+                $banner->banner_image = $imagePath;
             }
-
-            $banner->save();
-
-            $req->session()->flash('success', 'Banner updated successfully');
-            return redirect('admin/banner');
+           
         }
+
+        $banner->save();
+
+        $req->session()->flash('success', 'Banner updated successfully');
+        return redirect('admin/banner');
+    
     }
 
       

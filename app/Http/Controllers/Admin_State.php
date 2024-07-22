@@ -17,35 +17,42 @@ class Admin_State extends Controller
 
     public function view(Request $request)
     {  
-        // $data = '';
+        $data = '';
         $state_id = !empty($request->query('role_id')) ? $request->query('role_id') : '';
-
-        if (!empty($state_id)) {
-            
-            // $data = Address::select('addresses.*', 'states.state_name as state_name')
-            //     ->join('states', 'addresses.state_id', '=', 'states.id')
-            //     ->where('addresses.delete_status', '1')
-            //     ->where('addresses.state_id', $state_id)
-            //     ->orderBy('addresses.ID', 'ASC')
-            //     ->get();
-                
-            $data = Address::select('addresses.*', 'states.state_name as state_name')
-                ->leftJoin('approvals as ap', 'addresses.ID', '=', 'ap.address_id')
-                ->join('states', 'addresses.state_id', '=', 'states.id')
-                ->where('addresses.delete_status', '1')
-                ->where('addresses.state_id', $state_id)
-                ->where('ap.status', 1) // Filter approvals where status is 1
-                ->orderBy('addresses.ID', 'ASC')
-                ->distinct('addresses.ID')
-                ->get();
-
-        }
-        else
-        {
-            
+        if (Session::has('State')) {
+            # code...
+            $data = State::where('id',$state_id)->where('delete_status', '1')->orderBy('ID', 'ASC')->get();
+        }elseif (Session::has('Admin')) {
             $data = State::where('delete_status', '1')->orderBy('ID', 'ASC')->get();
+            # code...
         }
-        return $data;
+
+        // if (!empty($state_id)) {
+            
+        //     // $data = Address::select('addresses.*', 'states.state_name as state_name')
+        //     //     ->join('states', 'addresses.state_id', '=', 'states.id')
+        //     //     ->where('addresses.delete_status', '1')
+        //     //     ->where('addresses.state_id', $state_id)
+        //     //     ->orderBy('addresses.ID', 'ASC')
+        //     //     ->get();
+                
+        //     $data = Address::select('addresses.*', 'states.state_name as state_name')
+        //         ->leftJoin('approvals as ap', 'addresses.ID', '=', 'ap.address_id')
+        //         ->join('states', 'addresses.state_id', '=', 'states.id')
+        //         ->where('addresses.delete_status', '1')
+        //         ->where('addresses.state_id', $state_id)
+        //         ->where('ap.status', 1) // Filter approvals where status is 1
+        //         ->orderBy('addresses.ID', 'ASC')
+        //         ->distinct('addresses.ID')
+        //         ->get();
+
+        // }
+        // else
+        // {
+            
+            // $data = State::where('id',$state_id)->where('delete_status', '1')->orderBy('ID', 'ASC')->get();
+        // }
+        // return $data;
         return view('admin/states', ['data'=>$data]);
 
     }

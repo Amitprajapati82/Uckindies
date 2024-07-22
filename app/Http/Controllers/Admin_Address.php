@@ -18,18 +18,18 @@ class Admin_Address extends Controller
     public function view(Request $request)
     {  
         $id = $request->input('role_id');
-
+        // return $id;
         if(!empty($id)){
             $data = DB::table('addresses as a')
-            ->leftJoin('states as s', 'a.state_id', '=', 's.ID')
-            ->leftJoin('approvals as ap', 'a.ID', '=', 'ap.address_id')
-            ->select('a.*', 's.state_name')
-            ->where('a.status', 1)
-            ->where('a.delete_status', 1)
-            ->where('ap.status', 1)
-            ->orderBy('a.ID', 'DESC')
-            ->distinct('a.ID')
-            ->get();
+                ->leftJoin('states as s', 'a.state_id', '=', 's.ID')
+                ->leftJoin('approvals as ap', 'a.ID', '=', 'ap.address_id')
+                ->select('a.*', 's.state_name')
+                ->where('a.status', 1)
+                ->where('a.delete_status', 1)
+                ->where('ap.status', 1)
+                ->orderBy('a.ID', 'DESC')
+                ->distinct('a.ID')
+                ->get();
 
 
 
@@ -45,6 +45,8 @@ class Admin_Address extends Controller
                     ->where('a.delete_status', 1)
                     ->orderBy('a.ID', 'DESC')
                     ->get();
+
+                    // return $data;
         }
         
         $State = State::where('id',$id)->where('delete_status', '1')->where('status', '1')->orderBy('ID', 'ASC')->get();

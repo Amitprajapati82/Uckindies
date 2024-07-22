@@ -56,11 +56,11 @@
                                   <div class="card">
                                       <div class="card-body position-relative">
                                         <span class="notification-icon float-right">
-                                            <i class="fas fa-bell fa-2x"></i>
-                                            
+                                          <i class="fas fa-map-marker-alt fa-2x"></i>                                            
                                         </span>
                                           <h1>States</h1>
-                                          <h3><a href="">{{$State}}</a></h3>
+                                          <h3><a href="{{ asset('admin/states') }}?role_id={{ $state_id }}">{{$State}}</a></h3>
+
                                           <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                           <!-- Notification Icon -->
                                       </div>
@@ -71,10 +71,11 @@
                                   <div class="card">
                                       <div class="card-body position-relative">
                                         <span class="notification-icon float-right">
-                                            <i class="fas fa-bell fa-2x"></i>
+                                          <i class="fas fa-sitemap fa-2x"></i>
                                         </span>
                                           <h1>Units</h1>
-                                          <h3><a href="">{{$Units}}</a></h3>
+                                          <h3><a href="{{ asset('admin/address') }}?role_id={{ $state_id }}">{{$Units}}</a></h3>
+
                                           <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                                           <!-- Notification Icon -->
                                       </div>

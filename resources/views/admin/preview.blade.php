@@ -378,7 +378,52 @@
                                                             </div>
                                                     </div>
                                                     @elseif($modelName == 'Banner')
-                                                    
+                                                    <div class="container mt-5">
+                                                        <div class="row">
+                                                            <div class="col-md-8 offset-md-2">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <h2 class="card-title text-center">Banner Details</h2>
+
+                                                                        <div class="form-group">
+                                                                            <label>Banner Name:</label>
+                                                                            <input type="text" class="form-control" value="{{ $data->banner_name }}" readonly>
+                                                                        </div>
+
+                                                                        
+
+                                                                        <div class="form-group">
+                                                                            <label>Banner Postion:</label>
+                                                                            <input type="number" class="form-control" value="{{ $data->banner_position }}" readonly>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Description:</label>
+                                                                            <input type="text" class="form-control" value="{{ $data->description }}" readonly>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            <label>Banner Image:</label>
+                                                                            <img src="{{ asset('storage/' .$data->banner_image) }}" alt="Banner Image" class="img-fluid">
+                                                                        </div>
+
+                                                                        
+                                                                        @if ($data->approval_status == 1)
+                                                                                <div class="card-footer mt-3 d-flex justify-content-center" style="display: none !important;">
+                                                                                    <button type="button" class="btn btn-primary m-1 approveBtn" data-id="{{ $data->approval_id }}">Approve</button>
+                                                                                    <button type="button" class="btn btn-danger m-1 rejectBtn" data-id="{{ $data->approval_id }}">Reject</button>
+                                                                                    </div>
+                                                                            @else
+                                                                            <div class="card-footer mt-3 d-flex justify-content-center">
+                                                                                <button type="button" class="btn btn-primary m-1 approveBtn" data-id="{{ $data->approval_id }}">Approve</button>
+                                                                                <button type="button" class="btn btn-danger m-1 rejectBtn" data-id="{{ $data->approval_id }}">Reject</button>
+                                                                                </div>
+                                                                            @endif
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
                                                     @endif
                                           
                                         
